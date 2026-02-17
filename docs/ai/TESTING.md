@@ -1,4 +1,4 @@
-# Testing — Repo Doctor
+# Testing — Repo Check AI
 
 ## Commands
 
@@ -53,3 +53,4 @@ npm run dev:cli -- /deep owner/repo  # Deep analysis
 - **Non-standard structures**: No src/, custom layouts
 - **Binary repos**: Mostly images/assets
 - **Forked repos**: Fork metadata handling
+

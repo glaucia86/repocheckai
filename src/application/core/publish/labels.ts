@@ -9,7 +9,7 @@ const CATEGORY_LABEL_MAP: Record<Category, string> = {
   security: "security",
 };
 
-export const LABEL_PREFIX = "repo-doctor";
+export const LABEL_PREFIX = "repocheckai";
 
 export function buildIssueLabels(categories: Category[] = []): string[] {
   const labels = new Set<string>();
@@ -22,4 +22,5 @@ export function buildIssueLabels(categories: Category[] = []): string[] {
 
   return Array.from(labels);
 }
+
 

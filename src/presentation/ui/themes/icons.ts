@@ -1,5 +1,5 @@
 /**
- * Icons for Repo Doctor CLI
+ * Icons for Repo Check AI CLI
  * Single Responsibility: Icon definitions
  */
 
@@ -95,3 +95,4 @@ export const PRIORITY_LABELS: Record<string, string> = {
   P1: "High Priority",
   P2: "Suggestions",
 };
+

@@ -1,4 +1,4 @@
-# Custom Tools — Repo Doctor
+# Custom Tools — Repo Check AI
 
 ## Tool: get_repo_meta
 
@@ -127,3 +127,4 @@ README.md, LICENSE, CONTRIBUTING.md, package.json, .github/**
 | 404 | `{ found: false }` | Use as evidence |
 | 403 | Rate limit error | Show warning, partial report |
 | Timeout | Operation timeout | Partial results |
+

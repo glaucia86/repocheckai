@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="resources/banner.svg" alt="Repo Doctor Banner" width="700"/>
+  <img src="resources/banner.svg" alt="RepoCheckAI Banner" width="700"/>
 </p>
 
-<h1 align="center">🩺 Repo Doctor</h1>
+<h1 align="center">🩺 RepoCheckAI</h1>
 
 <p align="center">
   <strong>AI-powered GitHub Repository Health Analyzer</strong><br>
@@ -10,34 +10,34 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/glaucia86/repo-doctor/stargazers">
-    <img src="https://img.shields.io/github/stars/glaucia86/repo-doctor?style=for-the-badge&logo=github&color=yellow" alt="Stars"/>
+  <a href="https://github.com/glaucia86/repocheckai/stargazers">
+    <img src="https://img.shields.io/github/stars/glaucia86/repocheckai?style=for-the-badge&logo=github&color=yellow" alt="Stars"/>
   </a>
-  <a href="https://github.com/glaucia86/repo-doctor/fork">
-    <img src="https://img.shields.io/github/forks/glaucia86/repo-doctor?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
+  <a href="https://github.com/glaucia86/repocheckai/fork">
+    <img src="https://img.shields.io/github/forks/glaucia86/repocheckai?style=for-the-badge&logo=github&color=blue" alt="Forks"/>
   </a>
-  <a href="https://github.com/glaucia86/repo-doctor/actions/workflows/ci.yml">
-    <img src="https://github.com/glaucia86/repo-doctor/actions/workflows/ci.yml/badge.svg?style=for-the-badge" alt="CI"/>
+  <a href="https://github.com/glaucia86/repocheckai/actions/workflows/ci.yml">
+    <img src="https://github.com/glaucia86/repocheckai/actions/workflows/ci.yml/badge.svg?style=for-the-badge" alt="CI"/>
   </a>
-  <a href="https://www.npmjs.com/package/repo-doctor">
-    <img src="https://img.shields.io/npm/v/repo-doctor?style=for-the-badge&color=cb3837" alt="npm version"/>
+  <a href="https://www.npmjs.com/package/repocheckai">
+    <img src="https://img.shields.io/npm/v/repocheckai?style=for-the-badge&color=cb3837" alt="npm version"/>
   </a>
-  <a href="https://codecov.io/gh/glaucia86/repo-doctor">
-    <img src="https://img.shields.io/codecov/c/github/glaucia86/repo-doctor?style=for-the-badge" alt="Coverage"/>
+  <a href="https://codecov.io/gh/glaucia86/repocheckai">
+    <img src="https://img.shields.io/codecov/c/github/glaucia86/repocheckai?style=for-the-badge" alt="Coverage"/>
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License"/>
   </a>
-  <a href="https://libraries.io/github/glaucia86/repo-doctor">
-    <img src="https://img.shields.io/librariesio/github/glaucia86/repo-doctor?style=for-the-badge" alt="Dependencies"/>
+  <a href="https://libraries.io/github/glaucia86/repocheckai">
+    <img src="https://img.shields.io/librariesio/github/glaucia86/repocheckai?style=for-the-badge" alt="Dependencies"/>
   </a>
-  <a href="https://bundlephobia.com/package/repo-doctor">
-    <img src="https://img.shields.io/bundlephobia/min/repo-doctor?style=for-the-badge" alt="Bundle Size"/>
+  <a href="https://bundlephobia.com/package/repocheckai">
+    <img src="https://img.shields.io/bundlephobia/min/repocheckai?style=for-the-badge" alt="Bundle Size"/>
   </a>
 </p>
 
 <p align="center">
-  <a href="https://glaucia86.github.io/repo-doctor/">Website</a> •
+  <a href="https://glaucia86.github.io/repocheckai/">Website</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-features">Features</a> •
   <a href="#-how-it-works">How It Works</a> •
@@ -49,7 +49,7 @@
 
 ## 📖 Overview
 
-**Repo Doctor** is your repository's AI doctor that diagnoses issues and prescribes solutions. It performs comprehensive health checks across **6 critical areas** — documentation, developer experience, CI/CD, testing, governance, and security — delivering a detailed diagnosis with prioritized findings (**P0/P1/P2**) and actionable remediation steps.
+**RepoCheckAI** is your repository's AI doctor that diagnoses issues and prescribes solutions. It performs comprehensive health checks across **6 critical areas** — documentation, developer experience, CI/CD, testing, governance, and security — delivering a detailed diagnosis with prioritized findings (**P0/P1/P2**) and actionable remediation steps.
 
 ### Two Analysis Modes
 
@@ -118,11 +118,11 @@
 
 #### 🚀 Auto-Create Issues for Each Problem Found
 ```bash
-export GITHUB_TOKEN=ghp_xxx          # or REPO_DOCTOR_GITHUB_TOKEN, as configured
-repo-doctor analyze owner/repo --issue
-# Creates: 🔴 [Repo Doctor] docs: Missing README
-#         🟠 [Repo Doctor] ci: No CI/CD Pipeline
-#         🟡 [Repo Doctor] dx: Code Quality Issues
+export GITHUB_TOKEN=ghp_xxx          # or REPOCHECKAI_GITHUB_TOKEN, as configured
+repocheck analyze owner/repo --issue
+# Creates: 🔴 [RepoCheckAI] docs: Missing README
+#         🟠 [RepoCheckAI] ci: No CI/CD Pipeline
+#         🟡 [RepoCheckAI] dx: Code Quality Issues
 ```
 
 **Each issue includes:**
@@ -140,7 +140,7 @@ export GITHUB_TOKEN=ghp_your_token_here
 gh auth login
 
 # Then start interactive mode
-repo-doctor chat
+repocheck chat
 /analyze facebook/react --issue
 /deep microsoft/vscode
 ```
@@ -154,7 +154,7 @@ repo-doctor chat
 
 ## � Quick Start (5 minutes)
 
-Want to see Repo Doctor create GitHub issues automatically?
+Want to see RepoCheckAI create GitHub issues automatically?
 
 ```bash
 # 1. Get a GitHub token (see detailed setup below)
@@ -162,7 +162,7 @@ Want to see Repo Doctor create GitHub issues automatically?
 export GITHUB_TOKEN=ghp_your_token_here
 
 # 3. Analyze and create issues automatically!
-repo-doctor analyze your-username/your-repo --issue
+repocheck analyze your-username/your-repo --issue
 ```
 
 **Result:** Multiple GitHub issues created with detailed analysis, impact assessment, and fix instructions! 🎉
@@ -185,101 +185,31 @@ For the `--issue` feature, you'll need a GitHub Personal Access Token with speci
 
 ---
 
-## 🧭 Detailed --issue Setup (and 401 Troubleshooting)
+## 🧭 Issue Publishing TL;DR
 
-This section explains, step by step, how to create the right token, avoid 401 errors, and run `--issue` safely. It also clarifies the two authentication paths used by Repo Doctor.
+`--issue` (CLI) and `Publish to GitHub Issues` (Web UI) both need GitHub API credentials with issue-write permission.
 
-### 1) Understand the two auth paths
+### CLI
 
-- **Copilot SDK auth (models and analysis)** uses GitHub Copilot access. If this fails, you will see: `Failed to list models: 401`.
-- **GitHub API auth (repo read + issue creation)** uses your PAT. If this fails, you will see 401/403 when listing files or creating issues.
-
-### 2) Clean environment (important)
-
-Do this before testing to avoid old tokens interfering.
-
-```powershell
-Remove-Item Env:GITHUB_TOKEN, Env:GH_TOKEN -ErrorAction SilentlyContinue
+```bash
+export GITHUB_TOKEN=ghp_your_pat_here
+repocheck analyze owner/repo --issue
 ```
 
-### 3) Authenticate Copilot SDK (fixes "Failed to list models: 401")
+### Web UI
 
-Use GitHub CLI login to get an OAuth token that Copilot accepts.
-
-```powershell
-gh auth logout
-gh auth login
+```bash
+npm run dev:local-ui
 ```
 
-Choose:
-- Host: GitHub.com
-- Login via web
-- Git operations: HTTPS
+In the form:
+1. Enable `Publish to GitHub Issues`
+2. Optional: paste `GitHub Token` (overrides server env token)
+3. Run analysis
 
-Confirm login:
+If no token is provided in the field, the backend uses `GITHUB_TOKEN` from the server environment.
 
-```powershell
-gh auth status
-```
-
-Export the token for Repo Doctor:
-
-```powershell
-$env:GH_TOKEN = (gh auth token)
-```
-
-### 4) Create a PAT for `--issue` (GitHub API)
-
-You have two supported paths. Classic PAT is the most reliable.
-
-#### Option A: Classic PAT (recommended)
-
-1. GitHub -> Settings -> Developer settings -> Personal access tokens -> **Tokens (classic)**
-2. Click **Generate new token (classic)**
-3. Select scopes:
-  - `repo` (private + public) **or** `public_repo` (public only)
-4. Generate and copy the token once
-
-#### Option B: Fine-grained PAT
-
-1. GitHub -> Settings -> Developer settings -> Personal access tokens -> **Fine-grained tokens**
-2. **Repository access**:
-  - **All repositories** (if you want to create issues in any repo you own)
-  - or **Only select repositories** (recommended for least privilege)
-3. **Repository permissions** (minimum):
-  - **Metadata**: Read-only (Required)
-  - **Contents**: Read-only
-  - **Issues**: Read and write
-4. **Account permissions**: keep **No access**
-
-### 5) Run Repo Doctor with `--issue`
-
-Use `GH_TOKEN` for Copilot and pass the PAT only for issue creation.
-
-```powershell
-# Copilot SDK auth (models/analysis)
-$env:GH_TOKEN = (gh auth token)
-
-# Run in dev (chat) and create issues
-npm run dev:cli
-```
-
-In the app:
-
-```
-/deep owner/repo --issue --token <YOUR_PAT>
-```
-
-### 6) Quick diagnosis checklist
-
-- **401 on models**: Copilot auth failed -> redo Step 3 (gh auth + GH_TOKEN)
-- **401/403 on issue creation**: PAT lacks access or `Issues: Read/Write`
-- **Public repo but want issues**: PAT still needs `Issues: Read/Write`
-- **Org repo**: your account must have permission to create issues in that repo
-
----
-
-For the complete step-by-step guide (including PAT creation screens and diagnostics), see [docs/issue-publishing.md](docs/issue-publishing.md).
+For full step-by-step setup and 401/403 troubleshooting, see [docs/issue-publishing.md](docs/issue-publishing.md).
 
 ---
 
@@ -306,8 +236,8 @@ For the complete step-by-step guide (including PAT creation screens and diagnost
 
 ```bash
 # Clone the repository
-git clone https://github.com/glaucia86/repo-doctor.git
-cd repo-doctor
+git clone https://github.com/glaucia86/repocheckai.git
+cd repocheckai
 
 # Install dependencies and build
 npm install
@@ -321,16 +251,16 @@ npm link
 
 ```bash
 # Interactive mode
-repo-doctor
+repocheck
 
 # Direct analysis
-repo-doctor vercel/next.js
+repocheck vercel/next.js
 
 # Deep analysis with premium model
-repo-doctor vercel/next.js --model claude-sonnet-4 --deep
+repocheck vercel/next.js --model claude-sonnet-4 --deep
 
 # 🚀 Auto-create GitHub issues for each problem found
-repo-doctor vercel/next.js --issue
+repocheck vercel/next.js --issue
 ```
 
 > [!NOTE]
@@ -354,7 +284,7 @@ repo-doctor vercel/next.js --issue
 | `/export [path]` | Save report as markdown file |
 | `/model [name]` | Switch AI model (now works in onboarding phase) |
 | `/help` | Show all available commands |
-| `/quit` | Exit Repo Doctor |
+| `/quit` | Exit RepoCheckAI |
 
 > [!TIP]
 > Use `/deep` for comprehensive code quality analysis. Use `/analyze` for quick governance checks.
@@ -402,27 +332,27 @@ Current MVP capabilities:
 
 ### Quick Analysis
 ```bash
-repo-doctor
+repocheck
 /analyze microsoft/vscode
 ```
 
 ### Deep Analysis with Custom Model
 ```bash
-repo-doctor
+repocheck
 /model claude-sonnet-4
 /deep facebook/react
 ```
 
 ### Export Report
 ```bash
-repo-doctor
+repocheck
 /analyze vercel/next.js
 /export nextjs-report.md
 ```
 
 ### Interactive Mode
 ```bash
-repo-doctor
+repocheck
 # Then use commands interactively
 /analyze myorg/myrepo
 /copy
@@ -458,7 +388,7 @@ repo-doctor
 | [🏗️ Architecture](docs/architecture.md) | Technical architecture and design |
 | [❓ FAQ](docs/faq.md) | Frequently asked questions |
 | [🔧 Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
-| [🤝 Contributing](docs/CONTRIBUTING.md) | How to contribute to Repo Doctor |
+| [🤝 Contributing](docs/CONTRIBUTING.md) | How to contribute to RepoCheckAI |
 
 > 📖 **Full documentation:** [docs/index.md](docs/index.md)
 
@@ -532,7 +462,7 @@ src/
 
 ## ⭐ Support This Project
 
-If you find Repo Doctor useful:
+If you find RepoCheckAI useful:
 
 <table>
 <tr>
@@ -546,11 +476,11 @@ If you find Repo Doctor useful:
 </table>
 
 <p align="center">
-  <a href="https://github.com/glaucia86/repo-doctor/issues">
-    <img src="https://img.shields.io/github/issues/glaucia86/repo-doctor?style=flat-square" alt="Issues"/>
+  <a href="https://github.com/glaucia86/repocheckai/issues">
+    <img src="https://img.shields.io/github/issues/glaucia86/repocheckai?style=flat-square" alt="Issues"/>
   </a>
-  <a href="https://github.com/glaucia86/repo-doctor/pulls">
-    <img src="https://img.shields.io/github/issues-pr/glaucia86/repo-doctor?style=flat-square" alt="Pull Requests"/>
+  <a href="https://github.com/glaucia86/repocheckai/pulls">
+    <img src="https://img.shields.io/github/issues-pr/glaucia86/repocheckai?style=flat-square" alt="Pull Requests"/>
   </a>
 </p>
 
@@ -558,11 +488,11 @@ If you find Repo Doctor useful:
 
 ## 📈 Star History
 
-<a href="https://star-history.com/#glaucia86/repo-doctor&Date">
+<a href="https://star-history.com/#glaucia86/repocheckai&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=glaucia86/repo-doctor&type=Date&theme=dark&v=20260123"/>
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=glaucia86/repo-doctor&type=Date&v=20260123"/>
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=glaucia86/repo-doctor&type=Date&v=20260123"/>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=glaucia86/repocheckai&type=Date&theme=dark&v=20260123"/>
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=glaucia86/repocheckai&type=Date&v=20260123"/>
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=glaucia86/repocheckai&type=Date&v=20260123"/>
   </picture>
 </a>
 
@@ -601,5 +531,8 @@ MIT © [Glaucia Lemos](https://github.com/glaucia86)
 </p>
 
 <p align="center">
-  <a href="#-repo-doctor">⬆️ Back to Top</a>
+  <a href="#-repocheck">⬆️ Back to Top</a>
 </p>
+
+
+

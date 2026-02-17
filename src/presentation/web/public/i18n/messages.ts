@@ -21,6 +21,10 @@ export type MessageKey =
   | "model"
   | "maxFiles"
   | "timeout"
+  | "publishIssue"
+  | "githubToken"
+  | "githubTokenPlaceholder"
+  | "publishHelp"
   | "runAnalysis"
   | "running"
   | "cancel"
@@ -79,7 +83,7 @@ type MessageCatalog = Record<MessageKey, string>;
 export const messages: Record<Locale, MessageCatalog> = {
   "pt-BR": {
     tagline: "Diagnóstico inteligente local",
-    title: "Central Repo Doctor",
+    title: "Central Repo Check AI",
     subtitle: "Configure, execute e exporte auditorias de repositórios com fluidez e visibilidade em tempo real.",
     effectsOn: "Efeitos: On",
     effectsOff: "Efeitos: Off",
@@ -98,6 +102,10 @@ export const messages: Record<Locale, MessageCatalog> = {
     model: "Modelo",
     maxFiles: "Max arquivos",
     timeout: "Timeout (s)",
+    publishIssue: "Publicar no GitHub Issues",
+    githubToken: "GitHub Token",
+    githubTokenPlaceholder: "ghp_xxx... (escopo repo)",
+    publishHelp: "Marque para publicar automaticamente. Necessita token com permissao de issues.",
     runAnalysis: "Executar análise",
     running: "Executando...",
     cancel: "Cancelar",
@@ -153,7 +161,7 @@ export const messages: Record<Locale, MessageCatalog> = {
   },
   "en-US": {
     tagline: "Intelligent local command center",
-    title: "Repo Doctor Workspace",
+    title: "Repo Check AI Workspace",
     subtitle: "Configure analysis, monitor realtime events, and export results in a single flow.",
     effectsOn: "Effects: On",
     effectsOff: "Effects: Off",
@@ -172,6 +180,10 @@ export const messages: Record<Locale, MessageCatalog> = {
     model: "Model",
     maxFiles: "Max files",
     timeout: "Timeout (s)",
+    publishIssue: "Publish to GitHub Issues",
+    githubToken: "GitHub Token",
+    githubTokenPlaceholder: "ghp_xxx... (repo scope)",
+    publishHelp: "Enable to auto-publish findings as issues. Requires a token with issue permissions.",
     runAnalysis: "Run analysis",
     running: "Running...",
     cancel: "Cancel",

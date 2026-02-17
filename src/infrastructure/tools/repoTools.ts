@@ -1,5 +1,5 @@
 /**
- * Repository analysis tools for Repo Doctor
+ * Repository analysis tools for Repo Check AI
  * Custom tools that the Copilot agent can use to analyze repositories
  * 
  * This file maintains backward compatibility while delegating to individual tool modules.
@@ -53,3 +53,4 @@ export function deepAnalysisTools(options: RepoToolsOptions = {}) {
     createPackRepository({ maxBytes }),
   ];
 }
+

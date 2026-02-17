@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { handleAnalyze } from "../../src/presentation/cli/handlers/analyzeHandler.js";
+import { resolveCommandPolicy } from "../../src/domain/config/commandPolicy.js";
 
 vi.mock("../../src/application/core/agent.js", () => ({
   analyzeRepositoryWithCopilot: vi.fn().mockResolvedValue({
@@ -71,5 +72,19 @@ describe("CLI analyze compatibility", () => {
     };
 
     await expect(handleAnalyze("owner/repo", options)).resolves.toBeUndefined();
+  });
+
+  it("recognizes repocheck as the official command", () => {
+    const policy = resolveCommandPolicy(["node", "repocheck", "analyze", "owner/repo"]);
+    expect(policy.effectiveCommand).toBe("repocheck");
+    expect(policy.isLegacy).toBe(false);
+  });
+
+  it("keeps repodoctor as temporary legacy alias with warning policy", () => {
+    const policy = resolveCommandPolicy(["node", "repodoctor", "analyze", "owner/repo"]);
+    expect(policy.effectiveCommand).toBe("repocheck");
+    expect(policy.isLegacy).toBe(true);
+    expect(policy.legacyBehavior).toBe("allow_with_warning");
+    expect(policy.deprecationMessage).toContain("repocheck");
   });
 });

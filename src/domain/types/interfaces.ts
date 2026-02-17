@@ -1,5 +1,5 @@
 /**
- * Shared interfaces and contracts for Repo Doctor
+ * Shared interfaces and contracts for Repo Check AI
  * 
  * This module defines the core abstractions used throughout the application,
  * following the Dependency Inversion Principle (DIP).
@@ -207,3 +207,4 @@ export interface IMessageDisplay {
   warning(message: string): void;
   info(message: string): void;
 }
+

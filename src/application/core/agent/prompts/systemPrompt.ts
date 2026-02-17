@@ -1,5 +1,5 @@
 /**
- * System Prompt for Repo Doctor
+ * System Prompt for Repo Check AI
  * 
  * This file now re-exports from the modular prompt system.
  * The prompts are composed from smaller, reusable modules:
@@ -79,3 +79,4 @@ export function buildSystemPrompt(options?: PromptOptions): string {
 
   return prompt;
 }
+

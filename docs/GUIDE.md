@@ -1,6 +1,6 @@
-# 📖 Repo Doctor User Guide
+# 📖 RepoCheckAI User Guide
 
-Complete guide for using Repo Doctor CLI.
+Complete guide for using RepoCheckAI CLI.
 
 ---
 
@@ -21,28 +21,28 @@ Complete guide for using Repo Doctor CLI.
 
 ```bash
 # Start interactive mode - will prompt for repository and model
-repo-doctor
+repocheck
 
 # Analyze a specific repository directly
-repo-doctor vercel/next.js
+repocheck vercel/next.js
 
 # Analyze with a specific model
-repo-doctor vercel/next.js --model gpt-4o
+repocheck vercel/next.js --model gpt-4o
 ```
 
 ---
 
 ## Interactive Chat Mode
 
-When you run `repo-doctor`, you enter an interactive chat interface:
+When you run `repocheck`, you enter an interactive chat interface:
 
 ```
 ╭─────────────────────────────────────────╮
-│  🩺 REPO DOCTOR v2.0                    │
+│  🩺 REPO CHECK AI v2.0                    │
 │     GitHub Repository Health Analyzer   │
 ╰─────────────────────────────────────────╯
 
-  ✨ Welcome to Repo Doctor!
+  ✨ Welcome to RepoCheckAI!
   
   Enter repository (owner/repo): vercel/next.js
   
@@ -73,7 +73,7 @@ After analysis, you'll see options to copy, export, or analyze another repositor
 | `/model [name]` | Switch AI model | `/model gpt-4o` |
 | `/clear` | Clear the screen | `/clear` |
 | `/help` | Show available commands | `/help` |
-| `/quit` | Exit Repo Doctor | `/quit` |
+| `/quit` | Exit RepoCheckAI | `/quit` |
 
 > 💡 **Tip:** Use `/deep` for comprehensive analysis of complex repositories. It reads all source files and provides more detailed evidence.
 
@@ -132,7 +132,7 @@ The `/deep` command uses [Repomix](https://github.com/yamadashy/repomix) to perf
 The `/export` command supports flexible paths:
 
 ```bash
-# Save to default location: ~/repo-doctor/reports/
+# Save to default location: ~/repocheck/reports/
 /export
 
 # Save to Desktop
@@ -155,7 +155,7 @@ Reports are saved with UTF-8 encoding (with BOM) to preserve emojis correctly.
 ## Command Line Options
 
 ```bash
-repo-doctor [repository] [options]
+repocheck [repository] [options]
 
 Options:
   --token <TOKEN>     GitHub token for private repos (or set GITHUB_TOKEN env)
@@ -172,20 +172,20 @@ Options:
 
 ```bash
 # Analyze a public repository
-repo-doctor microsoft/typescript
+repocheck microsoft/typescript
 
 # Analyze with full URL
-repo-doctor https://github.com/facebook/react
+repocheck https://github.com/facebook/react
 
 # Analyze a private repository
 export GITHUB_TOKEN=ghp_xxxxx
-repo-doctor owner/private-repo
+repocheck owner/private-repo
 
 # Use a free model
-repo-doctor vercel/next.js --model gpt-4o
+repocheck vercel/next.js --model gpt-4o
 
 # Auto-export after analysis
-repo-doctor vercel/next.js --export
+repocheck vercel/next.js --export
 ```
 
 ---
@@ -201,13 +201,13 @@ To analyze private repositories, you need to provide a GitHub Personal Access To
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
 
 # Now analyze any private repo
-repo-doctor my-org/private-repo
+repocheck my-org/private-repo
 ```
 
 ### Option 2: Command Line Argument
 
 ```bash
-repo-doctor my-org/private-repo --token ghp_xxxxxxxxxxxxxxxxxxxx
+repocheck my-org/private-repo --token ghp_xxxxxxxxxxxxxxxxxxxx
 ```
 
 ### Creating a GitHub Token
@@ -225,6 +225,8 @@ repo-doctor my-org/private-repo --token ghp_xxxxxxxxxxxxxxxxxxxx
 
 Use `--issue` to create GitHub issues with the analysis output. This requires a PAT with issue write access and Copilot SDK auth for model access.
 
+Web UI equivalent: run `npm run dev:local-ui` and enable `Publish to GitHub Issues` in the form.
+
 > **Tip:** If you plan to use `--issue`, the best model for report quality is **Claude Sonnet 4.5**.
 
 ```bash
@@ -232,7 +234,7 @@ Use `--issue` to create GitHub issues with the analysis output. This requires a 
 export GH_TOKEN="$(gh auth token)"
 
 # Create issues during analysis
-repo-doctor analyze owner/repo --issue --token ghp_your_pat_here
+repocheck analyze owner/repo --issue --token ghp_your_pat_here
 ```
 
 For a full step-by-step guide and 401 troubleshooting, see [issue-publishing.md](issue-publishing.md).
@@ -241,7 +243,7 @@ For a full step-by-step guide and 401 troubleshooting, see [issue-publishing.md]
 
 ## Priority Levels
 
-Repo Doctor classifies findings into three priority levels:
+RepoCheckAI classifies findings into three priority levels:
 
 | Priority | Meaning | Examples |
 |----------|---------|----------|
@@ -297,11 +299,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install Repo Doctor
-        run: npm install -g repo-doctor
+      - name: Install RepoCheckAI
+        run: npm install -g repocheck
 
       - name: Run health analysis
-        run: repo-doctor analyze ${{ github.repository }} --export health-report.md
+        run: repocheck analyze ${{ github.repository }} --export health-report.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -342,11 +344,11 @@ pipeline {
         stage('Repository Health Check') {
             steps {
                 script {
-                    // Install Repo Doctor if not available globally
-                    sh 'npm install -g repo-doctor'
+                    // Install RepoCheckAI if not available globally
+                    sh 'npm install -g repocheck'
                     
                     // Run analysis
-                    sh "repo-doctor analyze ${env.GIT_URL.replace('.git', '').split('/').slice(-2).join('/')} --export health-report.md"
+                    sh "repocheck analyze ${env.GIT_URL.replace('.git', '').split('/').slice(-2).join('/')} --export health-report.md"
                     
                     // Archive report
                     archiveArtifacts artifacts: 'health-report.md', fingerprint: true
@@ -400,12 +402,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Repo Doctor
-          command: npm install -g repo-doctor
+          name: Install RepoCheckAI
+          command: npm install -g repocheck
       - run:
           name: Run Health Analysis
           command: |
-            repo-doctor analyze $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME --export health-report.md
+            repocheck analyze $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME --export health-report.md
           environment:
             GITHUB_TOKEN: $GITHUB_TOKEN
       - store_artifacts:
@@ -441,7 +443,7 @@ DATE=$(date +%Y-%m-%d)
 mkdir -p "$OUTPUT_DIR"
 
 # Run analysis
-repo-doctor analyze "$REPO" --export "$OUTPUT_DIR/health-report-$DATE.md"
+repocheck analyze "$REPO" --export "$OUTPUT_DIR/health-report-$DATE.md"
 
 # Generate summary
 SCORE=$(grep "Health Score:" "$OUTPUT_DIR/health-report-$DATE.md" | grep -o "[0-9]\+")
@@ -467,7 +469,7 @@ REPO="your-org/your-repo"
 SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
 
 # Run analysis
-repo-doctor analyze "$REPO" --export health-report.md
+repocheck analyze "$REPO" --export health-report.md
 
 # Extract key metrics
 SCORE=$(grep "Health Score:" health-report.md | grep -o "[0-9]\+")
@@ -541,7 +543,7 @@ export GITHUB_TOKEN="your-github-token"
 export GH_TOKEN="$(gh auth token)"
 
 # Create issues for all findings
-repo-doctor analyze "$REPO" --issue
+repocheck analyze "$REPO" --issue
 
 # Or create issues only for critical (P0) findings
 # (This would require custom scripting to filter the report)
@@ -568,7 +570,7 @@ mkdir -p "$OUTPUT_DIR"
 
 for repo in "${REPOS[@]}"; do
     echo "Analyzing $repo..."
-    repo-doctor analyze "$repo" --export "$OUTPUT_DIR/$(basename "$repo").md"
+    repocheck analyze "$repo" --export "$OUTPUT_DIR/$(basename "$repo").md"
 done
 
 # Generate summary report
@@ -595,7 +597,7 @@ REPO="your-org/your-repo"
 HISTORY_FILE="./health-history.csv"
 
 # Run analysis
-repo-doctor analyze "$REPO" --export temp-report.md
+repocheck analyze "$REPO" --export temp-report.md
 
 # Extract metrics
 DATE=$(date +%Y-%m-%d)
@@ -624,7 +626,7 @@ Add repository health checks to your pre-commit workflow:
 # .git/hooks/pre-commit
 
 # Run quick health check
-repo-doctor analyze "$(git config --get remote.origin.url | sed 's/.*github.com[:/]\(.*\)\.git/\1/')" --export /tmp/health-check.md
+repocheck analyze "$(git config --get remote.origin.url | sed 's/.*github.com[:/]\(.*\)\.git/\1/')" --export /tmp/health-check.md
 
 SCORE=$(grep "Health Score:" /tmp/health-check.md | grep -o "[0-9]\+")
 
@@ -647,9 +649,9 @@ Create a VS Code task for easy access:
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run Repo Doctor",
+            "label": "Run RepoCheckAI",
             "type": "shell",
-            "command": "repo-doctor",
+            "command": "repocheck",
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -661,9 +663,12 @@ Create a VS Code task for easy access:
         {
             "label": "Analyze Current Repo",
             "type": "shell",
-            "command": "repo-doctor analyze $(git config --get remote.origin.url | sed 's/.*github.com[:/]\(.*\)\.git/\\1/')",
+            "command": "repocheck analyze $(git config --get remote.origin.url | sed 's/.*github.com[:/]\(.*\)\.git/\\1/')",
             "group": "build"
         }
     ]
 }
 ```
+
+
+

@@ -53,7 +53,7 @@ export interface PromptComposerOptions {
 // SHARED BASE PROMPT
 // ════════════════════════════════════════════════════════════════════════════
 
-const INTRO = `You are **Repo Doctor**, an expert-level GitHub repository health analyzer.`;
+const INTRO = `You are **Repo Check AI**, an expert-level GitHub repository health analyzer.`;
 
 /**
  * Build the shared base prompt (common to all modes)
@@ -213,3 +213,4 @@ export function composeSystemPrompt(options: PromptComposerOptions): string {
 export function getSystemPrompt(mode: AnalysisMode): string {
   return mode === "deep" ? DEEP_SYSTEM_PROMPT : QUICK_SYSTEM_PROMPT;
 }
+

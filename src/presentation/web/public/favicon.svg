@@ -1,22 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">Repo Doctor Icon</title>
-  <desc id="desc">Shield with repository network nodes and medical cross.</desc>
+  <title id="title">Repo Check AI Icon</title>
+  <desc id="desc">Minimal git-branch mark with quality check badge for Repo Check AI.</desc>
   <defs>
-    <linearGradient id="bg" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#0B5FFF"/>
-      <stop offset="1" stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#115E59"/>
     </linearGradient>
-    <linearGradient id="shine" x1="18" y1="10" x2="46" y2="26" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.8"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    <linearGradient id="surface" x1="16" y1="16" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E9F1FF"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="37" y1="37" x2="53" y2="53" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#C2410C"/>
     </linearGradient>
   </defs>
 
   <rect x="6" y="6" width="52" height="52" rx="15" fill="url(#bg)"/>
-  <path d="M32 13.5 47.5 19v11.2c0 11.6-7.6 18.2-15.5 21.5-7.9-3.3-15.5-9.9-15.5-21.5V19L32 13.5Z" fill="#FFFFFF" fill-opacity="0.94"/>
-  <path d="M32 18.2 43 22v8.4c0 8.7-5.4 13.8-11 16.2-5.6-2.4-11-7.5-11-16.2V22l11-3.8Z" fill="#EAF1FF"/>
-  <path d="M32 24.2a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8Zm-7.6 6.3a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4Zm15.2 0a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4Z" fill="#0B5FFF"/>
-  <path d="M32 26.1v5.9m-7.2.2 5.5-3m9 .1-5.5-3" stroke="#0B5FFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M32 35.4v8.3m-4.2-4.1h8.4" stroke="#C2410C" stroke-width="2.4" stroke-linecap="round"/>
-  <path d="M16 14h26" stroke="url(#shine)" stroke-width="3.2" stroke-linecap="round"/>
+  <rect x="14" y="14" width="36" height="36" rx="11" fill="url(#surface)" />
+  <path d="M24 23v18m0-11h14" stroke="#0B5FFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="24" cy="23" r="2.8" fill="#0B5FFF"/>
+  <circle cx="24" cy="41" r="2.8" fill="#0B5FFF"/>
+  <circle cx="38" cy="30" r="2.8" fill="#0B5FFF"/>
+  <path d="M20 18.5h24" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="45.5" cy="45.5" r="7.2" fill="url(#badge)" />
+  <path d="m42.2 45.5 2.1 2.2 4-4.4" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

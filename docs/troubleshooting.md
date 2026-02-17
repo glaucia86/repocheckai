@@ -1,6 +1,8 @@
 # 🔧 Troubleshooting
 
-Solutions for common issues when using Repo Doctor.
+Solutions for common issues when using RepoCheckAI.
+
+> Transition note: if old scripts still call `repodoctor`, they should keep working during migration but will emit a deprecation warning.
 
 ---
 
@@ -18,7 +20,7 @@ Solutions for common issues when using Repo Doctor.
 
 ## Installation Issues
 
-### "command not found: repo-doctor"
+### "command not found: repocheck"
 
 The global npm link wasn't created successfully.
 
@@ -26,11 +28,11 @@ The global npm link wasn't created successfully.
 
 ```bash
 # 1. Try relinking
-npm unlink repo-doctor
+npm unlink repocheck
 npm link
 
 # 2. Run directly with npx
-npx repo-doctor
+npx repocheck
 
 # 3. Check npm global path
 npm config get prefix
@@ -56,7 +58,7 @@ npm run build
 
 ### "Node.js version too old"
 
-Repo Doctor requires Node.js 18+.
+RepoCheckAI requires Node.js 18+.
 
 **Solutions:**
 
@@ -217,7 +219,7 @@ curl https://api.github.com/repos/owner/repo
 
 ```bash
 # 1. Increase timeout
-repo-doctor owner/repo --timeout 180000
+repocheck owner/repo --timeout 180000
 
 # 2. Use quick analysis instead of deep
 /analyze owner/repo  # Instead of /deep
@@ -226,7 +228,7 @@ repo-doctor owner/repo --timeout 180000
 ping api.github.com
 
 # 4. Try a different model (some are faster)
-repo-doctor owner/repo --model gpt-4o
+repocheck owner/repo --model gpt-4o
 ```
 
 ### "Empty repository" error
@@ -264,13 +266,13 @@ The analysis took longer than the timeout limit.
 
 ```bash
 # Increase timeout (default: 120000ms = 2 minutes)
-repo-doctor owner/repo --timeout 300000  # 5 minutes
+repocheck owner/repo --timeout 300000  # 5 minutes
 
 # Use quick analysis for large repos
 /analyze owner/repo
 
 # Use a faster model
-repo-doctor owner/repo --model gpt-4o
+repocheck owner/repo --model gpt-4o
 ```
 
 ---
@@ -290,7 +292,7 @@ The selected model isn't available for your subscription.
 
 ```bash
 # Switch to a free model
-repo-doctor owner/repo --model gpt-4o
+repocheck owner/repo --model gpt-4o
 ```
 
 ### "Copilot session error" or "SDK error"
@@ -338,7 +340,7 @@ Premium models like Opus consume rate limits faster.
 # 2. Wait for rate limit to reset
 
 # 3. Use free models for bulk analysis
-repo-doctor owner/repo --model gpt-4o
+repocheck owner/repo --model gpt-4o
 ```
 
 ---
@@ -352,7 +354,7 @@ The file encoding might not support emojis.
 **Solutions:**
 
 ```bash
-# Repo Doctor saves with UTF-8 BOM by default
+# RepoCheckAI saves with UTF-8 BOM by default
 # If viewing in old editors, try:
 # - VS Code (recommended)
 # - Notepad++ with UTF-8 encoding
@@ -361,11 +363,11 @@ The file encoding might not support emojis.
 
 ### Can't find exported file
 
-**Default export location:** `~/repo-doctor/reports/`
+**Default export location:** `~/repocheck/reports/`
 
 ```bash
 # Check default location
-ls ~/repo-doctor/reports/
+ls ~/repocheck/reports/
 
 # Export to specific location
 /export ~/Desktop
@@ -428,7 +430,7 @@ Large repositories can use significant memory during deep analysis.
 /analyze owner/repo
 
 # Limit files analyzed
-repo-doctor owner/repo --max-files 500
+repocheck owner/repo --max-files 500
 
 # Close other applications during analysis
 ```
@@ -442,10 +444,10 @@ repo-doctor owner/repo --max-files 500
 /analyze owner/repo
 
 # 2. Increase Node.js memory if needed
-NODE_OPTIONS="--max-old-space-size=4096" repo-doctor owner/repo
+NODE_OPTIONS="--max-old-space-size=4096" repocheck owner/repo
 
 # 3. Use faster model
-repo-doctor owner/repo --model gpt-4o
+repocheck owner/repo --model gpt-4o
 ```
 
 ### Terminal rendering issues
@@ -470,7 +472,7 @@ export LANG=en_US.UTF-8
 ### Before asking for help
 
 1. **Check this troubleshooting guide**
-2. **Search existing issues:** [github.com/glaucia86/repo-doctor/issues](https://github.com/glaucia86/repo-doctor/issues)
+2. **Search existing issues:** [github.com/glaucia86/repocheckai/issues](https://github.com/glaucia86/repocheckai/issues)
 3. **Read the FAQ:** [faq.md](faq.md)
 
 ### Reporting a bug
@@ -486,7 +488,7 @@ Create an issue with:
 # Include this info
 node --version
 npm --version
-repo-doctor --version  # If available
+repocheck --version  # If available
 ```
 
 5. **Error messages** — Full error output
@@ -496,8 +498,8 @@ repo-doctor --version  # If available
 
 | Channel | Best For |
 |---------|----------|
-| [GitHub Issues](https://github.com/glaucia86/repo-doctor/issues) | Bug reports |
-| [GitHub Discussions](https://github.com/glaucia86/repo-doctor/discussions) | Questions, ideas |
+| [GitHub Issues](https://github.com/glaucia86/repocheckai/issues) | Bug reports |
+| [GitHub Discussions](https://github.com/glaucia86/repocheckai/discussions) | Questions, ideas |
 | [Twitter @glaucia_lemos86](https://twitter.com/glaucia_lemos86) | Quick questions |
 
 ---
@@ -506,7 +508,7 @@ repo-doctor --version  # If available
 
 | Problem | Quick Fix |
 |---------|-----------|
-| Command not found | `npm link` or use `npx repo-doctor` |
+| Command not found | `npm link` or use `npx repocheck` |
 | Module errors | `rm -rf node_modules && npm install` |
 | Auth failure | `export GITHUB_TOKEN=ghp_xxx` |
 | Rate limited | Wait 1 hour or use token |
@@ -520,3 +522,6 @@ repo-doctor --version  # If available
 <p align="center">
   <a href="index.md">← Back to Documentation</a>
 </p>
+
+
+

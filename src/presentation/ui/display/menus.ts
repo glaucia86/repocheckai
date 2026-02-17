@@ -12,6 +12,11 @@ import {
   BOX,
   ICON,
 } from "../themes.js";
+import {
+  APP_TAGLINE,
+  APP_VERSION,
+  DISPLAY_NAME,
+} from "../../../domain/config/runtimeMetadata.js";
 
 // ════════════════════════════════════════════════════════════════════════════
 // CONSTANTS
@@ -31,7 +36,7 @@ export function printHelp(): void {
     [
       "",
       c.whiteBold("Usage:"),
-      `  ${c.brand("repo-doctor analyze")} ${c.dim("<repoRef>")} ${c.muted("[options]")}`,
+      `  ${c.brand("repocheck analyze")} ${c.dim("<repoRef>")} ${c.muted("[options]")}`,
       "",
       c.whiteBold("Repository Reference:"),
       `  ${c.text("https://github.com/owner/repo")}  ${c.dim("Full URL")}`,
@@ -48,14 +53,14 @@ export function printHelp(): void {
       `  ${c.key("--verbose")}            ${c.text("Show detailed output")}`,
       "",
       c.whiteBold("Examples:"),
-      `  ${c.brand("$")} repo-doctor analyze vercel/next.js`,
-      `  ${c.brand("$")} repo-doctor analyze vercel/swr --deep`,
-      `  ${c.brand("$")} repo-doctor analyze owner/private-repo --token ghp_xxx`,
+      `  ${c.brand("$")} repocheck analyze vercel/next.js`,
+      `  ${c.brand("$")} repocheck analyze vercel/swr --deep`,
+      `  ${c.brand("$")} repocheck analyze owner/private-repo --token ghp_xxx`,
       "",
     ],
     {
       width: 70,
-      title: `${ICON.doctor} REPO DOCTOR HELP`,
+      title: `${ICON.doctor} REPO CHECK AI HELP`,
     }
   );
 
@@ -115,19 +120,12 @@ export async function printChatHeader(): Promise<void> {
 
   console.log();
 
-  // Separator line with gradient effect
-  const separator = c.brand("━".repeat(55));
-  console.log("  " + separator);
+  const taglineText = `${APP_TAGLINE} │ ${DISPLAY_NAME} │ v${APP_VERSION}`;
+  const lineWidth = Math.max(86, stripAnsi(taglineText).length + 4);
 
-  // Tagline
-  console.log(
-    "  " +
-      c.text("AI-Powered GitHub Repository Health Analyzer") +
-      c.dim(" │ ") +
-      c.premium("v2.0")
-  );
-
-  console.log("  " + c.dim("─".repeat(86)));
+  console.log("  " + c.brand("━".repeat(lineWidth)));
+  console.log("  " + c.text(APP_TAGLINE) + c.dim(" │ ") + c.brandBold(DISPLAY_NAME) + c.dim(" │ ") + c.premium(`v${APP_VERSION}`));
+  console.log("  " + c.dim("─".repeat(lineWidth)));
   console.log();
 }
 export function printChatStatusBar(
@@ -200,7 +198,7 @@ export function printCommandMenu(): void {
   console.log(`   ${c.info("/model")} ${c.dim("[name]")}   ${c.muted("Switch AI model")}`);
   console.log(`   ${c.info("/clear")}           ${c.muted("Clear screen")}`);
   console.log(`   ${c.info("/help")}            ${c.muted("Show this help")}`);
-  console.log(`   ${c.info("/quit")}            ${c.muted("Exit Repo Doctor")}`);
+  console.log(`   ${c.info("/quit")}            ${c.muted("Exit RepoCheckAI")}`);
   console.log();
   
   console.log("  " + c.border("─".repeat(CHAT_WIDTH - 4)));
@@ -326,3 +324,4 @@ export function printUnknownCommand(input: string): void {
   console.log("  " + c.dim("Type /help to see available commands"));
   console.log();
 }
+

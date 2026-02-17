@@ -38,7 +38,7 @@ describe("reportBuilder", () => {
         repoFullName: "test/repo",
       });
 
-      expect(result.markdown).toContain("🩺 Repo Doctor Report");
+      expect(result.markdown).toContain("🩺 Repo Check AI Report");
       expect(result.markdown).toContain("Summary");
       expect(result.markdown).toContain("Key Findings");
       expect(result.markdown).toContain("Recommended Actions");
@@ -117,7 +117,7 @@ No headers, no findings, nothing useful.
         repoFullName: "test/repo",
       });
 
-      expect(result.markdown).toContain("🩺 Repo Doctor Report");
+      expect(result.markdown).toContain("🩺 Repo Check AI Report");
       // Should generate fallback report
       expect(result.report.summary[0]).toContain("Analysis may have failed");
     });
@@ -167,7 +167,7 @@ No headers, no findings, nothing useful.
       });
 
       expect(result.report.generatedAt).toBeDefined();
-      expect(result.report.source).toBe("Repo Doctor");
+      expect(result.report.source).toBe("Repo Check AI");
       expect(new Date(result.report.generatedAt).getTime()).toBeLessThanOrEqual(Date.now());
     });
 
@@ -422,3 +422,4 @@ Empty issue block
     });
   });
 });
+

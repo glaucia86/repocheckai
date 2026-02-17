@@ -1,5 +1,5 @@
 /**
- * Command system for Repo Doctor CLI
+ * Command system for Repo Check AI CLI
  * Handles slash commands for chat-style interface
  */
 
@@ -119,7 +119,7 @@ export const COMMANDS: CommandDefinition[] = [
   {
     command: "/quit",
     aliases: ["/q", "/exit"],
-    description: "Exit Repo Doctor",
+    description: "Exit Repo Check AI",
     usage: "/quit",
     category: "utility",
   },
@@ -344,3 +344,4 @@ export function getQuickReference(): string {
     .map((c) => `${c.cmd} ${c.desc}`)
     .join("  •  ");
 }
+

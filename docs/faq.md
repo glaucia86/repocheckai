@@ -1,6 +1,6 @@
 # ❓ Frequently Asked Questions
 
-Common questions about using Repo Doctor.
+Common questions about using RepoCheckAI.
 
 ---
 
@@ -17,15 +17,15 @@ Common questions about using Repo Doctor.
 
 ## General Questions
 
-### What is Repo Doctor?
+### What is RepoCheckAI?
 
-Repo Doctor is an AI-powered CLI tool that analyzes GitHub repositories for health issues. It checks documentation, developer experience, CI/CD, testing, governance, and security practices, then provides a detailed report with prioritized findings and actionable recommendations.
+RepoCheckAI is an AI-powered CLI tool that analyzes GitHub repositories for health issues. It checks documentation, developer experience, CI/CD, testing, governance, and security practices, then provides a detailed report with prioritized findings and actionable recommendations.
 
 ### How is it different from other code analysis tools?
 
 Unlike traditional linters or static analysis tools that focus on code syntax:
 
-| Aspect | Traditional Tools | Repo Doctor |
+| Aspect | Traditional Tools | RepoCheckAI |
 |--------|------------------|-------------|
 | Focus | Code syntax/style | Project health & best practices |
 | Scope | Single language | Any language/framework |
@@ -35,7 +35,7 @@ Unlike traditional linters or static analysis tools that focus on code syntax:
 
 ### What languages/frameworks does it support?
 
-Repo Doctor supports **all languages and frameworks**. It automatically detects your stack and adapts its analysis:
+RepoCheckAI supports **all languages and frameworks**. It automatically detects your stack and adapts its analysis:
 
 - **JavaScript/TypeScript** (Node.js, React, Vue, etc.)
 - **Python** (Django, Flask, FastAPI, etc.)
@@ -69,7 +69,7 @@ Your code is processed through the GitHub Copilot API, which has enterprise-grad
 
 ### Why do I need GitHub Copilot?
 
-Repo Doctor uses the [GitHub Copilot SDK](https://github.com/github/copilot-sdk) for AI capabilities. This SDK requires an active GitHub Copilot subscription.
+RepoCheckAI uses the [GitHub Copilot SDK](https://github.com/github/copilot-sdk) for AI capabilities. This SDK requires an active GitHub Copilot subscription.
 
 **Subscription options:**
 - GitHub Copilot Individual ($10/month)
@@ -118,7 +118,7 @@ See [Troubleshooting](troubleshooting.md) for more solutions.
 **Use `/analyze`** for quick health checks and governance reviews.  
 **Use `/deep`** for detailed audits and code quality analysis.
 
-### What files does Repo Doctor read?
+### What files does RepoCheckAI read?
 
 **Quick analysis (`/analyze`) reads:**
 - `README.md`
@@ -198,7 +198,7 @@ Yes! Switch models anytime:
 
 ```bash
 # Via command line
-repo-doctor owner/repo --model gpt-4o
+repocheck owner/repo --model gpt-4o
 
 # In interactive mode
 /model claude-sonnet-4
@@ -225,13 +225,13 @@ Yes! You need to provide a GitHub token with `repo` scope:
 ```bash
 # Option 1: Environment variable
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
-repo-doctor my-org/private-repo
+repocheck my-org/private-repo
 
 # Option 2: Command line
-repo-doctor my-org/private-repo --token ghp_xxxxxxxxxxxx
+repocheck my-org/private-repo --token ghp_xxxxxxxxxxxx
 
 # Option 3: GitHub CLI (if authenticated)
-gh auth login  # Then Repo Doctor auto-detects
+gh auth login  # Then RepoCheckAI auto-detects
 ```
 
 ### What token scopes are required?
@@ -275,6 +275,7 @@ See [issue-publishing.md](issue-publishing.md) for the full step-by-step guide.
 ### Why does `--issue` return 401/403?
 
 Your PAT lacks write access to issues or does not have repo access.
+The same rule applies to Web UI publishing (`Publish to GitHub Issues`).
 
 - Classic PAT: ensure `repo` (or `public_repo`) is selected
 - Fine-grained PAT: ensure **Metadata (read)**, **Contents (read)**, **Issues (read/write)**
@@ -284,9 +285,9 @@ Your PAT lacks write access to issues or does not have repo access.
 
 ## Pricing & Limits
 
-### Is Repo Doctor free?
+### Is RepoCheckAI free?
 
-Repo Doctor is **open source and free**. However, it requires:
+RepoCheckAI is **open source and free**. However, it requires:
 
 - **GitHub Copilot subscription** (paid)
 - **GitHub API access** (free with limits)
@@ -311,7 +312,7 @@ You'll see an error like "Rate limit exceeded". Solutions:
 
 ### Are there costs for AI usage?
 
-AI usage is included in your GitHub Copilot subscription. There are no additional charges from Repo Doctor.
+AI usage is included in your GitHub Copilot subscription. There are no additional charges from RepoCheckAI.
 
 **Note:** Premium models like `claude-opus-4.5` consume rate limits faster (3x cost), which may affect your Copilot usage for other tools.
 
@@ -319,8 +320,8 @@ AI usage is included in your GitHub Copilot subscription. There are no additiona
 
 ## More Questions?
 
-- 💬 [Start a Discussion](https://github.com/glaucia86/repo-doctor/discussions)
-- 🐛 [Report an Issue](https://github.com/glaucia86/repo-doctor/issues)
+- 💬 [Start a Discussion](https://github.com/glaucia86/repocheckai/discussions)
+- 🐛 [Report an Issue](https://github.com/glaucia86/repocheckai/issues)
 - 📖 [Read the Full Documentation](index.md)
 
 ---
@@ -328,3 +329,5 @@ AI usage is included in your GitHub Copilot subscription. There are no additiona
 <p align="center">
   <a href="index.md">← Back to Documentation</a>
 </p>
+
+

@@ -1,4 +1,4 @@
-# Session Configuration — Repo Doctor
+# Session Configuration — Repo Check AI
 
 ## Initialization
 
@@ -82,3 +82,4 @@ session.on((event: SessionEvent) => {
 | Sequence Loop | A→B→A→B | Warn → Abort |
 
 Config in `src/application/core/agent/guardrails.ts`.
+

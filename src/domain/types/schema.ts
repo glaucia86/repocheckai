@@ -1,5 +1,5 @@
 /**
- * Type definitions for Repo Doctor
+ * Type definitions for Repo Check AI
  * All shared types and schemas used across the application
  */
 
@@ -327,3 +327,4 @@ export const AnalysisStateSchema = z.object({
   completedAt: z.number().optional(),
   error: AnalysisErrorSchema.optional(),
 });
+

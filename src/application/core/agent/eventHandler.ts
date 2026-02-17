@@ -48,6 +48,8 @@ export interface EventHandlerState {
   abortReason: string;
   /** Track the current tool being executed (for correlating start/complete events) */
   currentToolName: string | null;
+  /** Tracks whether streamed deltas were received before a full message event */
+  receivedDeltaSinceLastMessage: boolean;
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -116,6 +118,7 @@ export function createEventHandler(options: EventHandlerOptions): {
     aborted: false,
     abortReason: "",
     currentToolName: null,
+    receivedDeltaSinceLastMessage: false,
   };
 
   const handler = (event: SessionEvent): void => {
@@ -136,17 +139,22 @@ export function createEventHandler(options: EventHandlerOptions): {
         }
         // Capture ALL delta content
         state.outputBuffer += event.data.deltaContent;
+        state.receivedDeltaSinceLastMessage = true;
         break;
 
       case "assistant.message":
         // Full message event (non-streaming)
         if (event.data?.content) {
-          if (!silent && !json) {
+          // Avoid duplicate buffering when streaming deltas were already captured
+          if (!state.receivedDeltaSinceLastMessage && !silent && !json) {
             console.log(event.data.content);
           }
-          // IMPORTANT: Also add to output buffer for /copy and /export
-          state.outputBuffer += event.data.content;
+          if (!state.receivedDeltaSinceLastMessage) {
+            // IMPORTANT: Also add to output buffer for /copy and /export
+            state.outputBuffer += event.data.content;
+          }
         }
+        state.receivedDeltaSinceLastMessage = false;
         break;
 
       case "tool.execution_start": {

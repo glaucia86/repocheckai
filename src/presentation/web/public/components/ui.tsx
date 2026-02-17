@@ -13,7 +13,7 @@ export const StatePill = ({ state }: { state: JobState }) => (
 
 export const SelectChevron = () => (
   <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-500 transition group-focus-within:text-cobalt">
-    <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+    <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
       <path
         fillRule="evenodd"
         d="M5.23 7.21a.75.75 0 011.06.02L10 11.18l3.71-3.95a.75.75 0 111.1 1.02l-4.25 4.52a.75.75 0 01-1.1 0L5.21 8.25a.75.75 0 01.02-1.04z"
@@ -24,7 +24,7 @@ export const SelectChevron = () => (
 );
 
 export const SearchIcon = () => (
-  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
     <path
       fillRule="evenodd"
       d="M12.9 14.32a8 8 0 111.41-1.41l3.2 3.2a1 1 0 01-1.42 1.42l-3.2-3.2zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"

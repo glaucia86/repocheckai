@@ -1,11 +1,12 @@
 {
-  "name": "repo-doctor",
+  "name": "repocheckai",
   "version": "2.4.0",
   "description": "AI-powered GitHub repository health analyzer using GitHub Copilot SDK",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "repo-doctor": "./dist/index.js"
+    "repocheck": "./dist/index.js",
+    "repodoctor": "./dist/index.js"
   },
   "files": [
     "dist",
@@ -46,7 +47,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/glaucia86/repo-doctor.git"
+    "url": "https://github.com/glaucia86/repocheckai.git"
   },
   "keywords": [
     "github",
@@ -65,11 +66,11 @@
   "author": "Glaucia Lemos",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/glaucia86/repo-doctor/issues"
+    "url": "https://github.com/glaucia86/repocheckai/issues"
   },
-  "homepage": "https://github.com/glaucia86/repo-doctor#readme",
+  "homepage": "https://github.com/glaucia86/repocheckai#readme",
   "dependencies": {
-    "@github/copilot-sdk": "~0.1.23",
+    "@github/copilot-sdk": "~0.1.24",
     "@inquirer/prompts": "~8.2.0",
     "@octokit/rest": "~22.0.1",
     "chalk": "~5.3.0",
@@ -89,18 +90,18 @@
     "@types/node": "^25.2.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^8.55.0",
     "@typescript-eslint/parser": "^8.55.0",
+    "@vitejs/plugin-react": "^4.4.1",
     "@vitest/coverage-v8": "^4.0.18",
-    "axe-core": "^4.11.1",
     "autoprefixer": "^10.4.21",
+    "axe-core": "^4.11.1",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.1.6",
     "jsdom": "^28.0.0",
-    "postcss": "^8.5.6",
     "png-to-ico": "^3.0.1",
+    "postcss": "^8.5.6",
     "prettier": "^3.3.3",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.17",

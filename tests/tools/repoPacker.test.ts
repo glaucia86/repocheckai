@@ -269,7 +269,7 @@ describe("packRemoteRepository", () => {
     vi.clearAllMocks();
 
     // Mock fs.mkdtemp to return a temp directory
-    vi.mocked(fs.mkdtemp).mockResolvedValue("/tmp/repo-doctor-pack-abc123");
+    vi.mocked(fs.mkdtemp).mockResolvedValue("/tmp/repocheckai-pack-abc123");
 
     // Mock fs.rm to succeed silently
     vi.mocked(fs.rm).mockResolvedValue(undefined);
@@ -401,7 +401,7 @@ describe("packRemoteRepository", () => {
       });
 
       expect(fs.rm).toHaveBeenCalledWith(
-        "/tmp/repo-doctor-pack-abc123",
+        "/tmp/repocheckai-pack-abc123",
         expect.objectContaining({ recursive: true, force: true })
       );
     });
@@ -493,7 +493,7 @@ describe("packRemoteRepository", () => {
       });
 
       expect(fs.rm).toHaveBeenCalledWith(
-        "/tmp/repo-doctor-pack-abc123",
+        "/tmp/repocheckai-pack-abc123",
         expect.objectContaining({ recursive: true })
       );
     });
@@ -596,3 +596,4 @@ Line 2`;
     });
   });
 });
+

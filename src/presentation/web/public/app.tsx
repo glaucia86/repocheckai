@@ -14,8 +14,8 @@ import { MetricTile, ProgressRing, SelectChevron, SeverityLegend, StatePill } fr
 import type { ExportFormat, FormState, JobStateData, Locale, ModelOption, ProgressEvent, ReportState, ReportTab } from "./types.ts";
 
 const SAMPLE_REPO = "octocat/Hello-World";
-const FORM_STORAGE_KEY = "repo_doctor_last_form";
-const RECENT_REPOS_KEY = "repo_doctor_recent_repos";
+const FORM_STORAGE_KEY = "repocheckai_last_form";
+const RECENT_REPOS_KEY = "repocheckai_recent_repos";
 const RECENT_REPOS_LIMIT = 5;
 
 const App = () => {
@@ -25,6 +25,8 @@ const App = () => {
     model: "claude-sonnet-4",
     maxFiles: "800",
     timeoutSeconds: "120",
+    publishAsIssue: false,
+    githubToken: "",
   });
   const [job, setJob] = useState<JobStateData>({ id: "", state: "idle" });
   const [modelOptions, setModelOptions] = useState<ModelOption[]>(DEFAULT_MODEL_OPTIONS);
@@ -92,6 +94,11 @@ const App = () => {
           model: parsed.model || current.model,
           maxFiles: parsed.maxFiles || current.maxFiles,
           timeoutSeconds: parsed.timeoutSeconds || current.timeoutSeconds,
+          publishAsIssue:
+            typeof parsed.publishAsIssue === "boolean"
+              ? parsed.publishAsIssue
+              : current.publishAsIssue,
+          githubToken: current.githubToken,
         }));
       }
 
@@ -107,7 +114,8 @@ const App = () => {
 
   useEffect(() => {
     try {
-      localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(form));
+      const { githubToken: _githubToken, ...persistedForm } = form;
+      localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(persistedForm));
     } catch {}
   }, [form]);
 
@@ -117,14 +125,14 @@ const App = () => {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("repo_doctor_effects_enabled");
+      const raw = localStorage.getItem("repocheckai_effects_enabled");
       if (raw === "0") setEffectsEnabled(false);
     } catch {}
   }, []);
 
   useEffect(() => {
     try {
-      localStorage.setItem("repo_doctor_effects_enabled", effectsEnabled ? "1" : "0");
+      localStorage.setItem("repocheckai_effects_enabled", effectsEnabled ? "1" : "0");
     } catch {}
     document.documentElement.classList.toggle("effects-off", !effectsEnabled);
   }, [effectsEnabled]);
@@ -243,6 +251,8 @@ const App = () => {
           model: form.model || undefined,
           maxFiles: Number(form.maxFiles || 0) || undefined,
           timeoutSeconds: Number(form.timeoutSeconds || 0) || undefined,
+          publishAsIssue: form.publishAsIssue,
+          githubToken: form.githubToken.trim() || undefined,
         }),
       });
       const newId = String(payload.jobId ?? "");
@@ -316,7 +326,7 @@ const App = () => {
       const anchor = document.createElement("a");
       const extension = format === "md" ? "md" : "json";
       anchor.href = url;
-      anchor.download = `repo-doctor-report.${extension}`;
+      anchor.download = `repocheck-report.${extension}`;
       document.body.appendChild(anchor);
       anchor.click();
       anchor.remove();
@@ -364,7 +374,19 @@ const App = () => {
               {t("tagline", locale)}
             </p>
             <div className="flex items-center gap-3">
-              <img src="/favicon.svg" alt="" aria-hidden="true" className="h-9 w-9 rounded-xl shadow-sm" />
+              <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cobalt to-tide text-white shadow-sm">
+                <svg viewBox="0 0 20 20" className="h-5 w-5" fill="none" aria-hidden="true">
+                  <path d="M6 5v9m0-5h8" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="6" cy="5" r="1.8" fill="currentColor" />
+                  <circle cx="6" cy="14" r="1.8" fill="currentColor" />
+                  <circle cx="14" cy="9" r="1.8" fill="currentColor" />
+                </svg>
+                <span className="absolute -bottom-1 -right-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-ember text-white ring-2 ring-white">
+                  <svg viewBox="0 0 20 20" className="h-3 w-3" fill="none" aria-hidden="true">
+                    <path d="m5.8 10 2.2 2.3 4.3-4.6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </span>
               <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{t("title", locale)}</h1>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-slate-700 sm:text-base">{t("subtitle", locale)}</p>
@@ -516,6 +538,33 @@ const App = () => {
                 />
               </label>
             </div>
+
+            <label className="flex items-start gap-2 rounded-2xl border border-slate-200 bg-white/80 p-3 text-sm text-slate-700">
+              <input
+                type="checkbox"
+                checked={form.publishAsIssue}
+                onChange={(e) => setForm((current) => ({ ...current, publishAsIssue: e.target.checked }))}
+                className={`mt-0.5 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary/40 ${focusRingClass}`}
+              />
+              <span>
+                <span className="block font-semibold">{t("publishIssue", locale)}</span>
+                <span className="block text-xs text-slate-500">{t("publishHelp", locale)}</span>
+              </span>
+            </label>
+
+            {form.publishAsIssue ? (
+              <label className="block">
+                <span className="mb-1 block text-xs font-mono uppercase tracking-[0.16em] text-slate-500">{t("githubToken", locale)}</span>
+                <input
+                  type="password"
+                  autoComplete="off"
+                  value={form.githubToken}
+                  onChange={(e) => setForm((current) => ({ ...current, githubToken: e.target.value }))}
+                  placeholder={t("githubTokenPlaceholder", locale)}
+                  className={`w-full rounded-2xl border border-slate-300 bg-white/90 px-3 py-2.5 text-sm outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 ${focusRingClass}`}
+                />
+              </label>
+            ) : null}
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600">
               <p>{t("trustLocal", locale)}</p>

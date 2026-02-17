@@ -54,7 +54,7 @@ export async function packRemoteRepository(
   let tempDir: string | undefined;
 
   try {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "repo-doctor-pack-"));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "repocheckai-pack-"));
     const outputPath = path.join(tempDir, "packed-repo.txt");
 
     // Build Repomix command
@@ -116,3 +116,4 @@ export async function packRemoteRepository(
     }
   }
 }
+

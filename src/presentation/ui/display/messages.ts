@@ -36,6 +36,10 @@ export function printWarning(message: string): void {
   console.log();
 }
 
+export function formatLegacyCommandWarning(message: string): string {
+  return `Legacy command notice: ${message}`;
+}
+
 /**
  * Print an info message
  */
@@ -55,7 +59,7 @@ export function printGoodbye(): void {
       c.brand("👋") +
       " " +
       c.text("Thank you for using ") +
-      c.brand("Repo Doctor") +
+      c.brand("RepoCheckAI") +
       c.text(". See you next time!")
   );
   console.log();

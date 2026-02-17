@@ -1,6 +1,6 @@
 # 🏗️ Architecture
 
-Technical overview of Repo Doctor's architecture and design decisions.
+Technical overview of Repo Check AI's architecture and design decisions.
 
 ---
 
@@ -19,11 +19,11 @@ Technical overview of Repo Doctor's architecture and design decisions.
 
 ## System Overview
 
-Repo Doctor is built as an **agentic CLI tool** using the GitHub Copilot SDK. It leverages AI to analyze GitHub repositories and provide health assessments.
+Repo Check AI is built as an **agentic CLI tool** using the GitHub Copilot SDK. It leverages AI to analyze GitHub repositories and provide health assessments.
 
 ```mermaid
 flowchart TB
-    subgraph RD["🩺 REPO DOCTOR"]
+    subgraph RD["🩺 REPO CHECK AI"]
         direction TB
         
         subgraph Input["📥 Input Layer"]
@@ -92,7 +92,7 @@ graph LR
 ## Project Structure
 
 ```
-repo-doctor/
+repocheckai/
 ├── site/                     # Static website (GitHub Pages)
 │
 ├── src/
@@ -252,7 +252,7 @@ export function createOctokit(token?: string): Octokit {
     
   return new Octokit({
     auth: resolvedToken,
-    userAgent: "repo-doctor",
+    userAgent: "repocheckai",
   });
 }
 ```
@@ -585,7 +585,7 @@ function sanitizeFilePath(path: string): string | null {
 - Environment variables are preferred
 - GitHub CLI integration for secure auth
 
-Repo Doctor uses two auth paths:
+Repo Check AI uses two auth paths:
 - Copilot SDK auth via GitHub CLI OAuth token (exported as `GH_TOKEN`)
 - GitHub API auth for repo access and `--issue` via PAT (`GITHUB_TOKEN` or `--token`)
 
@@ -669,3 +669,4 @@ export const colors = {
 <p align="center">
   <a href="index.md">← Back to Documentation</a>
 </p>
+

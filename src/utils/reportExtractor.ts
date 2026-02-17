@@ -14,13 +14,17 @@
 export function extractReportOnly(content: string): string {
   // Step 1: Remove common debug/noise patterns
   const cleaned = content
+    // Remove local CLI subprocess prefix noise
+    .replace(/^\[CLI subprocess\]\s*/gim, "")
     // Remove npm/repomix warnings and deprecation notices
     .replace(/npm warn.*\n?/gi, "")
     .replace(/npm notice.*\n?/gi, "")
     .replace(/npm WARN.*\n?/gi, "")
     .replace(/\(node:\d+\).*Warning:.*\n?/gi, "")
+    .replace(/^\(Use `node --trace-warnings .*?\)\s*$/gim, "")
     .replace(/ExperimentalWarning:.*\n?/gi, "")
     .replace(/DeprecationWarning:.*\n?/gi, "")
+    .replace(/^\s*⚡\s*Analysis timed out after .*$/gim, "")
     // Remove repomix progress/info messages
     .replace(/Repomix.*processing.*\n?/gi, "")
     .replace(/Packing repository.*\n?/gi, "")
@@ -29,8 +33,15 @@ export function extractReportOnly(content: string): string {
     // Remove Repomix failure messages (may appear multiple times)
     .replace(/Repomix failed\..*?(?:analysis|read_repo_file)\.?\n?/gi, "")
     .replace(/Falling back to reading source files.*\n?/gi, "")
-    // Remove phase markers from streaming output
+    // Remove phase markers from streaming output (line-based and inline duplicates)
     .replace(/^\*\*PHASE \d+.*\*\*\s*$/gm, "")
+    .replace(/\*\*PHASE\s+\d+\s+[^\n*]+\*\*/gim, "")
+    // Remove common assistant meta-narration that can leak into final output
+    .replace(/^Now I have enough context.*\n?/gim, "")
+    .replace(/^Let me generate.*\n?/gim, "")
+    .replace(/^Let me\s+.*\n?/gim, "")
+    .replace(/^I(?:'ve| have)\s+now\s+.*\n?/gim, "")
+    .replace(/^Based on my comprehensive analysis.*\n?/gim, "")
     // Remove tool call annotations
     .replace(/^Calling tool:.*\n?/gm, "")
     .replace(/^Tool result:.*\n?/gm, "")
@@ -41,7 +52,14 @@ export function extractReportOnly(content: string): string {
     .map((line) => line.trimEnd())
     .join("\n");
 
-  // Step 2: Find the start of the report content
+  // Step 2: Prefer the last health report occurrence to avoid duplicated captures
+  const lastReportMatch = findLastReportHeader(cleaned);
+  if (lastReportMatch >= 0) {
+    const report = cleaned.slice(lastReportMatch).trim();
+    return normalizeReportConsistency(cleanAssistantNarration(removeDuplicateSections(report)));
+  }
+
+  // Step 3: Find the start of the report content
   // IMPORTANT: For deep analysis, we need to capture BOTH the health report AND the deep analysis section
   // Priority: Start from the Health Report header (which should include Deep Analysis section at the end)
   const reportStartPatterns = [
@@ -75,8 +93,8 @@ export function extractReportOnly(content: string): string {
       }
       const report = cleaned.slice(startIndex).trim();
 
-      // Step 3: Remove duplicate sections (keep only last occurrence)
-      return removeDuplicateSections(report);
+      // Step 4: Remove duplicate sections (keep only last occurrence)
+      return normalizeReportConsistency(cleanAssistantNarration(removeDuplicateSections(report)));
     }
   }
 
@@ -89,12 +107,242 @@ export function extractReportOnly(content: string): string {
     // If the content before is short or looks like a fragment, skip it
     if (beforeSection.length < 500 && !beforeSection.includes("## ")) {
       const report = cleaned.slice(firstSectionMatch.index).trim();
-      return removeDuplicateSections(report);
+      return normalizeReportConsistency(cleanAssistantNarration(removeDuplicateSections(report)));
     }
   }
 
   // Final fallback: just clean and return
-  return removeDuplicateSections(cleaned.trim());
+  return normalizeReportConsistency(
+    cleanAssistantNarration(removeDuplicateSections(cleaned.trim()))
+  );
+}
+
+function findLastReportHeader(content: string): number {
+  const reportRegex = /^##?\s*(?:🩺\s*)?Repository Health Report\b/gmi;
+  let lastIndex = -1;
+  let match: RegExpExecArray | null = null;
+
+  while ((match = reportRegex.exec(content)) !== null) {
+    if (match.index !== undefined) {
+      lastIndex = match.index;
+    }
+  }
+
+  return lastIndex;
+}
+
+function cleanAssistantNarration(content: string): string {
+  return content
+    .split("\n")
+    .filter((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) return true;
+
+      // Strip conversational bridge lines that are not part of report structure
+      if (/^(let me|now i|i have now|i've now)\b/i.test(trimmed)) return false;
+      if (/^based on my comprehensive analysis\b/i.test(trimmed)) return false;
+      if (/^i now have sufficient information\b/i.test(trimmed)) return false;
+      if (/^perfect!?\s*now i\b/i.test(trimmed)) return false;
+      if (/^great!?\s*now i\b/i.test(trimmed)) return false;
+
+      return true;
+    })
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n");
+}
+
+function normalizeReportConsistency(content: string): string {
+  const withDeterministicRules = applyDeterministicFindingRules(content);
+  const withVerify = demoteInconclusiveFindings(withDeterministicRules);
+  return reconcileCategoryIssueCounts(withVerify);
+}
+
+function applyDeterministicFindingRules(content: string): string {
+  let updated = content;
+
+  // Rule: If workflows are detected/found, don't keep "No CI/CD Pipeline" absolute claim
+  const workflowsDetected = /workflows?\/.*(detected|found)|\b(ci\.yml|pages\.yml)\b/i.test(updated);
+  if (workflowsDetected) {
+    updated = updated.replace(
+      /^(####\s+(?:🚨\s+)?)(No CI\/CD Pipeline)\s*$/gim,
+      "$1CI/CD Configuration Inconsistent"
+    );
+    updated = updated.replace(
+      /\*\*Impact:\*\s*No automated validation[^\n]*/i,
+      "**Impact:** CI signals exist, but workflow access/execution appears inconsistent, reducing trust in automated validation."
+    );
+  }
+
+  return updated;
+}
+
+function demoteInconclusiveFindings(content: string): string {
+  const lines = content.split("\n");
+  const out: string[] = [];
+
+  const isFindingHeader = (line: string): boolean => /^####\s+/.test(line.trim());
+  const isSectionBoundary = (line: string): boolean => /^###\s+/.test(line.trim());
+  const hasInconclusiveSignals = (block: string): boolean =>
+    /(might exist|not visible|not returned in file listing|could not verify|verify(?:\s+its)?\s+presence|inconclusive)/i.test(
+      block
+    );
+  const isLockfileClaim = (header: string): boolean => /lockfile|package-lock\.json|yarn\.lock|pnpm-lock\.yaml/i.test(header);
+  const hasDefinitiveLockfileEvidence = (block: string): boolean =>
+    /package-lock\.json.*404|404.*package-lock\.json|contents\/package-lock\.json.*404|read_repo_file.*package-lock\.json.*404/i.test(
+      block
+    );
+
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i] ?? "";
+    if (!isFindingHeader(line)) {
+      out.push(line);
+      i++;
+      continue;
+    }
+
+    const block: string[] = [line];
+    i++;
+    while (i < lines.length) {
+      const current = lines[i] ?? "";
+      if (isFindingHeader(current) || isSectionBoundary(current)) break;
+      block.push(current);
+      i++;
+    }
+
+    const blockText = block.join("\n");
+    const shouldDemoteForInconclusive = hasInconclusiveSignals(blockText);
+    const shouldDemoteLockfile = isLockfileClaim(block[0] ?? "") && !hasDefinitiveLockfileEvidence(blockText);
+
+    if (shouldDemoteForInconclusive || shouldDemoteLockfile) {
+      const header = block[0] ?? "";
+      if (!/verify first/i.test(header)) {
+        block[0] = header.replace(/^####\s+/, "#### Verify First: ");
+      }
+
+      const hasConfidenceLine = block.some((l) => /^\*\*Confidence:\*\*/i.test(l.trim()));
+      if (!hasConfidenceLine) {
+        block.push("");
+        block.push(
+          shouldDemoteLockfile
+            ? "**Confidence:** Lockfile absence is not conclusively proven; verify by directly checking repository root contents."
+            : "**Confidence:** Needs verification against repository file listing."
+        );
+      }
+    }
+
+    out.push(...block);
+  }
+
+  return out.join("\n");
+}
+
+function reconcileCategoryIssueCounts(content: string): string {
+  const lines = content.split("\n");
+  type CategoryLabel =
+    | "📚 Docs & Onboarding"
+    | "⚡ Developer Experience"
+    | "🔄 CI/CD"
+    | "🧪 Quality & Tests"
+    | "📋 Governance"
+    | "🔐 Security";
+
+  const categoryRows: Record<CategoryLabel, number> = {
+    "📚 Docs & Onboarding": 0,
+    "⚡ Developer Experience": 0,
+    "🔄 CI/CD": 0,
+    "🧪 Quality & Tests": 0,
+    "📋 Governance": 0,
+    "🔐 Security": 0,
+  };
+
+  const findings: string[] = [];
+  let currentSection: "P0" | "P1" | "P2" | null = null;
+  let inDeepAnalysis = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = (lines[i] ?? "").trim();
+    if (/^##\s+🔬\s*Deep Analysis/i.test(line)) {
+      inDeepAnalysis = true;
+    }
+    if (inDeepAnalysis) continue;
+
+    if (/^###\s+.*\bP0\b/i.test(line)) currentSection = "P0";
+    else if (/^###\s+.*\bP1\b/i.test(line)) currentSection = "P1";
+    else if (/^###\s+.*\bP2\b/i.test(line)) currentSection = "P2";
+    else if (/^###\s+/.test(line)) currentSection = null;
+
+    const headingMatch = line.match(/^####\s+(.+)/);
+    if (currentSection && headingMatch?.[1]) {
+      findings.push(headingMatch[1].trim());
+      continue;
+    }
+
+    if (currentSection === "P2") {
+      const bullet = line.match(/^-+\s+\*\*(.+?)\*\*/)?.[1] ?? line.match(/^-+\s+([A-Za-z0-9][^`]*)/)?.[1];
+      if (bullet) findings.push(bullet.trim());
+    }
+  }
+
+  for (const finding of findings) {
+    const category = classifyFindingCategory(finding);
+    categoryRows[category]++;
+  }
+
+  const updated = lines.map((line) => {
+    const rowMatch = line.match(
+      /^\|\s*(📚 Docs & Onboarding|⚡ Developer Experience|🔄 CI\/CD|🧪 Quality & Tests|📋 Governance|🔐 Security)\s*\|\s*([^|]+)\|\s*([^|]+)\|$/
+    );
+    if (!rowMatch) return line;
+
+    const categoryLabel = rowMatch[1]! as CategoryLabel;
+    const score = rowMatch[2]!.trim();
+    const issues = categoryRows[categoryLabel] ?? 0;
+    return `| ${categoryLabel} | ${score} | ${issues} |`;
+  });
+
+  return updated.join("\n");
+}
+
+function classifyFindingCategory(
+  title: string
+):
+  | "📚 Docs & Onboarding"
+  | "⚡ Developer Experience"
+  | "🔄 CI/CD"
+  | "🧪 Quality & Tests"
+  | "📋 Governance"
+  | "🔐 Security" {
+  const text = title.toLowerCase();
+  const map = getCategoryMap();
+
+  if (map.cicd.some((k) => text.includes(k))) return "🔄 CI/CD";
+  if (map.security.some((k) => text.includes(k))) return "🔐 Security";
+  if (map.quality.some((k) => text.includes(k))) return "🧪 Quality & Tests";
+  if (map.docs.some((k) => text.includes(k))) return "📚 Docs & Onboarding";
+  if (map.governance.some((k) => text.includes(k))) return "📋 Governance";
+  if (map.devex.some((k) => text.includes(k))) return "⚡ Developer Experience";
+
+  return "📋 Governance";
+}
+
+function getCategoryMap() {
+  return {
+    docs: ["readme", "documentation", "docs", "tutorial", "onboarding"],
+    devex: ["node version", ".nvmrc", "engines", "lockfile", "developer experience"],
+    cicd: ["ci/cd", "ci", "pipeline", "workflow", "github actions", "build verification"],
+    quality: ["test", "coverage", "lint", "eslint", "prettier", "quality"],
+    governance: [
+      "license",
+      "code of conduct",
+      "issue template",
+      "pull request template",
+      "contributing",
+      "governance",
+      "changelog",
+    ],
+    security: ["security", "dependabot", "renovate", "vulnerability", "secret", "injection"],
+  };
 }
 
 // ════════════════════════════════════════════════════════════════════════════

@@ -123,6 +123,30 @@ describe("createEventHandler", () => {
 
       expect(state.outputBuffer).toBe("");
     });
+
+    it("should avoid duplicating content when delta and full message are both emitted", () => {
+      const { handler, state } = createEventHandler({
+        ...defaultOptions,
+        silent: true,
+      });
+
+      handler({
+        type: "assistant.message_delta",
+        data: { deltaContent: "Hello " },
+      } as any);
+
+      handler({
+        type: "assistant.message_delta",
+        data: { deltaContent: "World" },
+      } as any);
+
+      handler({
+        type: "assistant.message",
+        data: { content: "Hello World" },
+      } as any);
+
+      expect(state.outputBuffer).toBe("Hello World");
+    });
   });
 
   describe("tool.execution_start event", () => {

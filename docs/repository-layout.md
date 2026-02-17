@@ -1,6 +1,6 @@
 # 🗂️ Repository Layout
 
-Repo Doctor currently has three application surfaces:
+Repo Check AI currently has three application surfaces:
 
 - **CLI**: terminal-first workflow for repository analysis.
 - **Web UI**: local browser UI backed by a local API.
@@ -9,7 +9,7 @@ Repo Doctor currently has three application surfaces:
 ## Top-Level Structure
 
 ```text
-repo-doctor/
+repocheckai/
 ├── site/
 ├── src/
 ├── tests/
@@ -54,3 +54,4 @@ Static site content deployed with GitHub Pages.
 - Keeps the public website isolated from runtime source code.
 - Separates `src/` by clean architecture layers.
 - Reduces accidental cross-surface edits by clarifying ownership.
+

@@ -1,6 +1,6 @@
 {
-  "name": "Repo Doctor Local UI",
-  "short_name": "RepoDoctor",
+  "name": "Repo Check AI Local UI",
+  "short_name": "RepoCheckAI",
   "description": "AI-powered repository health analyzer local interface.",
   "start_url": "/",
   "display": "standalone",

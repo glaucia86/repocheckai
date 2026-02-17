@@ -11,7 +11,7 @@ export interface HomeFormValues {
 export function renderHomePage(): string {
   return `
     <section id="home-page">
-      <h1>Repo Doctor Local UI</h1>
+      <h1>Repo Check AI Local UI</h1>
       <form id="start-analysis-form">
         <label>Repository</label>
         <input name="repositoryInput" placeholder="owner/repo" required />

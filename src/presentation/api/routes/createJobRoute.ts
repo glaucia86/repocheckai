@@ -11,6 +11,8 @@ interface CreateJobRequestBody {
   maxFiles?: number;
   timeoutSeconds?: number;
   preferredOutputFormat?: "markdown" | "json";
+  publishAsIssue?: boolean;
+  githubToken?: string;
 }
 
 interface RequestLike {
@@ -63,10 +65,13 @@ export function createCreateJobRouteWithRunner(
     void runJob(registry, {
       jobId: job.jobId,
       repositoryUrl: normalized.value.repositoryUrl,
+      repositorySlug: normalized.value.repositorySlug,
       analysisMode,
       model: request.body?.model,
       timeoutSeconds: request.body?.timeoutSeconds,
       maxFiles: request.body?.maxFiles,
+      publishAsIssue: request.body?.publishAsIssue === true,
+      githubToken: request.body?.githubToken?.trim() || undefined,
     });
 
     return {

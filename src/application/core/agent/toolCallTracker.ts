@@ -186,7 +186,7 @@ export class ToolCallTracker {
    * 
    * DESIGN DECISION: We compare both tool name AND arguments (argsHash).
    * 
-   * This is intentional for Repo Doctor's use case:
+   * This is intentional for Repo Check AI's use case:
    * - Reading different files in sequence (README → LICENSE → package.json) is 
    *   expected and normal behavior during repository analysis
    * - We only want to detect TRUE loops where the agent is stuck repeating
@@ -256,3 +256,4 @@ export class ToolCallTracker {
     this.calls = [];
   }
 }
+

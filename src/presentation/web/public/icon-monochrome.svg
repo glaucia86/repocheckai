@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">Repo Doctor Monochrome Mark</title>
+  <title id="title">Repo Check AI Monochrome Mark</title>
   <rect x="6" y="6" width="52" height="52" rx="15" fill="#0F172A"/>
-  <path d="M32 13.5 47.5 19v11.2c0 11.6-7.6 18.2-15.5 21.5-7.9-3.3-15.5-9.9-15.5-21.5V19L32 13.5Z" fill="#FFFFFF"/>
-  <path d="M32 18.2 43 22v8.4c0 8.7-5.4 13.8-11 16.2-5.6-2.4-11-7.5-11-16.2V22l11-3.8Z" fill="#E2E8F0"/>
-  <circle cx="32" cy="26.1" r="1.9" fill="#0F172A"/>
-  <circle cx="24.4" cy="32.2" r="1.7" fill="#0F172A"/>
-  <circle cx="39.6" cy="32.2" r="1.7" fill="#0F172A"/>
-  <path d="M32 26.1v5.9m-7.2.2 5.5-3m9 .1-5.5-3" stroke="#0F172A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M32 35.4v8.3m-4.2-4.1h8.4" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round"/>
+  <rect x="14" y="14" width="36" height="36" rx="11" fill="#FFFFFF" />
+  <path d="M24 23v18m0-11h14" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="24" cy="23" r="2.8" fill="#0F172A"/>
+  <circle cx="24" cy="41" r="2.8" fill="#0F172A"/>
+  <circle cx="38" cy="30" r="2.8" fill="#0F172A"/>
+  <circle cx="45.5" cy="45.5" r="7.2" fill="#0F172A" />
+  <path d="m42.2 45.5 2.1 2.2 4-4.4" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

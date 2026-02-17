@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://glaucia86.github.io/repo-doctor/sitemap.xml
+Sitemap: https://glaucia86.github.io/repocheckai/sitemap.xml
+
+

@@ -3,6 +3,8 @@
  * Re-exports for backward compatibility
  */
 
+export { resolveCommandPolicy, type CommandResolution } from "../../domain/config/commandPolicy.js";
+
 // State management
 export {
   appState,

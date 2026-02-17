@@ -1,5 +1,5 @@
 /**
- * Theme system for Repo Doctor CLI
+ * Theme system for Repo Check AI CLI
  * Beautiful terminal styling with gradients and box drawing
  * Inspired by Video Promo's design system
  */
@@ -45,3 +45,4 @@ export {
   priorityBadge,
   keyHint,
 } from "./badges.js";
+

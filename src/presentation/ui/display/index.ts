@@ -26,6 +26,7 @@ export {
   printSuccess,
   printError,
   printWarning,
+  formatLegacyCommandWarning,
   printInfo,
   printGoodbye,
 } from "./messages.js";
