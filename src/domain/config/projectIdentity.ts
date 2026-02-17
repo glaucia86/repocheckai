@@ -3,7 +3,7 @@ export const PROJECT_IDENTITY = {
   officialPackageName: "repocheckai",
   officialCommand: "repocheck",
   legacyProductNames: ["Repo Check AI"],
-  legacyCommands: ["repodoctor", "repocheckai"],
+  legacyCommands: ["repodoctor"],
   migrationStatus: "transition",
   effectiveFromRelease: "2.5.0",
   legacySupportUntilRelease: "2.6.x",
