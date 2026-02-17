@@ -1,3 +1,5 @@
+/// <reference types="@types/react" />
+/// <reference types="@types/react-dom" />
 import React, { useEffect, useMemo, useRef, useState } from "https://esm.sh/react@18.3.1";
 import { createRoot } from "https://esm.sh/react-dom@18.3.1/client";
 import { apiBase, cardClass, DEFAULT_MODEL_OPTIONS, selectClass, selectShellClass } from "./constants.ts";
@@ -77,7 +79,7 @@ const App = () => {
     if (!modelPickerOpen) return;
     const timer = setTimeout(() => modelSearchRef.current?.focus(), 0);
     if (modelNavigationList.length > 0) {
-      setHighlightedModelId((current) => current || modelNavigationList[0].id);
+      setHighlightedModelId((current: string | null) => current || modelNavigationList[0].id);
     }
     return () => clearTimeout(timer);
   }, [modelPickerOpen, modelNavigationList]);
@@ -87,7 +89,7 @@ const App = () => {
       const rawForm = localStorage.getItem(FORM_STORAGE_KEY);
       if (rawForm) {
         const parsed = JSON.parse(rawForm) as Partial<FormState>;
-        setForm((current) => ({
+        setForm((current: FormState) => ({
           ...current,
           repositoryInput: parsed.repositoryInput || current.repositoryInput,
           analysisMode: parsed.analysisMode || current.analysisMode,
@@ -191,8 +193,8 @@ const App = () => {
         const models = Array.isArray(payload.models) ? (payload.models as ModelOption[]) : [];
         if (models.length === 0) return;
         setModelOptions(models);
-        setForm((current) => {
-          const exists = models.some((model) => model.id === current.model);
+        setForm((current: FormState) => {
+          const exists = models.some((model: ModelOption) => model.id === current.model);
           return exists ? current : { ...current, model: models[0].id };
         });
       })
@@ -206,13 +208,13 @@ const App = () => {
     stream.onmessage = (message) => {
       try {
         const parsed = JSON.parse(message.data) as ProgressEvent;
-        setEvents((current) => {
+        setEvents((current: ProgressEvent[]) => {
           const already = current.some((item) => item.eventId === parsed.eventId);
           return already ? current : [...current, parsed];
         });
 
-        if (parsed.eventType === "completed") setJob((current) => ({ ...current, state: "completed" }));
-        if (parsed.eventType === "error") setJob((current) => ({ ...current, state: "error" }));
+        if (parsed.eventType === "completed") setJob((current: JobStateData) => ({ ...current, state: "completed" }));
+        if (parsed.eventType === "error") setJob((current: JobStateData) => ({ ...current, state: "error" }));
       } catch {
         setError("Failed to parse stream event.");
       }
@@ -265,7 +267,7 @@ const App = () => {
       });
 
       if (form.repositoryInput.trim()) {
-        setRecentRepositories((current) => {
+        setRecentRepositories((current: string[]) => {
           const next = [form.repositoryInput.trim(), ...current.filter((item) => item !== form.repositoryInput.trim())].slice(
             0,
             RECENT_REPOS_LIMIT,
@@ -289,7 +291,7 @@ const App = () => {
     setError("");
     try {
       await requestJson(`${apiBase}/jobs/${job.id}/cancel`, { method: "POST" });
-      setJob((current) => ({ ...current, state: "cancelled" }));
+      setJob((current: JobStateData) => ({ ...current, state: "cancelled" }));
       setToast(t("jobCancelled", locale));
       trackUiEvent("analysis_cancel", { jobId: job.id });
     } catch (err) {
@@ -344,7 +346,7 @@ const App = () => {
   };
 
   const useSampleRepository = () => {
-    setForm((current) => ({ ...current, repositoryInput: SAMPLE_REPO }));
+    setForm((current: FormState) => ({ ...current, repositoryInput: SAMPLE_REPO }));
     trackUiEvent("empty_state_cta", { target: "timeline" });
   };
 
@@ -357,7 +359,7 @@ const App = () => {
 
   const selectedModelName = modelOptions.find((item) => item.id === form.model)?.name || form.model;
   const selectModel = (modelId: string) => {
-    setForm((current) => ({ ...current, model: modelId }));
+    setForm((current: FormState) => ({ ...current, model: modelId }));
     setModelPickerOpen(false);
     setModelQuery("");
     setHighlightedModelId(modelId);
@@ -449,7 +451,7 @@ const App = () => {
               <span className="mb-1 block text-xs font-mono uppercase tracking-[0.16em] text-slate-500">{t("repository", locale)}</span>
               <input
                 value={form.repositoryInput}
-                onChange={(e) => setForm((current) => ({ ...current, repositoryInput: e.target.value }))}
+                onChange={(e) => setForm((current: FormState) => ({ ...current, repositoryInput: e.target.value }))}
                 placeholder={t("repositoryPlaceholder", locale)}
                 className={`w-full rounded-2xl border border-slate-300 bg-white/90 px-3 py-2.5 text-sm outline-none transition focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 ${focusRingClass}`}
                 required
@@ -474,7 +476,7 @@ const App = () => {
                     <button
                       key={repo}
                       type="button"
-                      onClick={() => setForm((current) => ({ ...current, repositoryInput: repo }))}
+                      onClick={() => setForm((current: FormState) => ({ ...current, repositoryInput: repo }))}
                       className={`rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 ${focusRingClass}`}
                     >
                       {repo}
@@ -490,7 +492,7 @@ const App = () => {
                 <div className={selectShellClass}>
                   <select
                     value={form.analysisMode}
-                    onChange={(e) => setForm((current) => ({ ...current, analysisMode: e.target.value as FormState["analysisMode"] }))}
+                    onChange={(e) => setForm((current: FormState) => ({ ...current, analysisMode: e.target.value as FormState["analysisMode"] }))}
                     className={`${selectClass} ${focusRingClass}`}
                   >
                     <option value="quick">Quick</option>
@@ -523,7 +525,7 @@ const App = () => {
                   type="number"
                   min="1"
                   value={form.maxFiles}
-                  onChange={(e) => setForm((current) => ({ ...current, maxFiles: e.target.value }))}
+                  onChange={(e) => setForm((current: FormState) => ({ ...current, maxFiles: e.target.value }))}
                   className={`w-full rounded-2xl border border-slate-300 bg-white/90 px-3 py-2.5 text-sm outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 ${focusRingClass}`}
                 />
               </label>
@@ -533,7 +535,7 @@ const App = () => {
                   type="number"
                   min="1"
                   value={form.timeoutSeconds}
-                  onChange={(e) => setForm((current) => ({ ...current, timeoutSeconds: e.target.value }))}
+                  onChange={(e) => setForm((current: FormState) => ({ ...current, timeoutSeconds: e.target.value }))}
                   className={`w-full rounded-2xl border border-slate-300 bg-white/90 px-3 py-2.5 text-sm outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 ${focusRingClass}`}
                 />
               </label>
@@ -543,7 +545,7 @@ const App = () => {
               <input
                 type="checkbox"
                 checked={form.publishAsIssue}
-                onChange={(e) => setForm((current) => ({ ...current, publishAsIssue: e.target.checked }))}
+                onChange={(e) => setForm((current: FormState) => ({ ...current, publishAsIssue: e.target.checked }))}
                 className={`mt-0.5 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary/40 ${focusRingClass}`}
               />
               <span>
@@ -559,7 +561,7 @@ const App = () => {
                   type="password"
                   autoComplete="off"
                   value={form.githubToken}
-                  onChange={(e) => setForm((current) => ({ ...current, githubToken: e.target.value }))}
+                  onChange={(e) => setForm((current: FormState) => ({ ...current, githubToken: e.target.value }))}
                   placeholder={t("githubTokenPlaceholder", locale)}
                   className={`w-full rounded-2xl border border-slate-300 bg-white/90 px-3 py-2.5 text-sm outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 ${focusRingClass}`}
                 />

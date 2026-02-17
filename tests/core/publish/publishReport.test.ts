@@ -4,7 +4,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { publishReport } from "../../../src/application/core/publish/publishReport.js";
-import type { PublishTarget } from "../../../src/types/publish.js";
+import type { PublishTarget } from "../../../src/domain/types/publish.js";
 
 // Mock dependencies
 vi.mock("../../../src/infrastructure/providers/githubPublish.js", () => ({
@@ -21,7 +21,7 @@ vi.mock("../../../src/application/core/publish/reportBuilder.js", () => ({
 }));
 
 vi.mock("../../../src/application/core/publish/labels.js", () => ({
-  buildIssueLabels: vi.fn((categories) => categories.map((c) => `repocheckai:${c}`)),
+  buildIssueLabels: vi.fn((categories: string[]) => categories.map((c: string) => `repocheckai:${c}`)),
 }));
 
 import { createIssue } from "../../../src/infrastructure/providers/githubPublish.js";
