@@ -87,4 +87,12 @@ describe("CLI analyze compatibility", () => {
     expect(policy.legacyBehavior).toBe("allow_with_warning");
     expect(policy.deprecationMessage).toContain("repocheck");
   });
+
+  it("keeps repo-doctor as temporary legacy alias with warning policy", () => {
+    const policy = resolveCommandPolicy(["node", "repo-doctor", "analyze", "owner/repo"]);
+    expect(policy.effectiveCommand).toBe("repocheck");
+    expect(policy.isLegacy).toBe(true);
+    expect(policy.legacyBehavior).toBe("allow_with_warning");
+    expect(policy.deprecationMessage).toContain("repocheck");
+  });
 });

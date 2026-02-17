@@ -6,6 +6,7 @@
   "type": "module",
   "bin": {
     "repocheck": "./dist/index.js",
+    "repo-doctor": "./dist/index.js",
     "repodoctor": "./dist/index.js"
   },
   "files": [
