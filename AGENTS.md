@@ -13,6 +13,14 @@ npm test           # Run tests (100+ Vitest)
 npm run build      # Production build
 ```
 
+## CLI Identity (Transition)
+
+- **Official command**: `repocheck`
+- **Legacy aliases (temporary)**: `repo-doctor`, `repodoctor`
+- **Package name**: `repocheckai`
+
+Use `repocheck` in new scripts/automation. Legacy aliases are supported during migration and may emit deprecation guidance.
+
 ## Key Conventions
 
 - **ES Modules**: imports use `.js` extension

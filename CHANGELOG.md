@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [2.6.0] - 2026-02-17
+
 ### Added
 
 - **Migration Communication**: Added official announcement at `docs/announcements/repocheckai-migration.md`.
@@ -15,7 +19,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Project Identity Migration**: Official project identity is now `RepoCheckAI`.
 - **CLI Command Policy**: `repocheck` is now the official command, while `repodoctor` remains temporarily available with deprecation warning.
+- **Legacy Alias Coverage**: Preserved `repo-doctor` binary alias during transition, aligned with legacy-command warning policy.
 - **Transition Window**: Legacy command support is scheduled for two releases (`2.5.0` through `2.6.x`).
+
+### Fixed
+
+- **ESM React Typings (Web Public UI)**: Updated URL-module declarations to support named hook imports (`useEffect`, `useMemo`, `useRef`, `useState`) without `require`-style declarations.
+- **Type Declarations**: Removed redundant ambient `declare` modifier in ESM URL declaration file.
+- **Report Consistency Rules**: Tightened CI workflow detection heuristic to avoid downgrading genuine "No CI/CD Pipeline" findings when `ci.yml`/`pages.yml` are only mentioned as recommendations.
 
 ---
 
@@ -300,6 +311,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [2.0.0]: https://github.com/glaucia86/repocheckai/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/glaucia86/repocheckai/releases/tag/v1.0.0
 [2.5.0]: https://github.com/glaucia86/repocheckai/compare/v2.4.0...v2.5.0
-[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.5.0...HEAD
+[2.6.0]: https://github.com/glaucia86/repocheckai/compare/v2.5.0...v2.6.0
+[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.6.0...HEAD
 
 
