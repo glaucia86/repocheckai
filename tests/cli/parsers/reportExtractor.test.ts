@@ -194,6 +194,24 @@ Content
       expect(result).not.toContain("#### No CI/CD Pipeline");
     });
 
+    it("should keep CI missing claim when ci.yml is only mentioned as a recommendation", () => {
+      const input = `
+## 🩺 Repository Health Report
+
+### 🚨 P0 — Critical Issues
+#### No CI/CD Pipeline
+
+**Evidence found:**
+- No .github/workflows directory was found in repository root listing
+
+**Recommended fix:**
+- Create .github/workflows/ci.yml to run lint/test on pull requests
+`;
+      const result = extractReportOnly(input);
+      expect(result).toContain("#### No CI/CD Pipeline");
+      expect(result).not.toContain("#### CI/CD Configuration Inconsistent");
+    });
+
     it("should not count deep analysis headings in category issue table", () => {
       const input = `
 ## 🩺 Repository Health Report

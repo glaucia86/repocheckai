@@ -161,7 +161,9 @@ function applyDeterministicFindingRules(content: string): string {
   let updated = content;
 
   // Rule: If workflows are detected/found, don't keep "No CI/CD Pipeline" absolute claim
-  const workflowsDetected = /workflows?\/.*(detected|found)|\b(ci\.yml|pages\.yml)\b/i.test(updated);
+  const workflowsDetected =
+    /(workflows?\/|\bci\.yml\b|\bpages\.yml\b).{0,120}\b(detected|found|present|exists?)\b/i.test(updated) ||
+    /\b(detected|found|present|exists?)\b.{0,120}(workflows?\/|\bci\.yml\b|\bpages\.yml\b)/i.test(updated);
   if (workflowsDetected) {
     updated = updated.replace(
       /^(####\s+(?:🚨\s+)?)(No CI\/CD Pipeline)\s*$/gim,
