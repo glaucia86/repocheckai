@@ -1,7 +1,7 @@
 declare module "https://esm.sh/react@18.3.1" {
   import type * as ReactNamespace from "react";
 
-  declare const React: typeof ReactNamespace;
+  const React: typeof ReactNamespace;
 
   export default React;
   export const useEffect: typeof ReactNamespace.useEffect;
