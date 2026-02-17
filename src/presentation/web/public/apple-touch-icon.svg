@@ -1,17 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title">
-  <title id="title">Repo Doctor Apple Touch Icon</title>
+  <title id="title">Repo Check AI Apple Touch Icon</title>
   <defs>
     <linearGradient id="bg" x1="18" y1="18" x2="162" y2="162" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#0B5FFF"/>
-      <stop offset="1" stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#115E59"/>
+    </linearGradient>
+    <linearGradient id="card" x1="42" y1="40" x2="138" y2="138" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E9F1FF"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="105" y1="105" x2="151" y2="151" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#C2410C"/>
     </linearGradient>
   </defs>
   <rect x="10" y="10" width="160" height="160" rx="42" fill="url(#bg)"/>
-  <path d="M90 33.5 136 49.5v33.2c0 34.4-22.8 53.8-46 63.5-23.2-9.7-46-29.1-46-63.5V49.5L90 33.5Z" fill="#FFFFFF" fill-opacity="0.96"/>
-  <path d="M90 48.3 122.7 59.7V84.5c0 24.2-16 38.3-32.7 45-16.7-6.7-32.7-20.8-32.7-45V59.7L90 48.3Z" fill="#EAF1FF"/>
-  <circle cx="90" cy="71.2" r="5.4" fill="#0B5FFF"/>
-  <circle cx="67.4" cy="88.4" r="4.8" fill="#0B5FFF"/>
-  <circle cx="112.6" cy="88.4" r="4.8" fill="#0B5FFF"/>
-  <path d="M90 71.2v18m-21.4.6 16.4-9.2m26.9.1-16.4-9.2" stroke="#0B5FFF" stroke-width="5.1" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M90 98.7v23.8m-12.1-11.9h24.2" stroke="#C2410C" stroke-width="7" stroke-linecap="round"/>
+  <rect x="39" y="39" width="102" height="102" rx="30" fill="url(#card)" />
+  <path d="M68 65v50m0-30h38" stroke="#0B5FFF" stroke-width="6.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="68" cy="65" r="7.2" fill="#0B5FFF"/>
+  <circle cx="68" cy="115" r="7.2" fill="#0B5FFF"/>
+  <circle cx="106" cy="85" r="7.2" fill="#0B5FFF"/>
+  <path d="M56 53h64" stroke="#FFFFFF" stroke-opacity="0.34" stroke-width="4.4" stroke-linecap="round"/>
+  <circle cx="129" cy="129" r="21" fill="url(#badge)" />
+  <path d="m119.6 128.5 6.4 6.6 12.2-13.2" fill="none" stroke="#fff" stroke-width="6.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

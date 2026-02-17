@@ -1,5 +1,5 @@
 /**
- * Analysis engine for Repo Doctor
+ * Analysis engine for Repo Check AI
  * Coordinates the analysis workflow and produces structured results
  */
 
@@ -398,4 +398,5 @@ export function parsePriority(priority: string): "P0" | "P1" | "P2" {
   if (priority.toUpperCase() === "P1") return "P1";
   return "P2";
 }
+
 

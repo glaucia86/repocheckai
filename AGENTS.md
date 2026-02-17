@@ -1,4 +1,4 @@
-# AGENTS.md — Repo Doctor
+# AGENTS.md — Repo Check AI
 
 AI-powered GitHub repository health analyzer using the GitHub Copilot SDK.
 
@@ -21,3 +21,4 @@ npm run build      # Production build
 - **Security**: Content sanitized via `utils/sanitizer.ts`
 
 For detailed documentation, see [docs/index.md](docs/index.md).
+

@@ -1,6 +1,6 @@
 # 📊 Analysis Categories
 
-Repo Doctor evaluates repositories across six critical categories. This document details what gets analyzed in each category and how findings are classified.
+Repo Check AI evaluates repositories across six critical categories. This document details what gets analyzed in each category and how findings are classified.
 
 ---
 
@@ -108,7 +108,7 @@ Each category starts at 100% and deductions are made for missing elements:
 
 ### Stack Detection
 
-Repo Doctor automatically detects the project stack:
+Repo Check AI automatically detects the project stack:
 
 | Stack | Detection Files |
 |-------|-----------------|
@@ -435,3 +435,4 @@ overall_score = (
 <p align="center">
   <a href="index.md">← Back to Documentation</a>
 </p>
+

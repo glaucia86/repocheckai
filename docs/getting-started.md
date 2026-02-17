@@ -1,12 +1,14 @@
 # 🚀 Getting Started
 
-This guide will help you install Repo Doctor and run your first repository health analysis.
+This guide will help you install RepoCheckAI and run your first repository health analysis.
+
+> Transition note: use `repocheck` as the default command. Legacy `repodoctor` remains available only during the migration window.
 
 ---
 
 ## ⚡ Quick Start (5 minutes)
 
-Want to see Repo Doctor in action? Here's how to test the GitHub issue creation feature:
+Want to see RepoCheckAI in action? Here's how to test the GitHub issue creation feature:
 
 ### 1. Get a GitHub Token
 
@@ -23,15 +25,15 @@ Want to see Repo Doctor in action? Here's how to test the GitHub issue creation 
 export GITHUB_TOKEN=ghp_your_token_here
 
 # This may create one or multiple GitHub issues automatically, depending on findings/output format.
-repo-doctor analyze your-username/your-repo --issue
+repocheck analyze your-username/your-repo --issue
 ```
 
 ### 3. Check the Results
 
 Visit your repository's **Issues** tab - you should see new issues like:
-- 🔴 [Repo Doctor] docs: Missing README
-- 🟠 [Repo Doctor] ci: No CI/CD Pipeline  
-- 🟡 [Repo Doctor] dx: Code Quality Issues
+- 🔴 [RepoCheckAI] docs: Missing README
+- 🟠 [RepoCheckAI] ci: No CI/CD Pipeline  
+- 🟡 [RepoCheckAI] dx: Code Quality Issues
 
 **That's it!** 🎉 Each issue contains detailed analysis, impact assessment, and fix instructions.
 
@@ -41,7 +43,7 @@ Visit your repository's **Issues** tab - you should see new issues like:
 
 ## Prerequisites
 
-Before installing Repo Doctor, ensure you have:
+Before installing RepoCheckAI, ensure you have:
 
 ### 1. Node.js (v18+)
 
@@ -58,7 +60,7 @@ If you need to install or update Node.js:
 
 ### 2. GitHub Copilot Subscription
 
-Repo Doctor uses the GitHub Copilot SDK, which requires an active subscription:
+RepoCheckAI uses the GitHub Copilot SDK, which requires an active subscription:
 
 - **GitHub Copilot Individual** - Works with free models (GPT-4o, GPT-4.1)
 - **GitHub Copilot Pro/Business/Enterprise** - Full access to premium models
@@ -67,7 +69,7 @@ Repo Doctor uses the GitHub Copilot SDK, which requires an active subscription:
 
 ### 3. GitHub Copilot CLI (Required)
 
-Repo Doctor uses the GitHub Copilot SDK, which requires the **Copilot CLI** installed:
+RepoCheckAI uses the GitHub Copilot SDK, which requires the **Copilot CLI** installed:
 
 ```bash
 # Install Copilot CLI
@@ -113,7 +115,7 @@ Then authenticate:
 gh auth login
 ```
 
-> **Tip:** For model access, Repo Doctor uses the GitHub CLI OAuth token. If you see `Failed to list models: 401`, follow the Copilot auth steps in [issue-publishing.md](issue-publishing.md).
+> **Tip:** For model access, RepoCheckAI uses the GitHub CLI OAuth token. If you see `Failed to list models: 401`, follow the Copilot auth steps in [issue-publishing.md](issue-publishing.md).
 
 ### 5. GitHub Personal Access Token (For Publishing Features)
 
@@ -132,7 +134,7 @@ To use advanced features like creating issues or commenting on PRs, you need a G
 
 3. **Generate New Token**
    - Click **Generate new token (classic)**
-   - **Name**: `Repo Doctor` (or descriptive name)
+   - **Name**: `RepoCheckAI` (or descriptive name)
    - **Expiration**: Choose appropriate time (30 days recommended)
    - **Scopes**: Select minimal required permissions
 
@@ -152,7 +154,7 @@ To use advanced features like creating issues or commenting on PRs, you need a G
 export GITHUB_TOKEN=ghp_your_token_here
 
 # Or pass it only for a single command (avoids storing it in shell history)
-GITHUB_TOKEN=ghp_your_token_here repo-doctor analyze owner/repo --issue
+GITHUB_TOKEN=ghp_your_token_here repocheck analyze owner/repo --issue
 ```
 
 > **Full guide:** See [issue-publishing.md](issue-publishing.md) for step-by-step `--issue` setup and 401 troubleshooting.
@@ -172,10 +174,10 @@ GITHUB_TOKEN=ghp_your_token_here repo-doctor analyze owner/repo --issue
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/glaucia86/repo-doctor.git
+git clone https://github.com/glaucia86/repocheckai.git
 
 # 2. Navigate to the directory
-cd repo-doctor
+cd repocheckai
 
 # 3. Install dependencies
 npm install
@@ -187,7 +189,7 @@ npm run build
 npm link
 ```
 
-After installation, the `repo-doctor` command will be available globally.
+After installation, the `repocheck` command will be available globally.
 
 ### Option 2: Development Mode
 
@@ -195,8 +197,8 @@ If you want to contribute or modify the code:
 
 ```bash
 # Clone and install
-git clone https://github.com/glaucia86/repo-doctor.git
-cd repo-doctor
+git clone https://github.com/glaucia86/repocheckai.git
+cd repocheckai
 npm install
 
 # Run in development mode (with hot reload)
@@ -206,8 +208,8 @@ npm run dev:cli
 ### Verify Installation
 
 ```bash
-repo-doctor --version
-# Should display: repo-doctor v2.x.x
+repocheck --version
+# Should display: repocheck v2.x.x
 ```
 
 ---
@@ -219,13 +221,13 @@ repo-doctor --version
 The easiest way to start is with interactive mode:
 
 ```bash
-repo-doctor
+repocheck
 ```
 
 You'll see a welcome screen:
 
 <p align="center">
-  <img src="../resources/image.png" alt="Repo Doctor Welcome Screen" width="700">
+  <img src="../resources/image.png" alt="RepoCheckAI Welcome Screen" width="700">
 </p>
 
 1. **Enter a repository** — Type `vercel/next.js` or any public repository
@@ -239,17 +241,17 @@ You can also analyze directly from the command line:
 
 ```bash
 # Analyze a public repository
-repo-doctor vercel/next.js
+repocheck vercel/next.js
 
 # With a specific model
-repo-doctor facebook/react --model gpt-4o
+repocheck facebook/react --model gpt-4o
 
 # Deep analysis (comprehensive scan)
-repo-doctor microsoft/typescript --deep
+repocheck microsoft/typescript --deep
 
 # 🔥 NEW: Create GitHub issues automatically
 export GITHUB_TOKEN=ghp_your_token_here
-repo-doctor analyze your-username/your-repo --issue
+repocheck analyze your-username/your-repo --issue
 ```
 
 ### Publishing Reports to GitHub
@@ -265,10 +267,24 @@ repo-doctor analyze your-username/your-repo --issue
 export GITHUB_TOKEN=ghp_your_token_here
 
 # Create issues for each problem found
-repo-doctor analyze your-username/your-repo --issue
+repocheck analyze your-username/your-repo --issue
 
 # Result: One or multiple GitHub issues created automatically, depending on findings.
 ```
+
+#### Web UI (equivalent to `--issue`)
+
+```bash
+npm run dev:local-ui
+```
+
+In the Web UI form:
+
+1. Enable `Publish to GitHub Issues`
+2. Optional: fill `GitHub Token`
+3. Run analysis
+
+If `GitHub Token` is empty, the backend uses `GITHUB_TOKEN` from the server environment.
 
 #### Interactive Mode
 
@@ -277,7 +293,7 @@ repo-doctor analyze your-username/your-repo --issue
 export GITHUB_TOKEN=ghp_your_token_here
 
 # Then start interactive mode
-repo-doctor chat
+repocheck chat
 # Then type:
 /analyze facebook/react --issue
 /deep microsoft/vscode
@@ -287,100 +303,18 @@ repo-doctor chat
 
 ## 🧪 Testing Publishing Features
 
-Want to try the publishing features? Here's a complete step-by-step guide:
+Quick validation checklist:
 
-### Step 1: Get Your GitHub Token
+1. Configure token with issue-write permission.
+2. Run one CLI test (`repocheck analyze owner/repo --issue`) or one Web UI test (`npm run dev:local-ui` + enable `Publish to GitHub Issues`).
+3. Confirm new issue(s) were created in the target repository.
 
-1. **Go to GitHub Settings**
-   - Visit [github.com](https://github.com) → Your profile → **Settings**
+If publishing fails:
+- `401` in model listing: Copilot auth issue (`GH_TOKEN` path).
+- `401/403` in issue creation: GitHub API token scope/access issue (`GITHUB_TOKEN` path).
 
-2. **Generate Personal Access Token**
-   - **Developer settings** → **Personal access tokens** → **Tokens (classic)**
-   - Click **"Generate new token (classic)"**
-   - **Name**: `Repo Doctor Test`
-   - **Expiration**: 7 days (for testing)
-   - **Scopes**: Select one of these options:
-     - `repo` (full control of private repositories) **OR**
-     - Granular permissions:
-       - `metadata` — Read repository metadata
-       - `contents` — Read repository contents  
-       - `issues` — Create and manage issues
-
-3. **Copy the token** (often starts with `ghp_` or `github_pat_`)
-
-### Step 2: Test with Interactive Mode
-
-```bash
-# Set your token securely
-export GITHUB_TOKEN=ghp_your_token_here
-
-# Start interactive mode
-repo-doctor chat
-```
-
-### Step 3: Test Issue Creation
-
-```bash
-# In the chat, type:
-/analyze facebook/react --issue
-```
-
-**What happens:**
-- ✅ Analyzes the repository
-- ✅ Creates a GitHub issue in `facebook/react` (if you have access)
-- ✅ Or creates issues in your own repository if you don't have access to facebook/react
-
-### Step 4: Test with Your Own Repository
-
-```bash
-# Use your own repository for testing
-/analyze your-username/your-repo --issue
-```
-
-**Expected Result:**
-- One or multiple issues created, depending on findings
-- Each issue has detailed description, impact, and fix instructions
-- Issues are labeled by category (docs, dx, ci, security, etc.)
-
-### Example Output
-
-After running `/analyze facebook/react --issue`, you should see:
-
-```
-✓ Analysis completed successfully!
-  Made 25 API calls in 45.2s
-
-  Publishing report as GitHub issue(s)...
-
-✓ Report published: 3 issues created.
-  https://github.com/facebook/react/issues/123
-  https://github.com/facebook/react/issues/124
-  https://github.com/facebook/react/issues/125
-```
-
-### Troubleshooting Publishing
-
-**"Repository not found"**
-- Check repository name spelling
-- Ensure you have access to the repository
-- Try with your own repository first
-
-**"Token permission denied"**
-- Regenerate token with correct scopes
-- Make sure you have `repo` scope OR the granular permissions: `metadata`, `contents`, and `issues`
-
-**"No issues created"**
-- The repository might be very healthy (no issues found)
-- Check the analysis output for problems
-
-### Security Best Practices
-
-- **Never commit tokens** to code
-- Use short-lived tokens for testing
-- Revoke tokens after testing
-- Consider GitHub Apps for production use
-
----
+For full step-by-step setup, token scope matrix, and troubleshooting, use:
+- [Issue Publishing Guide](issue-publishing.md)
 
 ---
 
@@ -450,11 +384,11 @@ Now that you've run your first analysis:
 
 ```bash
 # Your organization's repos
-repo-doctor your-org/your-repo
+repocheck your-org/your-repo
 
 # Private repositories (requires token)
 export GITHUB_TOKEN=ghp_xxxxx
-repo-doctor your-org/private-repo
+repocheck your-org/private-repo
 ```
 
 ### Publishing Features
@@ -465,10 +399,10 @@ With a GitHub Personal Access Token, you can automatically publish analysis repo
 
 ```bash
 # Create a GitHub issue with the complete analysis
-GITHUB_TOKEN=ghp_your_token repo-doctor analyze owner/repo --issue
+GITHUB_TOKEN=ghp_your_token repocheck analyze owner/repo --issue
 
 # The issue includes:
-# - Title: "Repo Doctor Report: owner/repo"
+# - Title: "RepoCheckAI Report: owner/repo"
 # - Labels: Based on findings (docs, dx, ci, security, etc.)
 # - Body: Full analysis report in Markdown format
 ```
@@ -476,7 +410,7 @@ GITHUB_TOKEN=ghp_your_token repo-doctor analyze owner/repo --issue
 #### Interactive Mode
 
 ```bash
-repo-doctor chat
+repocheck chat
 # Then use:
 /analyze owner/repo --issue
 /deep owner/repo
@@ -484,7 +418,7 @@ repo-doctor chat
 
 ### Integrate into Workflow
 
-- Run Repo Doctor before major releases
+- Run RepoCheckAI before major releases
 - Use it in CI/CD for automated health checks
 - Share reports with your team
 - **Auto-publish issues** for tracking repository improvements
@@ -492,26 +426,26 @@ repo-doctor chat
 
 ### Join the Community
 
-- ⭐ [Star the repository](https://github.com/glaucia86/repo-doctor)
-- 🐛 [Report issues](https://github.com/glaucia86/repo-doctor/issues)
-- 💡 [Suggest features](https://github.com/glaucia86/repo-doctor/discussions)
+- ⭐ [Star the repository](https://github.com/glaucia86/repocheckai)
+- 🐛 [Report issues](https://github.com/glaucia86/repocheckai/issues)
+- 💡 [Suggest features](https://github.com/glaucia86/repocheckai/discussions)
 - 🤝 [Contribute](CONTRIBUTING.md)
 
 ---
 
 ## Troubleshooting Installation
 
-### "command not found: repo-doctor"
+### "command not found: repocheck"
 
 The global link wasn't created properly:
 
 ```bash
 # Try relinking
-npm unlink repo-doctor
+npm unlink repocheck
 npm link
 
 # Or run directly
-npx repo-doctor
+npx repocheck
 ```
 
 ### "Cannot find module" errors
@@ -544,3 +478,6 @@ See [Troubleshooting](troubleshooting.md) for more solutions.
   <a href="index.md">← Back to Documentation</a> •
   <a href="GUIDE.md">User Guide →</a>
 </p>
+
+
+

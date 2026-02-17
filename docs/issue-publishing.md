@@ -6,7 +6,7 @@ This guide explains how to use the `--issue` flag safely, how Copilot SDK auth d
 
 ## 1) Two auth paths (very important)
 
-Repo Doctor uses two separate auth paths:
+RepoCheckAI uses two separate auth paths:
 
 - **Copilot SDK auth (models and analysis)**
   - If this fails, you will see: `Failed to list models: 401`.
@@ -37,7 +37,7 @@ gh auth login
 # Do NOT use GITHUB_TOKEN here
 gh auth status
 
-# Export OAuth token for Repo Doctor
+# Export OAuth token for RepoCheckAI
 $env:GH_TOKEN = (gh auth token)
 ```
 
@@ -74,7 +74,7 @@ You need a PAT that can create issues in the target repo.
 
 ---
 
-## 4) Run Repo Doctor with `--issue`
+## 4) Run RepoCheckAI with `--issue` (CLI)
 
 You can use Copilot auth (GH_TOKEN) and pass the PAT only for issue creation.
 
@@ -95,12 +95,34 @@ In the app:
 Direct mode:
 
 ```powershell
-repo-doctor analyze owner/repo --issue --token <YOUR_PAT>
+repocheck analyze owner/repo --issue --token <YOUR_PAT>
 ```
 
 ---
 
-## 5) Quick diagnostics
+## 5) Run issue publishing from Web UI
+
+Start both services:
+
+```bash
+npm run dev:local-ui
+```
+
+In the Web UI form:
+
+1. Enable **Publish to GitHub Issues**
+2. Optionally fill **GitHub Token**
+3. Run analysis
+
+Token behavior in Web UI:
+
+- If **GitHub Token** is filled, that value is used.
+- If the field is empty, the backend tries `GITHUB_TOKEN` from server environment.
+- If neither is available, analysis still runs, but issue publishing is skipped.
+
+---
+
+## 6) Quick diagnostics
 
 ### Check PAT can create an issue
 
@@ -109,7 +131,7 @@ $env:GITHUB_TOKEN = "<YOUR_PAT>"
 Invoke-RestMethod -Method Post \
   -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" } \
   -Uri https://api.github.com/repos/owner/repo/issues \
-  -Body (@{ title = "Repo Doctor test"; body = "test" } | ConvertTo-Json) \
+  -Body (@{ title = "RepoCheckAI test"; body = "test" } | ConvertTo-Json) \
   -ContentType "application/json"
 ```
 
@@ -121,7 +143,7 @@ Invoke-RestMethod -Method Post \
 
 ---
 
-## 6) Security notes
+## 7) Security notes
 
 - Never commit tokens or store them inside the repo
 - Use short expiration for PATs
@@ -132,3 +154,5 @@ Invoke-RestMethod -Method Post \
 <p align="center">
   <a href="index.md">← Back to Documentation</a>
 </p>
+
+

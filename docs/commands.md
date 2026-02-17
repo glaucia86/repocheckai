@@ -1,6 +1,8 @@
 # 💻 Commands Reference
 
-Complete reference for all Repo Doctor CLI commands and options.
+Complete reference for all RepoCheckAI CLI commands and options.
+
+> Transition note: `repocheck` is the official command. `repodoctor` is still accepted temporarily with a deprecation warning.
 
 ---
 
@@ -17,7 +19,7 @@ Complete reference for all Repo Doctor CLI commands and options.
 
 ## Interactive Commands
 
-When running Repo Doctor in interactive mode, these slash commands are available:
+When running RepoCheckAI in interactive mode, these slash commands are available:
 
 ### Analysis Commands
 
@@ -70,7 +72,7 @@ When running Repo Doctor in interactive mode, these slash commands are available
 | `/model` | `[name]` | Switch or display current AI model |
 | `/clear` | — | Clear the terminal screen |
 | `/help` | — | Show available commands |
-| `/quit` | — | Exit Repo Doctor |
+| `/quit` | — | Exit RepoCheckAI |
 
 **Examples:**
 
@@ -92,7 +94,7 @@ When running Repo Doctor in interactive mode, these slash commands are available
 ### Basic Syntax
 
 ```bash
-repo-doctor [repository] [options]
+repocheck [repository] [options]
 ```
 
 ### Arguments
@@ -101,7 +103,7 @@ repo-doctor [repository] [options]
 |----------|----------|-------------|
 | `repository` | No | Repository to analyze (owner/repo or URL) |
 
-If no repository is provided, Repo Doctor starts in interactive mode.
+If no repository is provided, RepoCheckAI starts in interactive mode.
 
 ### Options
 
@@ -119,6 +121,9 @@ If no repository is provided, Repo Doctor starts in interactive mode.
 | `--version` | `-v` | — | — | Show version number |
 
 > **Tip:** If you plan to use `--issue`, the best model for report quality is **Claude Sonnet 4.5**.
+>
+> **Web UI equivalent:** enable `Publish to GitHub Issues` in the local Web UI form.
+> For token/auth setup and `401/403` troubleshooting, see [issue-publishing.md](issue-publishing.md).
 
 ---
 
@@ -239,7 +244,7 @@ Exports the report to a file.
 
 | Argument | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `path` | No | `~/repo-doctor/reports/` | Output path |
+| `path` | No | `~/repocheck/reports/` | Output path |
 | `format` | No | `md` | Output format (`md` or `json`) |
 
 **Examples:**
@@ -247,7 +252,7 @@ Exports the report to a file.
 ```bash
 # Default location and format
 /export
-# Saves to: ~/repo-doctor/reports/vercel-next.js-2024-01-15.md
+# Saves to: ~/repocheck/reports/vercel-next.js-2024-01-15.md
 
 # Custom path
 /export ~/Desktop
@@ -380,7 +385,7 @@ Shows all available commands.
 
 ### /quit
 
-Exits Repo Doctor.
+Exits RepoCheckAI.
 
 ```bash
 /quit
@@ -392,15 +397,15 @@ Also accepts: `/exit`, `/q`, `Ctrl+C`
 
 ## Environment Variables
 
-Configure Repo Doctor behavior using environment variables:
+Configure RepoCheckAI behavior using environment variables:
 
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `GITHUB_TOKEN` | GitHub personal access token | `ghp_xxxx` |
 | `GH_TOKEN` | GitHub CLI OAuth token for Copilot SDK | `gho_xxxx` |
-| `REPO_DOCTOR_MODEL` | Default AI model | `gpt-4o` |
-| `REPO_DOCTOR_TIMEOUT` | Analysis timeout (ms) | `180000` |
-| `REPO_DOCTOR_EXPORT_PATH` | Default export path | `~/reports` |
+| `REPOCHECKAI_MODEL` | Default AI model | `gpt-4o` |
+| `REPOCHECKAI_TIMEOUT` | Analysis timeout (ms) | `180000` |
+| `REPOCHECKAI_EXPORT_PATH` | Default export path | `~/reports` |
 
 **Example usage:**
 
@@ -408,10 +413,10 @@ Configure Repo Doctor behavior using environment variables:
 # Set in .bashrc or .zshrc
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
 export GH_TOKEN="$(gh auth token)"
-export REPO_DOCTOR_MODEL=gpt-4o
+export REPOCHECKAI_MODEL=gpt-4o
 
 # Or inline
-GITHUB_TOKEN=ghp_xxxx repo-doctor owner/repo
+GITHUB_TOKEN=ghp_xxxx repocheck owner/repo
 ```
 
 ---
@@ -422,19 +427,19 @@ GITHUB_TOKEN=ghp_xxxx repo-doctor owner/repo
 
 ```bash
 # Quick health check
-repo-doctor vercel/next.js
+repocheck vercel/next.js
 
 # Deep audit with premium model
-repo-doctor facebook/react --model claude-opus-4.5 --deep
+repocheck facebook/react --model claude-opus-4.5 --deep
 
 # Analyze and auto-export
-repo-doctor microsoft/typescript --export
+repocheck microsoft/typescript --export
 
 # Private repository
-GITHUB_TOKEN=ghp_xxxx repo-doctor my-org/private-repo
+GITHUB_TOKEN=ghp_xxxx repocheck my-org/private-repo
 
 # With extended timeout for large repos
-repo-doctor kubernetes/kubernetes --timeout 300000
+repocheck kubernetes/kubernetes --timeout 300000
 ```
 
 ### Batch Analysis
@@ -442,7 +447,7 @@ repo-doctor kubernetes/kubernetes --timeout 300000
 ```bash
 # Analyze multiple repos (bash script)
 for repo in "org/repo1" "org/repo2" "org/repo3"; do
-  repo-doctor "$repo" --export
+  repocheck "$repo" --export
 done
 ```
 
@@ -451,3 +456,7 @@ done
 <p align="center">
   <a href="index.md">← Back to Documentation</a>
 </p>
+
+
+
+

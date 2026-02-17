@@ -1,6 +1,6 @@
-# 🤝 Contributing to Repo Doctor
+# 🤝 Contributing to RepoCheckAI
 
-Thank you for your interest in contributing to Repo Doctor! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to RepoCheckAI! This document provides guidelines and instructions for contributing.
 
 ---
 
@@ -27,12 +27,12 @@ By participating in this project, you agree to maintain a respectful and inclusi
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/repo-doctor.git
-   cd repo-doctor
+   git clone https://github.com/YOUR_USERNAME/repocheckai.git
+   cd repocheckai
    ```
 3. **Add upstream** remote:
    ```bash
-   git remote add upstream https://github.com/glaucia86/repo-doctor.git
+   git remote add upstream https://github.com/glaucia86/repocheckai.git
    ```
 
 ---
@@ -83,7 +83,7 @@ npm run test:integration
 ## Project Structure
 
 ```
-repo-doctor/
+repocheck/
 ├── site/                       # Static website (GitHub Pages)
 ├── src/
 │   ├── index.ts                # Package entrypoint
@@ -148,7 +148,7 @@ chore: update dependencies
 2. **Make your changes** and test locally:
    ```bash
    npm run build
-   repo-doctor  # Test your changes
+   repocheck  # Test your changes
    ```
 
 3. **Commit** your changes:
@@ -218,10 +218,12 @@ chore: update dependencies
 
 ## Need Help?
 
-- 💬 Open a [Discussion](https://github.com/glaucia86/repo-doctor/discussions)
-- 🐛 Report a [Bug](https://github.com/glaucia86/repo-doctor/issues/new?template=bug_report.md)
-- 💡 Request a [Feature](https://github.com/glaucia86/repo-doctor/issues/new?template=feature_request.md)
+- 💬 Open a [Discussion](https://github.com/glaucia86/repocheckai/discussions)
+- 🐛 Report a [Bug](https://github.com/glaucia86/repocheckai/issues/new?template=bug_report.md)
+- 💡 Request a [Feature](https://github.com/glaucia86/repocheckai/issues/new?template=feature_request.md)
 
 ---
 
 Thank you for contributing! 💚
+
+

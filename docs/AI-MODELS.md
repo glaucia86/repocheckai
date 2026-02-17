@@ -1,6 +1,6 @@
 # 🤖 Available AI Models
 
-Repo Doctor supports multiple AI models through the GitHub Copilot SDK. Choose the model that best fits your needs and subscription level.
+RepoCheckAI supports multiple AI models through the GitHub Copilot SDK. Choose the model that best fits your needs and subscription level.
 
 ---
 
@@ -28,7 +28,7 @@ Available to all GitHub Copilot users (Individual, Business, Enterprise):
 
 ### GPT-4o
 ```bash
-repo-doctor vercel/next.js --model gpt-4o
+repocheck vercel/next.js --model gpt-4o
 ```
 - **Best for:** Quick health checks, daily use
 - **Speed:** Fast
@@ -36,7 +36,7 @@ repo-doctor vercel/next.js --model gpt-4o
 
 ### GPT-4.1
 ```bash
-repo-doctor vercel/next.js --model gpt-4.1
+repocheck vercel/next.js --model gpt-4.1
 ```
 - **Best for:** General purpose analysis
 - **Speed:** Fast
@@ -44,7 +44,7 @@ repo-doctor vercel/next.js --model gpt-4.1
 
 ### GPT-5 Mini
 ```bash
-repo-doctor vercel/next.js --model gpt-5-mini
+repocheck vercel/next.js --model gpt-5-mini
 ```
 - **Best for:** Lightweight tasks, simple repositories
 - **Speed:** Very fast
@@ -58,7 +58,7 @@ Require GitHub Copilot Pro, Business, or Enterprise subscription:
 
 ### Claude Sonnet 4 (Default)
 ```bash
-repo-doctor vercel/next.js --model claude-sonnet-4
+repocheck vercel/next.js --model claude-sonnet-4
 ```
 - **Best for:** Balanced analysis, recommended default
 - **Speed:** Moderate
@@ -66,7 +66,7 @@ repo-doctor vercel/next.js --model claude-sonnet-4
 
 ### Claude Sonnet 4.5
 ```bash
-repo-doctor vercel/next.js --model claude-sonnet-4.5
+repocheck vercel/next.js --model claude-sonnet-4.5
 ```
 - **Best for:** Enhanced reasoning tasks
 - **Speed:** Moderate
@@ -74,7 +74,7 @@ repo-doctor vercel/next.js --model claude-sonnet-4.5
 
 ### Claude Opus 4.5
 ```bash
-repo-doctor vercel/next.js --model claude-opus-4.5
+repocheck vercel/next.js --model claude-opus-4.5
 ```
 - **Best for:** Complex repositories, deep analysis
 - **Speed:** Slower (3x rate limit cost)
@@ -82,7 +82,7 @@ repo-doctor vercel/next.js --model claude-opus-4.5
 
 ### GPT-5
 ```bash
-repo-doctor vercel/next.js --model gpt-5
+repocheck vercel/next.js --model gpt-5
 ```
 - **Best for:** Advanced analysis
 - **Speed:** Moderate
@@ -90,7 +90,7 @@ repo-doctor vercel/next.js --model gpt-5
 
 ### GPT-5.1 Codex
 ```bash
-repo-doctor vercel/next.js --model gpt-5.1-codex
+repocheck vercel/next.js --model gpt-5.1-codex
 ```
 - **Best for:** Code-heavy repositories
 - **Speed:** Moderate
@@ -98,7 +98,7 @@ repo-doctor vercel/next.js --model gpt-5.1-codex
 
 ### GPT-5.2 Codex
 ```bash
-repo-doctor vercel/next.js --model gpt-5.2-codex
+repocheck vercel/next.js --model gpt-5.2-codex
 ```
 - **Best for:** Latest code analysis capabilities
 - **Speed:** Moderate
@@ -106,7 +106,7 @@ repo-doctor vercel/next.js --model gpt-5.2-codex
 
 ### GPT-5.3 Codex
 ```bash
-repo-doctor vercel/next.js --model gpt-5.3-codex
+repocheck vercel/next.js --model gpt-5.3-codex
 ```
 - **Best for:** Advanced coding tasks and complex codebases
 - **Speed:** Moderate
@@ -114,7 +114,7 @@ repo-doctor vercel/next.js --model gpt-5.3-codex
 
 ### O3
 ```bash
-repo-doctor vercel/next.js --model o3
+repocheck vercel/next.js --model o3
 ```
 - **Best for:** Complex reasoning, large repositories
 - **Speed:** Slower
@@ -138,7 +138,7 @@ Use the `/model` command to switch models interactively:
 Specify the model when starting:
 
 ```bash
-repo-doctor owner/repo --model gpt-4o
+repocheck owner/repo --model gpt-4o
 ```
 
 ### Interactive Selection
@@ -216,3 +216,5 @@ export GH_TOKEN="$(gh auth token)"
 ```
 
 See [issue-publishing.md](issue-publishing.md) for full steps.
+
+

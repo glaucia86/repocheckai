@@ -1,5 +1,5 @@
 /**
- * Tools module - Repository analysis tools for Repo Doctor
+ * Tools module - Repository analysis tools for Repo Check AI
  * 
  * This module provides factory functions for creating custom tools
  * that the Copilot agent uses to analyze GitHub repositories.
@@ -32,3 +32,4 @@ export interface RepoToolsOptions {
 
 // Re-export factory functions from repoTools.ts for backward compatibility
 export { repoTools, deepAnalysisTools } from "./repoTools.js";
+

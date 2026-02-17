@@ -52,8 +52,8 @@ export async function handleExport(
       targetPath = path.join(expandedPath, defaultFilename);
     }
   } else {
-    // Default: ~/repo-doctor/reports/
-    const defaultDir = path.join(os.homedir(), "repo-doctor", "reports");
+    // Default: ~/repocheckai/reports/
+    const defaultDir = path.join(os.homedir(), "repocheckai", "reports");
     targetPath = path.join(defaultDir, defaultFilename);
   }
 

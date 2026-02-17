@@ -1,5 +1,5 @@
 /**
- * GitHub API provider for Repo Doctor
+ * GitHub API provider for RepoCheckAI
  * Handles authentication and API client creation
  */
 
@@ -53,7 +53,7 @@ export function createOctokit(explicitToken?: string): Octokit {
   
   return new Octokit({
     auth: token || undefined,
-    userAgent: "repo-doctor/1.0.0",
+    userAgent: "repocheckai/2.5.0",
     // Add retry logic for rate limiting
     retry: {
       enabled: true,

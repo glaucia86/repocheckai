@@ -1,4 +1,4 @@
-const REPO = "glaucia86/repo-doctor";
+const REPO = "glaucia86/repocheckai";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function track(eventName, detail = {}) {
@@ -38,10 +38,10 @@ async function loadNpmVersion() {
 
   const fallbackEl = elements[0];
   const fallbackVersion = fallbackEl?.getAttribute("data-npm-fallback");
-  const fallbackText = fallbackVersion ? `npm v${fallbackVersion}` : "npm package: repo-doctor";
+  const fallbackText = fallbackVersion ? `npm v${fallbackVersion}` : "npm package: repocheckai";
 
   try {
-    const res = await fetch("https://registry.npmjs.org/repo-doctor/latest");
+    const res = await fetch("https://registry.npmjs.org/repocheckai/latest");
     if (!res.ok) {
       setText(fallbackText);
       return;
@@ -981,3 +981,5 @@ initStoryChapters();
 initAboutEnhancements();
 initAboutCinematic();
 initAboutRoleSwitcher();
+
+

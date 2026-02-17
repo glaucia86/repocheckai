@@ -1,4 +1,4 @@
-# 🩺 Repo Doctor Documentation
+# 🩺 RepoCheckAI Documentation
 
 <p align="center">
   <strong>AI-powered GitHub Repository Health Analyzer</strong>
@@ -6,11 +6,21 @@
 
 ---
 
-Welcome to the official documentation for **Repo Doctor** — an agentic CLI tool that performs comprehensive health checks on GitHub repositories using AI.
+Welcome to the official documentation for **RepoCheckAI** — an agentic CLI tool that performs comprehensive health checks on GitHub repositories using AI.
 
-## What is Repo Doctor?
+## Recommended Path For Issue Publishing
 
-Repo Doctor is your repository's AI doctor that diagnoses issues and prescribes solutions. Built with the [GitHub Copilot SDK](https://github.com/github/copilot-sdk), it analyzes repositories across **6 critical areas**:
+If your goal is to publish analysis results as GitHub issues, follow this order:
+
+1. Read [🧭 Issue Publishing](issue-publishing.md) for token/auth setup and troubleshooting.
+2. Choose your interface:
+   - CLI: use `--issue`
+   - Web UI: enable `Publish to GitHub Issues`
+3. If publishing fails with `401/403`, return to the same guide and follow the diagnostics section.
+
+## What is RepoCheckAI?
+
+RepoCheckAI is your repository's AI doctor that diagnoses issues and prescribes solutions. Built with the [GitHub Copilot SDK](https://github.com/github/copilot-sdk), it analyzes repositories across **6 critical areas**:
 
 - 📚 **Documentation & Onboarding**
 - ⚡ **Developer Experience**
@@ -93,14 +103,14 @@ Get an overall health percentage (0-100%) based on weighted category scores:
 
 ```bash
 # Install
-git clone https://github.com/glaucia86/repo-doctor.git
-cd repo-doctor && npm install && npm run build && npm link
+git clone https://github.com/glaucia86/repocheckai.git
+cd repocheckai && npm install && npm run build && npm link
 
 # Run interactive mode
-repo-doctor
+repocheck
 
 # Or analyze directly
-repo-doctor vercel/next.js
+repocheck vercel/next.js
 ```
 
 See the [Getting Started Guide](getting-started.md) for detailed instructions.
@@ -119,8 +129,8 @@ See the [Getting Started Guide](getting-started.md) for detailed instructions.
 
 ## Support
 
-- 🐛 **Found a bug?** [Open an issue](https://github.com/glaucia86/repo-doctor/issues/new)
-- 💡 **Have an idea?** [Start a discussion](https://github.com/glaucia86/repo-doctor/discussions)
+- 🐛 **Found a bug?** [Open an issue](https://github.com/glaucia86/repocheckai/issues/new)
+- 💡 **Have an idea?** [Start a discussion](https://github.com/glaucia86/repocheckai/discussions)
 - 🤝 **Want to contribute?** Read our [Contributing Guide](CONTRIBUTING.md)
 
 ---
@@ -128,3 +138,5 @@ See the [Getting Started Guide](getting-started.md) for detailed instructions.
 <p align="center">
   Made with 💚 by <a href="https://github.com/glaucia86">Glaucia Lemos</a>
 </p>
+
+

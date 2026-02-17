@@ -1,5 +1,5 @@
 /**
- * Display module for Repo Doctor CLI
+ * Display module for Repo Check AI CLI
  * REFACTORED: Now re-exports from modular submodules (SOLID)
  * 
  * For new code, prefer importing directly from:

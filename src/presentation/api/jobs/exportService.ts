@@ -14,9 +14,9 @@ export function buildExportArtifact(
   report: AnalysisReport,
   format: "md" | "json"
 ): BuiltExportArtifact {
-  const dir = mkdtempSync(join(tmpdir(), "repo-doctor-export-"));
+  const dir = mkdtempSync(join(tmpdir(), "repocheckai-export-"));
   const extension = format === "md" ? "md" : "json";
-  const fileName = `repo-doctor-${report.jobId}.${extension}`;
+  const fileName = `repocheckai-${report.jobId}.${extension}`;
   const filePath = join(dir, fileName);
 
   const content =

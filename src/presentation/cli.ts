@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Repo Doctor CLI v2.0
- * AI-Powered GitHub Repository Health Analyzer
+ * RepoCheckAI CLI
+ * AI-powered GitHub repository health analyzer
  *
  * This is the main entry point that sets up Commander and delegates
  * to the modular components in src/presentation/cli/
@@ -15,6 +15,9 @@ if (process.platform === "win32") {
 }
 
 import { Command, type OptionValues } from "commander";
+import { resolveCommandPolicy } from "../domain/config/commandPolicy.js";
+import { PROJECT_IDENTITY } from "../domain/config/projectIdentity.js";
+import { APP_TAGLINE, APP_VERSION } from "../domain/config/runtimeMetadata.js";
 import {
   clearScreen,
   printHeader,
@@ -22,6 +25,7 @@ import {
   printError,
   printSuccess,
   printWarning,
+  formatLegacyCommandWarning,
   printRepo,
   printModel,
   c,
@@ -169,10 +173,16 @@ async function runDirectAnalyze(repoRef: string, options: CLIAnalyzeOptions): Pr
 }
 
 const program = new Command();
+const commandPolicy = resolveCommandPolicy(process.argv);
+
+if (commandPolicy.isLegacy) {
+  printWarning(formatLegacyCommandWarning(commandPolicy.deprecationMessage));
+}
+
 program
-  .name("repo-doctor")
-  .description(`${ICON.doctor} AI-Powered GitHub Repository Health Analyzer`)
-  .version("2.0.0");
+  .name(PROJECT_IDENTITY.officialCommand)
+  .description(`${ICON.doctor} ${APP_TAGLINE}`)
+  .version(APP_VERSION);
 
 program
   .command("chat", { isDefault: true })

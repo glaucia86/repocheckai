@@ -22,26 +22,28 @@ export const Footer = ({ locale }: FooterProps) => (
       </section>
       <section className="lg:col-span-2">
         <nav aria-label="Footer links" className="grid gap-2 text-sm text-slate-700 sm:grid-cols-2 lg:grid-cols-3">
-          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repo-doctor/tree/main/docs">
+          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repocheckai/tree/main/docs">
             {t("footerDocs", locale)}
           </a>
-          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repo-doctor#quick-start">
+          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repocheckai#quick-start">
             {t("footerCli", locale)}
           </a>
-          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repo-doctor/blob/main/CHANGELOG.md">
+          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repocheckai/blob/main/CHANGELOG.md">
             {t("footerChangelog", locale)}
           </a>
-          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repo-doctor">
+          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repocheckai">
             {t("footerGithub", locale)}
           </a>
-          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repo-doctor/issues">
+          <a className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 font-semibold transition hover:border-primary/35 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" href="https://github.com/glaucia86/repocheckai/issues">
             {t("footerSupport", locale)}
           </a>
         </nav>
       </section>
     </div>
     <div className="relative mt-4 border-t border-slate-200/80 pt-3 text-xs text-slate-500">
-      <p>Repo Doctor • Local UI</p>
+      <p>RepoCheckAI • Local UI</p>
     </div>
   </footer>
 );
+
+

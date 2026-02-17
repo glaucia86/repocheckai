@@ -96,6 +96,18 @@ Output: "**PHASE 6 — DEEP ANALYSIS**" then:
 ## CRITICAL OUTPUT REQUIREMENT
 Before executing EACH phase, you MUST output the phase header. This is mandatory for proper report capture.
 
+## REPOSITORY IDENTITY LOCK (MANDATORY)
+- Analyze ONLY this repository: ${repoUrl}
+- Never reuse repository names, evidence, or findings from previous analyses
+- In the final report, **Repository** must match the repository from \`get_repo_meta\`
+- If any repository name mismatch appears, correct it before finishing
+
+## OUTPUT HYGIENE (MANDATORY)
+- Output ONLY the report content sections (phase headers + markdown report)
+- Do NOT include meta narration such as: "Let me...", "Now I have enough context...", "Based on my analysis..."
+- Ensure the final markdown has no conversational text outside the report structure
+- Ensure score tables and issue counts are internally consistent with the findings listed
+
 Execute the analysis following the phased approach:
 
 **PHASE 1 — RECONNAISSANCE**

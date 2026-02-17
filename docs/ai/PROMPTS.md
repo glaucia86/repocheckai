@@ -1,4 +1,4 @@
-# Prompt System — Repo Doctor
+# Prompt System — Repo Check AI
 
 ## Architecture
 
@@ -104,3 +104,4 @@ const CATEGORY_WEIGHTS = {
 ### ⚠️ P1 — High Priority
 ### 💡 P2 — Suggestions
 ```
+

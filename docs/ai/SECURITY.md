@@ -1,4 +1,4 @@
-# Security — Repo Doctor
+# Security — Repo Check AI
 
 ## Content Sanitization
 
@@ -68,3 +68,4 @@ const patterns = [
 ## Implementation
 
 See `src/utils/sanitizer.ts` for full implementation.
+

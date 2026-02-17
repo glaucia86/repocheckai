@@ -1,6 +1,6 @@
 /**
  * Chat Loop
- * Single Responsibility: Interactive REPL for Repo Doctor
+ * Single Responsibility: Interactive REPL for Repo Check AI
  */
 
 import * as readline from "readline";
@@ -395,4 +395,5 @@ export async function runChatMode(
   // Start prompting
   promptUser();
 }
+
 

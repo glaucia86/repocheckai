@@ -1,5 +1,5 @@
 /**
- * Clipboard utilities for Repo Doctor
+ * Clipboard utilities for RepoCheckAI
  * 
  * Provides cross-platform clipboard functionality using native OS commands.
  * 
@@ -91,7 +91,7 @@ class ClipboardService implements IClipboardService {
       // Write to temp file to handle Unicode properly
       const tempFile = path.join(
         os.tmpdir(),
-        `repo-doctor-clipboard-${Date.now()}.txt`
+        `repocheckai-clipboard-${Date.now()}.txt`
       );
 
       try {

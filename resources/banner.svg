@@ -1,60 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" role="img" aria-labelledby="title desc">
+  <title id="title">RepoCheckAI Banner</title>
+  <desc id="desc">Technology banner with repository graph mark and RepoCheckAI wordmark.</desc>
+
   <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B132B"/>
+      <stop offset="45%" stop-color="#132A4D"/>
+      <stop offset="100%" stop-color="#0E7490"/>
     </linearGradient>
-    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#4ade80;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#22c55e;stop-opacity:1" />
+
+    <radialGradient id="glowLeft" cx="0%" cy="50%" r="80%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowRight" cx="100%" cy="50%" r="80%">
+      <stop offset="0%" stop-color="#14B8A6" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#14B8A6" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="markPanel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.06"/>
     </linearGradient>
+
+    <linearGradient id="markStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#93C5FD"/>
+      <stop offset="100%" stop-color="#2DD4BF"/>
+    </linearGradient>
+
+    <linearGradient id="checkBadge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB923C"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.35"/>
+    </filter>
+
+    <pattern id="techGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#FFFFFF" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
   </defs>
-  
-  <!-- Background -->
-  <rect width="800" height="200" fill="url(#bgGradient)" rx="12"/>
-  
-  <!-- Decorative elements -->
-  <circle cx="50" cy="100" r="80" fill="#22c55e" opacity="0.1"/>
-  <circle cx="750" cy="100" r="80" fill="#22c55e" opacity="0.1"/>
-  
-  <!-- Stethoscope icon -->
-  <g transform="translate(80, 60)">
-    <!-- Stethoscope head -->
-    <circle cx="40" cy="60" r="25" fill="none" stroke="url(#accentGradient)" stroke-width="4"/>
-    <circle cx="40" cy="60" r="10" fill="url(#accentGradient)"/>
-    <!-- Tube -->
-    <path d="M40 35 L40 15 Q40 5 50 5 L70 5" fill="none" stroke="url(#accentGradient)" stroke-width="4" stroke-linecap="round"/>
-    <path d="M40 35 L40 15 Q40 5 30 5 L10 5" fill="none" stroke="url(#accentGradient)" stroke-width="4" stroke-linecap="round"/>
-    <!-- Earpieces -->
-    <circle cx="70" cy="5" r="6" fill="url(#accentGradient)"/>
-    <circle cx="10" cy="5" r="6" fill="url(#accentGradient)"/>
+
+  <rect width="800" height="200" rx="14" fill="url(#bg)"/>
+  <rect width="800" height="200" rx="14" fill="url(#techGrid)"/>
+  <rect width="800" height="200" rx="14" fill="url(#glowLeft)"/>
+  <rect width="800" height="200" rx="14" fill="url(#glowRight)"/>
+
+  <g opacity="0.36">
+    <circle cx="658" cy="56" r="2.2" fill="#CFFAFE"/>
+    <circle cx="688" cy="84" r="2.2" fill="#CFFAFE"/>
+    <circle cx="724" cy="66" r="2.2" fill="#CFFAFE"/>
+    <circle cx="742" cy="102" r="2.2" fill="#CFFAFE"/>
+    <path d="M658 56 L688 84 L724 66 L742 102" fill="none" stroke="#CFFAFE" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round"/>
   </g>
-  
-  <!-- Title -->
-  <text x="200" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="700" fill="#ffffff">
-    Repo Doctor
-  </text>
-  
-  <!-- Tagline -->
-  <text x="200" y="130" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#94a3b8">
-    AI-powered GitHub Repository Health Analyzer
-  </text>
-  
-  <!-- Badges area -->
-  <g transform="translate(200, 150)">
-    <rect x="0" y="0" width="100" height="24" rx="4" fill="#22c55e" opacity="0.2"/>
-    <text x="50" y="16" font-family="system-ui, sans-serif" font-size="11" fill="#4ade80" text-anchor="middle">Copilot SDK</text>
-    
-    <rect x="110" y="0" width="80" height="24" rx="4" fill="#3b82f6" opacity="0.2"/>
-    <text x="150" y="16" font-family="system-ui, sans-serif" font-size="11" fill="#60a5fa" text-anchor="middle">TypeScript</text>
-    
-    <rect x="200" y="0" width="60" height="24" rx="4" fill="#8b5cf6" opacity="0.2"/>
-    <text x="230" y="16" font-family="system-ui, sans-serif" font-size="11" fill="#a78bfa" text-anchor="middle">CLI</text>
+
+  <g transform="translate(48,34)" filter="url(#softShadow)">
+    <rect x="0" y="0" width="132" height="132" rx="32" fill="url(#markPanel)" stroke="#FFFFFF" stroke-opacity="0.24"/>
+    <path d="M44 38v56m0-34h40" stroke="url(#markStroke)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="44" cy="38" r="7.5" fill="#E0F2FE"/>
+    <circle cx="44" cy="94" r="7.5" fill="#E0F2FE"/>
+    <circle cx="84" cy="60" r="7.5" fill="#E0F2FE"/>
+    <circle cx="98" cy="98" r="17" fill="url(#checkBadge)"/>
+    <path d="m89.8 97.7 5.1 5.3 9.7-10.4" fill="none" stroke="#FFFFFF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
-  
-  <!-- GitHub icon -->
-  <g transform="translate(680, 70)">
-    <circle cx="30" cy="30" r="30" fill="#ffffff" opacity="0.1"/>
-    <path transform="translate(12, 12) scale(1.5)" d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" fill="#ffffff" opacity="0.8"/>
+
+  <g transform="translate(214,66)">
+    <text x="0" y="0" fill="#E2E8F0" font-family="'Sora', 'Segoe UI', system-ui, sans-serif" font-size="56" font-weight="800" letter-spacing="0.2">
+      Repo<tspan fill="#67E8F9">Check</tspan><tspan fill="#A7F3D0">AI</tspan>
+    </text>
+    <text x="2" y="34" fill="#C8D4E5" font-family="'Sora', 'Segoe UI', system-ui, sans-serif" font-size="17" font-weight="500" letter-spacing="0.25">
+      AI-powered GitHub Repository Health Analyzer
+    </text>
+  </g>
+
+  <g transform="translate(214,136)">
+    <rect x="0" y="0" width="142" height="28" rx="14" fill="#38BDF8" fill-opacity="0.19" stroke="#38BDF8" stroke-opacity="0.35"/>
+    <text x="71" y="19" text-anchor="middle" fill="#BAE6FD" font-family="'Space Mono', 'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="700" letter-spacing="0.4">GITHUB COPILOT SDK</text>
+
+    <rect x="152" y="0" width="108" height="28" rx="14" fill="#2DD4BF" fill-opacity="0.19" stroke="#2DD4BF" stroke-opacity="0.35"/>
+    <text x="206" y="19" text-anchor="middle" fill="#99F6E4" font-family="'Space Mono', 'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="700" letter-spacing="0.4">TYPESCRIPT</text>
+
+    <rect x="270" y="0" width="74" height="28" rx="14" fill="#FB923C" fill-opacity="0.19" stroke="#FB923C" stroke-opacity="0.35"/>
+    <text x="307" y="19" text-anchor="middle" fill="#FED7AA" font-family="'Space Mono', 'JetBrains Mono', ui-monospace, monospace" font-size="11" font-weight="700" letter-spacing="0.4">CLI</text>
   </g>
 </svg>

@@ -27,6 +27,8 @@ export interface FormState {
   model: string;
   maxFiles: string;
   timeoutSeconds: string;
+  publishAsIssue: boolean;
+  githubToken: string;
 }
 
 export interface JobStateData {

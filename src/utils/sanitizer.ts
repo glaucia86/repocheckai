@@ -1,5 +1,5 @@
 /**
- * Content sanitization utilities for Repo Doctor
+ * Content sanitization utilities for Repo Check AI
  * Protects against prompt injection attacks from repository content
  */
 
@@ -286,3 +286,4 @@ export function logSanitizationWarnings(
     console.warn(`   - ${warning}`);
   }
 }
+

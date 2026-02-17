@@ -1,5 +1,5 @@
 /**
- * Interactive prompts for Repo Doctor CLI
+ * Interactive prompts for RepoCheckAI CLI
  * Uses @inquirer/prompts for beautiful terminal interactions
  * 
  * Note: @inquirer/prompts is an optional dependency.
@@ -321,7 +321,7 @@ export async function runInteractiveMode(): Promise<{
   clearScreen();
   await printHeader(false, true); // not compact, animated
 
-  console.log("  " + c.brand(ICON.sparkle) + " " + c.text("Welcome to Repo Doctor!"));
+  console.log("  " + c.brand(ICON.sparkle) + " " + c.text("Welcome to RepoCheckAI!"));
   console.log();
 
   // Get repository

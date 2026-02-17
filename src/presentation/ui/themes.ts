@@ -1,5 +1,5 @@
 /**
- * Theme system for Repo Doctor CLI (Backward Compatibility)
+ * Theme system for Repo Check AI CLI (Backward Compatibility)
  * 
  * This file re-exports from the refactored themes/ module.
  * For new imports, prefer importing from './themes/index.js'
@@ -36,3 +36,4 @@ export {
   priorityBadge,
   keyHint,
 } from "./themes/index.js";
+

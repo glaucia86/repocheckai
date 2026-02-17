@@ -1,5 +1,5 @@
 /**
- * Reporter module for Repo Doctor
+ * Reporter module for Repo Check AI
  * Formats and outputs analysis results in various formats
  */
 
@@ -280,5 +280,6 @@ export function createReporter(options: Partial<ReporterOptions> = {}): Reporter
     showTimings: options.showTimings ?? false,
   });
 }
+
 
 

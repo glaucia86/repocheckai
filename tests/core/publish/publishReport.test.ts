@@ -4,7 +4,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { publishReport } from "../../../src/application/core/publish/publishReport.js";
-import type { PublishTarget } from "../../../src/types/publish.js";
+import type { PublishTarget } from "../../../src/domain/types/publish.js";
 
 // Mock dependencies
 vi.mock("../../../src/infrastructure/providers/githubPublish.js", () => ({
@@ -21,7 +21,7 @@ vi.mock("../../../src/application/core/publish/reportBuilder.js", () => ({
 }));
 
 vi.mock("../../../src/application/core/publish/labels.js", () => ({
-  buildIssueLabels: vi.fn((categories) => categories.map((c) => `repo-doctor:${c}`)),
+  buildIssueLabels: vi.fn((categories: string[]) => categories.map((c: string) => `repocheckai:${c}`)),
 }));
 
 import { createIssue } from "../../../src/infrastructure/providers/githubPublish.js";
@@ -81,7 +81,7 @@ describe("publishReport", () => {
           keyFindings: ["Finding"],
           recommendedActions: ["Action"],
           generatedAt: new Date().toISOString(),
-          source: "Repo Doctor",
+          source: "RepoCheckAI",
         },
       });
       vi.mocked(extractPotentialIssues).mockReturnValue([]);
@@ -115,7 +115,7 @@ describe("publishReport", () => {
           keyFindings: ["No major issues"],
           recommendedActions: ["Keep it up"],
           generatedAt: new Date().toISOString(),
-          source: "Repo Doctor",
+          source: "RepoCheckAI",
         },
       });
     });
@@ -145,7 +145,7 @@ describe("publishReport", () => {
       expect(createIssue).toHaveBeenCalledWith({
         owner: "test",
         repo: "repo",
-        title: "Repo Doctor Report: test/repo",
+        title: "RepoCheckAI Report: test/repo",
         body: "# Test Report\n\nThis is a test report.",
         labels: expect.any(Array),
         token: "ghp_test123",
@@ -183,9 +183,9 @@ Test coverage is low
       expect(createIssue).toHaveBeenCalledWith(
         expect.objectContaining({
           labels: expect.arrayContaining([
-            "repo-doctor:docs",
-            "repo-doctor:ci",
-            "repo-doctor:tests",
+            "repocheckai:docs",
+            "repocheckai:ci",
+            "repocheckai:tests",
           ]),
         })
       );
@@ -210,8 +210,8 @@ Test coverage is low
       expect(createIssue).toHaveBeenCalledWith(
         expect.objectContaining({
           labels: expect.arrayContaining([
-            "repo-doctor:security",
-            "repo-doctor:governance",
+            "repocheckai:security",
+            "repocheckai:governance",
           ]),
         })
       );
@@ -228,7 +228,7 @@ Test coverage is low
           keyFindings: ["Finding"],
           recommendedActions: ["Action"],
           generatedAt: new Date().toISOString(),
-          source: "Repo Doctor",
+          source: "RepoCheckAI",
         },
       });
     });
@@ -281,14 +281,14 @@ Test coverage is low
       expect(firstCall).toBeDefined();
       expect(firstCall?.owner).toBe("test");
       expect(firstCall?.repo).toBe("repo");
-      expect(firstCall?.title).toBe("[Repo Doctor] tests: Missing Tests");
+      expect(firstCall?.title).toBe("[RepoCheckAI] tests: Missing Tests");
       expect(firstCall?.body).toContain("## Summary");
       expect(firstCall?.body).toContain("No test files found");
       expect(firstCall?.body).toContain("## Impact");
       expect(firstCall?.body).toContain("Code quality cannot be verified");
       expect(firstCall?.body).toContain("## Recommended Fix");
       expect(firstCall?.body).toContain("Add unit tests with Vitest");
-      expect(firstCall?.labels).toEqual(expect.arrayContaining(["repo-doctor:tests", "p2"]));
+      expect(firstCall?.labels).toEqual(expect.arrayContaining(["repocheckai:tests", "p2"]));
       expect(firstCall?.token).toBe("ghp_test123");
 
       // Check second issue
@@ -296,11 +296,11 @@ Test coverage is low
       expect(secondCall).toBeDefined();
       expect(secondCall?.owner).toBe("test");
       expect(secondCall?.repo).toBe("repo");
-      expect(secondCall?.title).toBe("[Repo Doctor] ci: No CI Pipeline");
+      expect(secondCall?.title).toBe("[RepoCheckAI] ci: No CI Pipeline");
       expect(secondCall?.body).toContain("No GitHub Actions workflows");
       expect(secondCall?.body).toContain("No automated testing");
       expect(secondCall?.body).toContain("Create .github/workflows/ci.yml");
-      expect(secondCall?.labels).toEqual(expect.arrayContaining(["repo-doctor:ci", "p2"]));
+      expect(secondCall?.labels).toEqual(expect.arrayContaining(["repocheckai:ci", "p2"]));
       expect(secondCall?.token).toBe("ghp_test123");
     });
 
@@ -413,24 +413,24 @@ Test coverage is low
       expect(createIssue).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
-          title: "[Repo Doctor] docs: Missing README",
-          labels: expect.arrayContaining(["repo-doctor:docs"]),
+          title: "[RepoCheckAI] docs: Missing README",
+          labels: expect.arrayContaining(["repocheckai:docs"]),
         })
       );
 
       expect(createIssue).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
-          title: "[Repo Doctor] security: Vulnerable Dependency",
-          labels: expect.arrayContaining(["repo-doctor:security"]),
+          title: "[RepoCheckAI] security: Vulnerable Dependency",
+          labels: expect.arrayContaining(["repocheckai:security"]),
         })
       );
 
       expect(createIssue).toHaveBeenNthCalledWith(
         3,
         expect.objectContaining({
-          title: "[Repo Doctor] tests: Test Coverage Low",
-          labels: expect.arrayContaining(["repo-doctor:tests"]),
+          title: "[RepoCheckAI] tests: Test Coverage Low",
+          labels: expect.arrayContaining(["repocheckai:tests"]),
         })
       );
     });
@@ -469,7 +469,7 @@ Test coverage is low
       expect(issueBody).toContain("This is the impact");
       expect(issueBody).toContain("## Recommended Fix");
       expect(issueBody).toContain("This is the fix");
-      expect(issueBody).toContain("_Generated by Repo Doctor._");
+      expect(issueBody).toContain("_Generated by RepoCheckAI._");
     });
   });
 
@@ -483,7 +483,7 @@ Test coverage is low
           keyFindings: ["Finding"],
           recommendedActions: ["Action"],
           generatedAt: new Date().toISOString(),
-          source: "Repo Doctor",
+          source: "RepoCheckAI",
         },
       });
       vi.mocked(extractPotentialIssues).mockReturnValue([]);
@@ -649,3 +649,4 @@ Test coverage is low
     });
   });
 });
+
