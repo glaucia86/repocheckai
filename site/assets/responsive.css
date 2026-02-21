@@ -352,8 +352,7 @@
 }
 
 @media (max-width: 480px) {
-  .container,
-  .story-main {
+  .container {
     width: calc(100% - 1.5rem);
   }
 
@@ -559,8 +558,7 @@
 }
 
 @media (max-width: 360px) {
-  .container,
-  .story-main {
+  .container{
     width: calc(100% - 1rem);
   }
 

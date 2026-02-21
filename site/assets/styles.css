@@ -1520,7 +1520,12 @@ body.has-intro-motion.is-ready .footer {
   padding: 0.12rem 0.5rem;
   border-radius: 999px;
   font-size: 0.82em;
-  background: linear-gradient(90deg, rgba(13, 148, 136, 0.24), rgba(11, 95, 255, 0.18), rgba(234, 88, 12, 0.22));
+  background: linear-gradient(
+    90deg,
+    rgba(13, 148, 136, 0.24),
+    rgba(11, 95, 255, 0.18),
+    rgba(234, 88, 12, 0.22)
+  );
   color: #0f172a;
   min-width: 8.4ch;
   text-align: center;
@@ -1547,7 +1552,11 @@ body.has-intro-motion.is-ready .footer {
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .about-role-btn:hover {
@@ -1621,7 +1630,10 @@ body.has-intro-motion.is-ready .footer {
   background: rgba(255, 255, 255, 0.84);
   opacity: 0;
   transform: translateY(14px);
-  transition: transform 520ms ease, opacity 520ms ease, border-color 220ms ease;
+  transition:
+    transform 520ms ease,
+    opacity 520ms ease,
+    border-color 220ms ease;
 }
 
 .about-timeline-item.is-visible {
@@ -1680,7 +1692,10 @@ body.has-intro-motion.is-ready .footer {
     radial-gradient(circle at 90% 100%, rgba(11, 95, 255, 0.16), transparent 48%),
     rgba(255, 255, 255, 0.86);
   box-shadow: 0 14px 26px rgba(15, 23, 42, 0.08);
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
 }
 
 .about-highlight-tile::after {
