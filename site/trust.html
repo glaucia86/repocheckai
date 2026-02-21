@@ -2,7 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="./assets/images/icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+/>
+<link rel="stylesheet" href="./assets/styles.css" />
+<link rel="stylesheet" href="./assets/animations.css" />
+<link rel="stylesheet" href="./assets/responsive.css" />
+
     <title>RepoCheckAI Trust</title>
     <meta
       name="description"
@@ -12,64 +23,98 @@
     <link rel="canonical" href="https://glaucia86.github.io/repocheckai/trust.html" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="RepoCheckAI Trust and Architecture" />
-    <meta property="og:description" content="Technical credibility, security posture, and responsible usage guidance." />
+    <meta
+      property="og:description"
+      content="Technical credibility, security posture, and responsible usage guidance."
+    />
     <meta property="og:url" content="https://glaucia86.github.io/repocheckai/trust.html" />
     <meta property="og:image" content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="RepoCheckAI Trust and Architecture" />
-    <meta name="twitter:description" content="See how RepoCheckAI is engineered for production-grade workflows." />
+    <meta
+      name="twitter:description"
+      content="See how RepoCheckAI is engineered for production-grade workflows."
+    />
     <meta name="twitter:image" content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png" />
-    <link rel="icon" href="./assets/images/icon-512.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" />
-    <link rel="stylesheet" href="./assets/styles.css" />
   </head>
   <body>
-    <header class="topbar"><div class="container topbar-row"><a class="brand" href="./index.html"><span class="brand-mark"></span>RepoCheckAI</a><nav class="nav-links"><a href="./index.html">Home</a><a href="./trust.html">Trust</a><a href="./docs.html">Docs</a><a href="./roadmap.html">Roadmap</a><a href="./about.html">About</a></nav><div class="cta-row"><a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click"><span data-stars>Star on GitHub</span></a><a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a></div></div></header>
-    <main class="section"><div class="container"><h1>Technical Trust and Credibility</h1><p class="section-intro">Transparent architecture and guardrails designed for production-grade repository analysis.</p><div class="kpis"><div class="kpi"><div class="v">100+</div><div class="l">Automated tests</div></div><div class="kpi"><div class="v">11+</div><div class="l">Supported models</div></div><div class="kpi"><div class="v">6</div><div class="l">Health categories</div></div><div class="kpi"><div class="v">MIT</div><div class="l">Open source license</div></div></div><div class="grid-3"><article class="card feature"><h2>Model Transparency</h2><p>Model selection is explicit and documented, including free and premium options.</p></article><article class="card feature"><h2>Security Posture</h2><p>Repository content sanitization and prompt-injection defensive handling are built in.</p></article><article class="card feature"><h2>Engineering Rigor</h2><p>Architecture docs, CI checks, and layered tests protect reliability.</p></article></div><article class="card feature"><h2>Architecture Snapshot</h2><pre class="code mono">CLI/Web UI -> Agent -> Repo tools -> GitHub API + Copilot SDK -> Prioritized report</pre><div class="hero-actions"><a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai/blob/main/docs/architecture.md">Read architecture docs</a><a class="btn btn-secondary" href="./docs.html">Read full docs</a></div></article><div class="card cta"><h3>Use it responsibly</h3><ul><li>Treat findings as high-signal recommendations, not unquestioned truth.</li><li>Validate suggested actions with repository owners before execution.</li><li>Prefer deep analysis for release-critical repositories.</li></ul></div></div></main>
-        <footer class="footer" id="footer">
-      <div class="container footer-shell">
-        <div class="footer-main footer-grid">
-          <section>
-            <h4>RepoCheckAI</h4>
-            <p class="section-intro">AI-powered GitHub repository health analyzer for production-grade OSS teams.</p>
-            <p class="microcopy">Built by Glaucia Lemos.</p>
-          </section>
-          <section>
-            <h4>Product</h4>
-            <a href="./index.html">Home</a>
-            <a href="./install.html">Install CLI</a>
-            <a href="./web-ui.html">Web UI</a>
-            <a href="./docs.html">Docs</a>
-          </section>
-          <section>
-            <h4>Resources</h4>
-            <a href="./trust.html">Trust</a>
-            <a href="./roadmap.html">Roadmap</a>
-            <a href="./changelog.html">Changelog</a>
-            <a href="./contribute.html">Contribute</a>
-          </section>
-          <section>
-            <h4>Community</h4>
-            <a href="./about.html">About</a>
-            <a href="https://github.com/glaucia86/repocheckai">GitHub</a>
-            <a href="https://www.npmjs.com/package/repocheckai">npm</a>
-          </section>
-        </div>
-        <div class="footer-meta" aria-label="Footer metadata">
-          <p>© <span data-year></span> RepoCheckAI. Built for OSS maintainers.</p>
-          <div class="footer-meta-links">
-            <a href="./index.html#trust">Security</a>
-            <a href="./index.html#oss">Open Source</a>
-          </div>
-        </div>
+    <header class="topbar">
+  <div class="container topbar-row">
+    <a class="brand" href="./index.html"><span class="brand-mark"></span>RepoCheckAI</a>
+    <button class="hamburger" aria-label="Open menu" aria-controls="main-nav" aria-expanded="false">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+    <nav class="nav-links" id="main-nav" aria-label="Main">
+      <a href="./index.html">Home</a>
+      <a href="./index.html#features">Features</a>
+      <a href="./index.html#web-ui">Web UI</a>
+      <a href="./index.html#cli">CLI</a>
+      <a href="./index.html#trust">Trust</a>
+      <a href="./index.html#roadmap">Roadmap</a>
+      <a href="./index.html#oss">Contribute</a>
+      <a href="./about.html">About</a>
+      <a href="./docs.html">Docs</a>
+      <div class="nav-cta-mobile">
+        <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+          <span data-stars>Star on GitHub</span>
+        </a>
+        <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
       </div>
-    </footer>
+    </nav>
+    <div class="cta-row">
+      <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+        <span data-stars>Star on GitHub</span>
+      </a>
+      <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
+    </div>
+  </div>
+</header>
+
+
+<main class="section"><div class="container"><h1>Technical Trust and Credibility</h1><p class="section-intro">Transparent architecture and guardrails designed for production-grade repository analysis.</p><div class="kpis"><div class="kpi"><div class="v">100+</div><div class="l">Automated tests</div></div><div class="kpi"><div class="v">11+</div><div class="l">Supported models</div></div><div class="kpi"><div class="v">6</div><div class="l">Health categories</div></div><div class="kpi"><div class="v">MIT</div><div class="l">Open source license</div></div></div><div class="grid-3"><article class="card feature"><h2>Model Transparency</h2><p>Model selection is explicit and documented, including free and premium options.</p></article><article class="card feature"><h2>Security Posture</h2><p>Repository content sanitization and prompt-injection defensive handling are built in.</p></article><article class="card feature"><h2>Engineering Rigor</h2><p>Architecture docs, CI checks, and layered tests protect reliability.</p></article></div><article class="card feature"><h2>Architecture Snapshot</h2><pre class="code mono">CLI/Web UI -> Agent -> Repo tools -> GitHub API + Copilot SDK -> Prioritized report</pre><div class="hero-actions"><a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai/blob/main/docs/architecture.md">Read architecture docs</a><a class="btn btn-secondary" href="./docs.html">Read full docs</a></div></article><div class="card cta"><h3>Use it responsibly</h3><ul><li>Treat findings as high-signal recommendations, not unquestioned truth.</li><li>Validate suggested actions with repository owners before execution.</li><li>Prefer deep analysis for release-critical repositories.</li></ul></div></div></main>
+
+    <footer class="footer" id="footer">
+  <div class="container footer-shell">
+    <div class="footer-main footer-grid">
+      <section>
+        <h4>RepoCheckAI</h4>
+        <p class="section-intro">AI-powered GitHub repository health analyzer for production-grade OSS teams.</p>
+        <p class="microcopy">Built by Glaucia Lemos.</p>
+      </section>
+      <section>
+        <h4>Product</h4>
+        <a href="./index.html">Home</a>
+        <a href="./install.html">Install CLI</a>
+        <a href="./web-ui.html">Web UI</a>
+        <a href="./docs.html">Docs</a>
+      </section>
+      <section>
+        <h4>Resources</h4>
+        <a href="./trust.html">Trust</a>
+        <a href="./roadmap.html">Roadmap</a>
+        <a href="./changelog.html">Changelog</a>
+        <a href="./contribute.html">Contribute</a>
+      </section>
+      <section>
+        <h4>Community</h4>
+        <a href="./about.html">About</a>
+        <a href="https://github.com/glaucia86/repocheckai">GitHub</a>
+        <a href="https://www.npmjs.com/package/repocheckai">npm</a>
+      </section>
+    </div>
+    <div class="footer-meta" aria-label="Footer metadata">
+      <p>&copy; <span data-year></span> RepoCheckAI. Built for OSS maintainers.</p>
+      <div class="footer-meta-links">
+        <a href="./index.html#trust">Security</a>
+        <a href="./index.html#oss">Open Source</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
     <script src="./assets/app.js"></script>
+
   </body>
 </html>
-
-
-
-

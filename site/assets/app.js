@@ -1,3 +1,43 @@
+function initHamburgerMenu() {
+  const hamburger = document.querySelector('.hamburger');
+  const nav = document.querySelector('.nav-links');
+  if (!hamburger || !nav) return;
+  
+  function closeMenu() {
+    nav.classList.remove('is-open');
+    hamburger.classList.remove('is-active');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+  
+  hamburger.addEventListener('click', function () {
+    const isOpen = nav.classList.toggle('is-open');
+    hamburger.classList.toggle('is-active', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 900 && nav.classList.contains('is-open')) {
+        closeMenu();
+      }
+    });
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 900 && nav.classList.contains('is-open')) {
+      if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+        closeMenu();
+      }
+    }
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+      closeMenu();
+      hamburger.focus();
+    }
+  });
+}
 const REPO = "glaucia86/repocheckai";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -160,7 +200,11 @@ function initSkipLink() {
   skip.className = "skip-link";
   skip.href = `#${main.id}`;
   skip.textContent = "Skip to content";
+  skip.style.transform = "translateY(-180%)";
   document.body.prepend(skip);
+  
+  // Force reflow to ensure the initial transform is applied
+  void skip.offsetWidth;
 }
 
 function initBackToTop() {
@@ -953,6 +997,7 @@ function initAboutRoleSwitcher() {
   applyVariant("engineer");
 }
 
+
 loadStars();
 loadNpmVersion();
 loadCiStatus();
@@ -981,5 +1026,4 @@ initStoryChapters();
 initAboutEnhancements();
 initAboutCinematic();
 initAboutRoleSwitcher();
-
-
+initHamburgerMenu();
