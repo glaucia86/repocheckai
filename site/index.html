@@ -2,7 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="./assets/images/icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+/>
+<link rel="stylesheet" href="./assets/styles.css" />
+<link rel="stylesheet" href="./assets/animations.css" />
+<link rel="stylesheet" href="./assets/responsive.css" />
+
     <title>RepoCheckAI | Production-Grade AI Repository Diagnostics</title>
     <meta
       name="description"
@@ -17,50 +28,65 @@
       content="Evidence-backed AI diagnostics for docs, DX, CI/CD, testing, governance, and security."
     />
     <meta property="og:url" content="https://glaucia86.github.io/repocheckai/" />
-    <meta property="og:image" content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png" />
+    <meta
+      property="og:image"
+      content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="RepoCheckAI | Production-Grade AI Repository Diagnostics" />
     <meta
       name="twitter:description"
       content="Production-grade AI diagnostics for open source repository health."
     />
-    <meta name="twitter:image" content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png" />
-    <link rel="icon" href="./assets/images/icon-512.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+    <meta
+      name="twitter:image"
+      content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png"
     />
-    <link rel="stylesheet" href="./assets/styles.css" />
   </head>
   <body data-page="home">
     <header class="topbar">
-      <div class="container topbar-row">
-        <a class="brand" href="./index.html"><span class="brand-mark"></span>RepoCheckAI</a>
-        <nav class="nav-links" aria-label="Main">
-          <a href="#hero">Home</a>
-          <a href="#features">Features</a>
-          <a href="#web-ui">Web UI</a>
-          <a href="#cli">CLI</a>
-          <a href="#trust">Trust</a>
-          <a href="#roadmap">Roadmap</a>
-          <a href="#oss">Contribute</a>
-          <a href="./about.html">About</a>
-          <a href="./docs.html">Docs</a>
-        </nav>
-        <div class="cta-row">
-          <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
-            <span data-stars>Star on GitHub</span>
-          </a>
-          <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
-        </div>
+  <div class="container topbar-row">
+    <a class="brand" href="./index.html"><span class="brand-mark"></span>RepoCheckAI</a>
+    <button class="hamburger" aria-label="Open menu" aria-controls="main-nav" aria-expanded="false">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+    <nav class="nav-links" id="main-nav" aria-label="Main">
+      <a href="./index.html">Home</a>
+      <a href="./index.html#features">Features</a>
+      <a href="./index.html#web-ui">Web UI</a>
+      <a href="./index.html#cli">CLI</a>
+      <a href="./index.html#trust">Trust</a>
+      <a href="./index.html#roadmap">Roadmap</a>
+      <a href="./index.html#oss">Contribute</a>
+      <a href="./about.html">About</a>
+      <a href="./docs.html">Docs</a>
+      <div class="nav-cta-mobile">
+        <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+          <span data-stars>Star on GitHub</span>
+        </a>
+        <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
       </div>
-    </header>
+    </nav>
+    <div class="cta-row">
+      <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+        <span data-stars>Star on GitHub</span>
+      </a>
+      <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
+    </div>
+  </div>
+</header>
+
 
     <main class="story-main">
       <aside class="story-rail is-collapsed" aria-label="Story chapters">
-        <button class="story-rail-toggle" type="button" aria-expanded="false" aria-controls="story-rail-list">
+        <button
+          class="story-rail-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="story-rail-list"
+        >
           Chapters
         </button>
         <p class="story-rail-title">Story Chapters</p>
@@ -85,30 +111,55 @@
         <span class="chapter-hud-title">Arrival</span>
       </div>
 
-      <section class="hero chapter story-stage" id="hero" data-chapter="01" data-chapter-title="Arrival">
+      <section
+        class="hero chapter story-stage"
+        id="hero"
+        data-chapter="01"
+        data-chapter-title="Arrival"
+      >
         <div class="container hero-grid">
           <div>
-            <span class="eyebrow">Production-Grade AI Diagnostics for Open Source Repositories</span>
+            <span class="eyebrow"
+              >Production-Grade AI Diagnostics for Open Source Repositories</span
+            >
             <h1>Ship Healthier Repositories, Not Just Code.</h1>
             <p class="subhead">
-              RepoCheckAI analyzes documentation, DX, CI/CD, testing, governance, and security with evidence-backed
-              findings and prioritized remediation.
+              RepoCheckAI analyzes documentation, DX, CI/CD, testing, governance, and security with
+              evidence-backed findings and prioritized remediation.
             </p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">Star on GitHub</a>
-              <a class="btn btn-secondary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
-              <a class="btn btn-secondary" href="./install.html" data-track="install_click">Install CLI</a>
+              <a
+                class="btn btn-primary"
+                href="https://github.com/glaucia86/repocheckai"
+                data-track="star_click"
+                >Star on GitHub</a
+              >
+              <a class="btn btn-secondary" href="./web-ui.html" data-track="web_ui_click"
+                >Try Web UI</a
+              >
+              <a class="btn btn-secondary" href="./install.html" data-track="install_click"
+                >Install CLI</a
+              >
             </div>
-            <p class="microcopy">Evidence-backed repo findings, not vague AI guesses. Built with GitHub Copilot SDK.</p>
+            <p class="microcopy">
+              Evidence-backed repo findings, not vague AI guesses. Built with GitHub Copilot SDK.
+            </p>
 
             <div class="metric-strip" aria-label="Social proof">
-              <a class="pill" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+              <a
+                class="pill"
+                href="https://github.com/glaucia86/repocheckai"
+                data-track="star_click"
+              >
                 <strong data-stars>GitHub stars</strong>
               </a>
               <a class="pill" href="https://www.npmjs.com/package/repocheckai">
                 <strong data-npm-version data-npm-fallback="2.4.0">npm v2.4.0</strong>
               </a>
-              <a class="pill" href="https://github.com/glaucia86/repocheckai/actions/workflows/ci.yml">
+              <a
+                class="pill"
+                href="https://github.com/glaucia86/repocheckai/actions/workflows/ci.yml"
+              >
                 <strong data-ci-status>CI workflow</strong>
               </a>
               <span class="pill">100+ tests</span>
@@ -119,38 +170,62 @@
           <aside class="hero-card card" aria-label="CLI diagnosis preview">
             <h3>Terminal Diagnosis</h3>
             <div class="ticker" id="terminal-status">Scanning repository structure...</div>
-            <pre class="code" id="hero-command">npm i -g repocheckai
+            <pre class="code" id="hero-command">
+npm i -g repocheckai
 repocheck analyze owner/repo --model claude-sonnet-4
-repocheck analyze owner/repo --issue</pre>
+repocheck analyze owner/repo --issue</pre
+            >
             <div class="hero-actions">
               <button class="btn btn-secondary" data-copy="#hero-command">Copy commands</button>
               <a class="btn btn-secondary" href="#cli">See CLI flow</a>
             </div>
-            <img class="terminal-shot" src="./assets/images/cli.png" alt="RepoCheckAI CLI screenshot" />
+            <img
+              class="terminal-shot"
+              src="./assets/images/cli.png"
+              alt="RepoCheckAI CLI screenshot"
+            />
           </aside>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="why" data-chapter="02" data-chapter-title="Problem">
+      <section
+        class="section chapter story-stage"
+        id="why"
+        data-chapter="02"
+        data-chapter-title="Problem"
+      >
         <div class="container card feature">
           <h2>Why RepoCheckAI Exists</h2>
           <p class="section-intro">
-            Maintainers ship under uncertainty because repository quality signals are fragmented. Docs drift, CI becomes
-            brittle, tests stagnate, and governance falls behind. RepoCheckAI unifies those signals into one clear
-            diagnosis with P0, P1, and P2 priorities and practical remediation guidance.
+            Maintainers ship under uncertainty because repository quality signals are fragmented.
+            Docs drift, CI becomes brittle, tests stagnate, and governance falls behind. RepoCheckAI
+            unifies those signals into one clear diagnosis with P0, P1, and P2 priorities and
+            practical remediation guidance.
           </p>
-          <p class="section-intro"><strong>Tagline:</strong> Production-grade AI diagnostics for open source repository health.</p>
+          <p class="section-intro">
+            <strong>Tagline:</strong> Production-grade AI diagnostics for open source repository
+            health.
+          </p>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="features" data-chapter="03" data-chapter-title="Diagnosis">
+      <section
+        class="section chapter story-stage"
+        id="features"
+        data-chapter="03"
+        data-chapter-title="Diagnosis"
+      >
         <div class="container">
           <h2>Feature Highlights</h2>
-          <p class="section-intro">Designed for maintainers, engineering leads, and contributor-heavy repositories.</p>
+          <p class="section-intro">
+            Designed for maintainers, engineering leads, and contributor-heavy repositories.
+          </p>
           <div class="grid-4">
             <article class="card feature">
               <h3>6 Health Dimensions</h3>
-              <p>Documentation, DX, CI/CD, testing, governance, and security in one unified report.</p>
+              <p>
+                Documentation, DX, CI/CD, testing, governance, and security in one unified report.
+              </p>
             </article>
             <article class="card feature">
               <h3>Priority Framework</h3>
@@ -158,7 +233,10 @@ repocheck analyze owner/repo --issue</pre>
             </article>
             <article class="card feature">
               <h3>Evidence-Linked Findings</h3>
-              <p>Analysis output points to concrete repository signals instead of generic recommendations.</p>
+              <p>
+                Analysis output points to concrete repository signals instead of generic
+                recommendations.
+              </p>
             </article>
             <article class="card feature">
               <h3>Issue-Ready Output</h3>
@@ -171,12 +249,18 @@ repocheck analyze owner/repo --issue</pre>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="web-ui" data-chapter="04" data-chapter-title="Experience">
+      <section
+        class="section chapter story-stage"
+        id="web-ui"
+        data-chapter="04"
+        data-chapter-title="Experience"
+      >
         <div class="container split-70">
           <article class="card feature">
             <h2>Web UI Showcase</h2>
             <p class="section-intro">
-              Use the Web UI to share findings with your team, compare model runs, and review remediation quickly.
+              Use the Web UI to share findings with your team, compare model runs, and review
+              remediation quickly.
             </p>
             <ul>
               <li>Model picker with free and premium options.</li>
@@ -184,14 +268,22 @@ repocheck analyze owner/repo --issue</pre>
               <li>Markdown and JSON report outputs with copy/export actions.</li>
             </ul>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
+              <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click"
+                >Try Web UI</a
+              >
               <a class="btn btn-secondary" href="./web-ui.html">Open full preview</a>
             </div>
           </article>
           <article class="card feature">
             <h3>Interactive Preview</h3>
-            <img class="terminal-shot" src="./assets/images/repo-check-ai-web.png" alt="RepoCheckAI Web UI interactive preview" />
-            <p class="microcopy">Preview loop: submit repo, track progress, review prioritized findings.</p>
+            <img
+              class="terminal-shot"
+              src="./assets/images/repo-check-ai-web.png"
+              alt="RepoCheckAI Web UI interactive preview"
+            />
+            <p class="microcopy">
+              Preview loop: submit repo, track progress, review prioritized findings.
+            </p>
           </article>
         </div>
         <div class="container">
@@ -203,29 +295,46 @@ repocheck analyze owner/repo --issue</pre>
               <li>Run the local UI stack command.</li>
               <li>Open the shown URL (usually `http://localhost:4173`).</li>
             </ol>
-            <pre class="code" id="web-ui-start-command">git clone https://github.com/glaucia86/repocheckai.git
+            <pre class="code" id="web-ui-start-command">
+git clone https://github.com/glaucia86/repocheckai.git
 cd repocheckai
 npm install
-npm run dev:local-ui</pre>
+npm run dev:local-ui</pre
+            >
             <div class="hero-actions">
-              <button class="btn btn-secondary" data-copy="#web-ui-start-command">Copy Web UI setup</button>
-              <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Open Web UI guide</a>
+              <button class="btn btn-secondary" data-copy="#web-ui-start-command">
+                Copy Web UI setup
+              </button>
+              <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click"
+                >Open Web UI guide</a
+              >
             </div>
           </article>
         </div>
       </section>
 
-      <section class="section-dark chapter story-stage" id="cli" data-chapter="05" data-chapter-title="Workflow">
+      <section
+        class="section-dark chapter story-stage"
+        id="cli"
+        data-chapter="05"
+        data-chapter-title="Workflow"
+      >
         <div class="container split">
           <article class="card feature">
             <h2>CLI Experience</h2>
-            <p class="section-intro">Fast checks for daily workflows, deep analysis for release-critical audits.</p>
-            <pre class="code" id="cli-command">repocheck analyze owner/repo
+            <p class="section-intro">
+              Fast checks for daily workflows, deep analysis for release-critical audits.
+            </p>
+            <pre class="code" id="cli-command">
+repocheck analyze owner/repo
 repocheck deep owner/repo --model claude-opus-4.5
-repocheck analyze owner/repo --issue</pre>
+repocheck analyze owner/repo --issue</pre
+            >
             <div class="hero-actions">
               <button class="btn btn-secondary" data-copy="#cli-command">Copy CLI commands</button>
-              <a class="btn btn-primary" href="./install.html" data-track="install_click">Install CLI</a>
+              <a class="btn btn-primary" href="./install.html" data-track="install_click"
+                >Install CLI</a
+              >
             </div>
           </article>
           <article class="card feature">
@@ -239,7 +348,12 @@ repocheck analyze owner/repo --issue</pre>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="how" data-chapter="06" data-chapter-title="Method">
+      <section
+        class="section chapter story-stage"
+        id="how"
+        data-chapter="06"
+        data-chapter-title="Method"
+      >
         <div class="container">
           <h2>How It Works</h2>
           <p class="section-intro">Simple three-step flow from uncertainty to execution.</p>
@@ -258,33 +372,64 @@ repocheck analyze owner/repo --issue</pre>
             </article>
           </div>
         </div>
-        </section>
+      </section>
 
-      <section class="section-dark chapter story-stage climax-section" id="climax" data-chapter="07" data-chapter-title="Climax">
+      <section
+        class="section-dark chapter story-stage climax-section"
+        id="climax"
+        data-chapter="07"
+        data-chapter-title="Climax"
+      >
         <div class="container climax-wrap">
           <p class="climax-kicker">The Moment Everything Clicks</p>
           <h2 class="climax-title">From Repo Chaos to Release Confidence.</h2>
           <p class="climax-subtitle">
-            RepoCheckAI turns scattered quality signals into one sharp operational narrative your team can execute.
+            RepoCheckAI turns scattered quality signals into one sharp operational narrative your
+            team can execute.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Enter the Web Experience</a>
-            <a class="btn btn-secondary" href="./install.html" data-track="install_click">Run the CLI Journey</a>
+            <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click"
+              >Enter the Web Experience</a
+            >
+            <a class="btn btn-secondary" href="./install.html" data-track="install_click"
+              >Run the CLI Journey</a
+            >
           </div>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="trust" data-chapter="08" data-chapter-title="Credibility">
+      <section
+        class="section chapter story-stage"
+        id="trust"
+        data-chapter="08"
+        data-chapter-title="Credibility"
+      >
         <div class="container card feature">
           <h2>Technical Credibility</h2>
-          <p class="section-intro">Production-grade engineering choices that support serious repository workflows.</p>
+          <p class="section-intro">
+            Production-grade engineering choices that support serious repository workflows.
+          </p>
           <div class="kpis">
-            <div class="kpi"><div class="v">100+</div><div class="l">Automated tests</div></div>
-            <div class="kpi"><div class="v">11+</div><div class="l">Supported models</div></div>
-            <div class="kpi"><div class="v">6</div><div class="l">Analysis categories</div></div>
-            <div class="kpi"><div class="v">P0/P1/P2</div><div class="l">Priority framework</div></div>
+            <div class="kpi">
+              <div class="v">100+</div>
+              <div class="l">Automated tests</div>
+            </div>
+            <div class="kpi">
+              <div class="v">11+</div>
+              <div class="l">Supported models</div>
+            </div>
+            <div class="kpi">
+              <div class="v">6</div>
+              <div class="l">Analysis categories</div>
+            </div>
+            <div class="kpi">
+              <div class="v">P0/P1/P2</div>
+              <div class="l">Priority framework</div>
+            </div>
           </div>
-          <pre class="code mono">CLI/Web UI -> Agent -> Repo Tools -> GitHub API + Copilot SDK -> Prioritized report</pre>
+          <pre class="code mono">
+CLI/Web UI -> Agent -> Repo Tools -> GitHub API + Copilot SDK -> Prioritized report</pre
+          >
           <div class="logo-row" aria-label="Integrations">
             <span class="logo-chip">GitHub</span>
             <span class="logo-chip">GitHub Copilot SDK</span>
@@ -293,14 +438,23 @@ repocheck analyze owner/repo --issue</pre>
           </div>
           <div class="hero-actions">
             <a class="btn btn-secondary" href="./trust.html">Read trust details</a>
-            <a class="btn btn-primary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+            <a
+              class="btn btn-primary"
+              href="https://github.com/glaucia86/repocheckai"
+              data-track="star_click"
+            >
               <span data-stars>Star on GitHub</span>
             </a>
           </div>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="use-cases" data-chapter="09" data-chapter-title="Use Cases">
+      <section
+        class="section chapter story-stage"
+        id="use-cases"
+        data-chapter="09"
+        data-chapter-title="Use Cases"
+      >
         <div class="container">
           <h2>Use Cases and Examples</h2>
           <div class="grid-3">
@@ -323,10 +477,17 @@ repocheck analyze owner/repo --issue</pre>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="comparison" data-chapter="10" data-chapter-title="Differentiator">
+      <section
+        class="section chapter story-stage"
+        id="comparison"
+        data-chapter="10"
+        data-chapter-title="Differentiator"
+      >
         <div class="container card feature">
           <h2>How RepoCheckAI Differs</h2>
-          <p class="section-intro">Built for repository health operations, not just ad-hoc AI chat.</p>
+          <p class="section-intro">
+            Built for repository health operations, not just ad-hoc AI chat.
+          </p>
           <div class="compare-board" role="table" aria-label="RepoCheckAI comparison">
             <div class="compare-head" role="row">
               <span role="columnheader">Capability</span>
@@ -337,36 +498,55 @@ repocheck analyze owner/repo --issue</pre>
 
             <article class="compare-row" role="row">
               <h3 class="compare-capability" role="rowheader">Repo-wide diagnostics</h3>
-              <p class="compare-value is-mid" role="cell" data-label="Generic AI assistants">Partial</p>
+              <p class="compare-value is-mid" role="cell" data-label="Generic AI assistants">
+                Partial
+              </p>
               <p class="compare-value is-low" role="cell" data-label="Static checklists">Manual</p>
-              <p class="compare-value is-high" role="cell" data-label="RepoCheckAI">Native workflow</p>
+              <p class="compare-value is-high" role="cell" data-label="RepoCheckAI">
+                Native workflow
+              </p>
             </article>
 
             <article class="compare-row" role="row">
               <h3 class="compare-capability" role="rowheader">Evidence-backed findings</h3>
-              <p class="compare-value is-mid" role="cell" data-label="Generic AI assistants">Variable</p>
+              <p class="compare-value is-mid" role="cell" data-label="Generic AI assistants">
+                Variable
+              </p>
               <p class="compare-value is-mid" role="cell" data-label="Static checklists">Limited</p>
-              <p class="compare-value is-high" role="cell" data-label="RepoCheckAI">Core principle</p>
+              <p class="compare-value is-high" role="cell" data-label="RepoCheckAI">
+                Core principle
+              </p>
             </article>
 
             <article class="compare-row" role="row">
               <h3 class="compare-capability" role="rowheader">P0/P1/P2 prioritization</h3>
-              <p class="compare-value is-low" role="cell" data-label="Generic AI assistants">No standard</p>
+              <p class="compare-value is-low" role="cell" data-label="Generic AI assistants">
+                No standard
+              </p>
               <p class="compare-value is-low" role="cell" data-label="Static checklists">Manual</p>
               <p class="compare-value is-high" role="cell" data-label="RepoCheckAI">Built-in</p>
             </article>
 
             <article class="compare-row" role="row">
               <h3 class="compare-capability" role="rowheader">GitHub issue publishing</h3>
-              <p class="compare-value is-low" role="cell" data-label="Generic AI assistants">Not workflow-native</p>
-              <p class="compare-value is-low" role="cell" data-label="Static checklists">Manual copy</p>
+              <p class="compare-value is-low" role="cell" data-label="Generic AI assistants">
+                Not workflow-native
+              </p>
+              <p class="compare-value is-low" role="cell" data-label="Static checklists">
+                Manual copy
+              </p>
               <p class="compare-value is-high" role="cell" data-label="RepoCheckAI">Integrated</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="roadmap" data-chapter="11" data-chapter-title="Future">
+      <section
+        class="section chapter story-stage"
+        id="roadmap"
+        data-chapter="11"
+        data-chapter-title="Future"
+      >
         <div class="container">
           <h2>Roadmap Preview</h2>
           <div class="grid-3">
@@ -399,84 +579,111 @@ repocheck analyze owner/repo --issue</pre>
         </div>
       </section>
 
-      <section class="section chapter story-stage" id="oss" data-chapter="12" data-chapter-title="Community">
+      <section
+        class="section chapter story-stage"
+        id="oss"
+        data-chapter="12"
+        data-chapter-title="Community"
+      >
         <div class="container split">
           <article class="card feature">
             <h2>OSS Contributions</h2>
-            <p class="section-intro">Grow RepoCheckAI with clear contributor paths and meaningful impact areas.</p>
+            <p class="section-intro">
+              Grow RepoCheckAI with clear contributor paths and meaningful impact areas.
+            </p>
             <ul>
               <li>Good first issues for onboarding contributors.</li>
               <li>Help wanted labels for high-priority improvements.</li>
               <li>Discussion threads for UX and architecture feedback.</li>
             </ul>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="./contribute.html" data-track="contribute_click">Contribute</a>
-              <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai/issues">Good First Issues</a>
+              <a class="btn btn-primary" href="./contribute.html" data-track="contribute_click"
+                >Contribute</a
+              >
+              <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai/issues"
+                >Good First Issues</a
+              >
             </div>
           </article>
           <article class="card feature">
             <h3>Developer Quick Links</h3>
-            <a class="muted-link" href="./docs.html">Read documentation</a><br />
-            <a class="muted-link" href="./install.html">Install CLI</a><br />
-            <a class="muted-link" href="./web-ui.html">Try Web UI</a><br />
-            <a class="muted-link" href="./roadmap.html">Roadmap</a><br />
-            <a class="muted-link" href="https://github.com/glaucia86/repocheckai">GitHub repository</a>
+            <p class="section-intro">
+              Jump straight to the resources you need to get started or contribute.
+            </p>
+            <ul>
+              <li><a class="muted-link" href="./docs.html">📚 Read documentation</a></li>
+              <li><a class="muted-link" href="./install.html">⚡ Install CLI</a></li>
+              <li><a class="muted-link" href="./web-ui.html">🌐 Try Web UI</a></li>
+              <li><a class="muted-link" href="./roadmap.html">🗺️ View roadmap</a></li>
+              <li>
+                <a class="muted-link" href="https://github.com/glaucia86/repocheckai"
+                  >⭐ Star on GitHub</a
+                >
+              </li>
+            </ul>
           </article>
         </div>
 
         <div class="container card cta">
           <h3>Ready to improve your repository health workflow?</h3>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">Star on GitHub</a>
-            <a class="btn btn-secondary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
-            <a class="btn btn-secondary" href="./install.html" data-track="install_click">Install CLI</a>
+            <a
+              class="btn btn-primary"
+              href="https://github.com/glaucia86/repocheckai"
+              data-track="star_click"
+              >Star on GitHub</a
+            >
+            <a class="btn btn-secondary" href="./web-ui.html" data-track="web_ui_click"
+              >Try Web UI</a
+            >
+            <a class="btn btn-secondary" href="./install.html" data-track="install_click"
+              >Install CLI</a
+            >
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer" id="footer">
-      <div class="container footer-shell">
-        <div class="footer-main footer-grid">
-          <section>
-            <h4>RepoCheckAI</h4>
-            <p class="section-intro">AI-powered GitHub repository health analyzer for production-grade OSS teams.</p>
-            <p class="microcopy">Built by Glaucia Lemos.</p>
-          </section>
-          <section>
-            <h4>Product</h4>
-            <a href="./index.html">Home</a>
-            <a href="./install.html">Install CLI</a>
-            <a href="./web-ui.html">Web UI</a>
-            <a href="./docs.html">Docs</a>
-          </section>
-          <section>
-            <h4>Resources</h4>
-            <a href="./trust.html">Trust</a>
-            <a href="./roadmap.html">Roadmap</a>
-            <a href="./changelog.html">Changelog</a>
-            <a href="./contribute.html">Contribute</a>
-          </section>
-          <section>
-            <h4>Community</h4>
-            <a href="./about.html">About</a>
-            <a href="https://github.com/glaucia86/repocheckai">GitHub</a>
-            <a href="https://www.npmjs.com/package/repocheckai">npm</a>
-          </section>
-        </div>
-        <div class="footer-meta" aria-label="Footer metadata">
-          <p>© <span data-year></span> RepoCheckAI. Built for OSS maintainers.</p>
-          <div class="footer-meta-links">
-            <a href="./index.html#trust">Security</a>
-            <a href="./index.html#oss">Open Source</a>
-          </div>
-        </div>
+  <div class="container footer-shell">
+    <div class="footer-main footer-grid">
+      <section>
+        <h4>RepoCheckAI</h4>
+        <p class="section-intro">AI-powered GitHub repository health analyzer for production-grade OSS teams.</p>
+        <p class="microcopy">Built by Glaucia Lemos.</p>
+      </section>
+      <section>
+        <h4>Product</h4>
+        <a href="./index.html">Home</a>
+        <a href="./install.html">Install CLI</a>
+        <a href="./web-ui.html">Web UI</a>
+        <a href="./docs.html">Docs</a>
+      </section>
+      <section>
+        <h4>Resources</h4>
+        <a href="./trust.html">Trust</a>
+        <a href="./roadmap.html">Roadmap</a>
+        <a href="./changelog.html">Changelog</a>
+        <a href="./contribute.html">Contribute</a>
+      </section>
+      <section>
+        <h4>Community</h4>
+        <a href="./about.html">About</a>
+        <a href="https://github.com/glaucia86/repocheckai">GitHub</a>
+        <a href="https://www.npmjs.com/package/repocheckai">npm</a>
+      </section>
+    </div>
+    <div class="footer-meta" aria-label="Footer metadata">
+      <p>&copy; <span data-year></span> RepoCheckAI. Built for OSS maintainers.</p>
+      <div class="footer-meta-links">
+        <a href="./index.html#trust">Security</a>
+        <a href="./index.html#oss">Open Source</a>
       </div>
-    </footer>
+    </div>
+  </div>
+</footer>
 
     <script src="./assets/app.js"></script>
+
   </body>
 </html>
-
-
-

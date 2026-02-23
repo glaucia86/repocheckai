@@ -2,7 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="./assets/images/icon-512.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+/>
+<link rel="stylesheet" href="./assets/styles.css" />
+<link rel="stylesheet" href="./assets/animations.css" />
+<link rel="stylesheet" href="./assets/responsive.css" />
+
     <title>Install RepoCheckAI CLI</title>
     <meta
       name="description"
@@ -12,69 +23,151 @@
     <link rel="canonical" href="https://glaucia86.github.io/repocheckai/install.html" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Install RepoCheckAI CLI" />
-    <meta property="og:description" content="Quick install and first-run commands for RepoCheckAI CLI." />
+    <meta
+      property="og:description"
+      content="Quick install and first-run commands for RepoCheckAI CLI."
+    />
     <meta property="og:url" content="https://glaucia86.github.io/repocheckai/install.html" />
-    <meta property="og:image" content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png" />
+    <meta
+      property="og:image"
+      content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Install RepoCheckAI CLI" />
     <meta name="twitter:description" content="Install and run RepoCheckAI in under 5 minutes." />
-    <meta name="twitter:image" content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png" />
-    <link rel="icon" href="./assets/images/icon-512.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" />
-    <link rel="stylesheet" href="./assets/styles.css" />
+    <meta
+      name="twitter:image"
+      content="https://glaucia86.github.io/repocheckai/assets/images/icon-512.png"
+    />
   </head>
   <body>
-    <header class="topbar"><div class="container topbar-row"><a class="brand" href="./index.html"><span class="brand-mark"></span>RepoCheckAI</a><nav class="nav-links"><a href="./index.html">Home</a><a href="./install.html">Install</a><a href="./web-ui.html">Web UI</a><a href="./docs.html">Docs</a><a href="./contribute.html">Contribute</a><a href="./about.html">About</a></nav><div class="cta-row"><a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click"><span data-stars>Star on GitHub</span></a><a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a></div></div></header>
-    <main class="section"><div class="container"><h1>Install RepoCheckAI CLI</h1><p class="section-intro">Get running in under 5 minutes, then scale to deep analysis and issue publishing.</p><div class="metric-strip"><span class="pill">Node >= 24</span><span class="pill">Copilot SDK powered</span><span class="pill">Issue publishing supported</span></div><div class="grid-2"><article class="card feature"><h2>Global Install</h2><pre class="code" id="cmd-global">npm i -g repocheckai
-repocheck analyze owner/repo</pre><div class="hero-actions"><button class="btn btn-secondary" data-copy="#cmd-global">Copy command</button><a class="btn btn-secondary" href="./docs.html">View docs</a></div></article><article class="card feature"><h2>From Source</h2><pre class="code" id="cmd-source">git clone https://github.com/glaucia86/repocheckai.git
+    <header class="topbar">
+  <div class="container topbar-row">
+    <a class="brand" href="./index.html"><span class="brand-mark"></span>RepoCheckAI</a>
+    <button class="hamburger" aria-label="Open menu" aria-controls="main-nav" aria-expanded="false">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+    <nav class="nav-links" id="main-nav" aria-label="Main">
+      <a href="./index.html">Home</a>
+      <a href="./index.html#features">Features</a>
+      <a href="./index.html#web-ui">Web UI</a>
+      <a href="./index.html#cli">CLI</a>
+      <a href="./index.html#trust">Trust</a>
+      <a href="./index.html#roadmap">Roadmap</a>
+      <a href="./index.html#oss">Contribute</a>
+      <a href="./about.html">About</a>
+      <a href="./docs.html">Docs</a>
+      <div class="nav-cta-mobile">
+        <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+          <span data-stars>Star on GitHub</span>
+        </a>
+        <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
+      </div>
+    </nav>
+    <div class="cta-row">
+      <a class="btn btn-secondary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">
+        <span data-stars>Star on GitHub</span>
+      </a>
+      <a class="btn btn-primary" href="./web-ui.html" data-track="web_ui_click">Try Web UI</a>
+    </div>
+  </div>
+</header>
+
+
+    <main class="section">
+      <div class="container">
+        <h1>Install RepoCheckAI CLI</h1>
+        <p class="section-intro">
+          Get running in under 5 minutes, then scale to deep analysis and issue publishing.
+        </p>
+        <div class="metric-strip">
+          <span class="pill">Node >= 24</span><span class="pill">Copilot SDK powered</span
+          ><span class="pill">Issue publishing supported</span>
+        </div>
+        <div class="grid-2">
+          <article class="card feature">
+            <h2>Global Install</h2>
+            <pre class="code" id="cmd-global">
+npm i -g repocheckai
+repocheck analyze owner/repo</pre
+            >
+            <div class="hero-actions">
+              <button class="btn btn-secondary" data-copy="#cmd-global">Copy command</button
+              ><a class="btn btn-secondary" href="./docs.html">View docs</a>
+            </div>
+          </article>
+          <article class="card feature">
+            <h2>From Source</h2>
+            <pre class="code" id="cmd-source">
+git clone https://github.com/glaucia86/repocheckai.git
 cd repocheckai
 npm install
 npm run build
-npm run dev:cli</pre><button class="btn btn-secondary" data-copy="#cmd-source">Copy command</button></article></div><div class="card cta"><h3>Next step: run your first diagnosis</h3><pre class="code" id="cmd-first">repocheck analyze your-user/your-repo --model claude-sonnet-4</pre><div class="hero-actions"><button class="btn btn-secondary" data-copy="#cmd-first">Copy first run</button><a class="btn btn-primary" href="https://github.com/glaucia86/repocheckai" data-track="star_click">Star on GitHub</a></div></div></div></main>
-    <footer class="footer" id="footer">
-      <div class="container footer-shell">
-        <div class="footer-main footer-grid">
-          <section>
-            <h4>RepoCheckAI</h4>
-            <p class="section-intro">AI-powered GitHub repository health analyzer for production-grade OSS teams.</p>
-            <p class="microcopy">Built by Glaucia Lemos.</p>
-          </section>
-          <section>
-            <h4>Product</h4>
-            <a href="./index.html">Home</a>
-            <a href="./install.html">Install CLI</a>
-            <a href="./web-ui.html">Web UI</a>
-            <a href="./docs.html">Docs</a>
-          </section>
-          <section>
-            <h4>Resources</h4>
-            <a href="./trust.html">Trust</a>
-            <a href="./roadmap.html">Roadmap</a>
-            <a href="./changelog.html">Changelog</a>
-            <a href="./contribute.html">Contribute</a>
-          </section>
-          <section>
-            <h4>Community</h4>
-            <a href="./about.html">About</a>
-            <a href="https://github.com/glaucia86/repocheckai">GitHub</a>
-            <a href="https://www.npmjs.com/package/repocheckai">npm</a>
-          </section>
+npm run dev:cli</pre
+            >
+            <button class="btn btn-secondary" data-copy="#cmd-source">Copy command</button>
+          </article>
         </div>
-        <div class="footer-meta" aria-label="Footer metadata">
-          <p>© <span data-year></span> RepoCheckAI. Built for OSS maintainers.</p>
-          <div class="footer-meta-links">
-            <a href="./index.html#trust">Security</a>
-            <a href="./index.html#oss">Open Source</a>
+        <div class="card cta">
+          <h3>Next step: run your first diagnosis</h3>
+          <pre class="code" id="cmd-first">
+repocheck analyze your-user/your-repo --model claude-sonnet-4</pre
+          >
+          <div class="hero-actions">
+            <button class="btn btn-secondary" data-copy="#cmd-first">Copy first run</button
+            ><a
+              class="btn btn-primary"
+              href="https://github.com/glaucia86/repocheckai"
+              data-track="star_click"
+              >Star on GitHub</a
+            >
           </div>
         </div>
       </div>
-    </footer>
+    </main>
+
+    <footer class="footer" id="footer">
+  <div class="container footer-shell">
+    <div class="footer-main footer-grid">
+      <section>
+        <h4>RepoCheckAI</h4>
+        <p class="section-intro">AI-powered GitHub repository health analyzer for production-grade OSS teams.</p>
+        <p class="microcopy">Built by Glaucia Lemos.</p>
+      </section>
+      <section>
+        <h4>Product</h4>
+        <a href="./index.html">Home</a>
+        <a href="./install.html">Install CLI</a>
+        <a href="./web-ui.html">Web UI</a>
+        <a href="./docs.html">Docs</a>
+      </section>
+      <section>
+        <h4>Resources</h4>
+        <a href="./trust.html">Trust</a>
+        <a href="./roadmap.html">Roadmap</a>
+        <a href="./changelog.html">Changelog</a>
+        <a href="./contribute.html">Contribute</a>
+      </section>
+      <section>
+        <h4>Community</h4>
+        <a href="./about.html">About</a>
+        <a href="https://github.com/glaucia86/repocheckai">GitHub</a>
+        <a href="https://www.npmjs.com/package/repocheckai">npm</a>
+      </section>
+    </div>
+    <div class="footer-meta" aria-label="Footer metadata">
+      <p>&copy; <span data-year></span> RepoCheckAI. Built for OSS maintainers.</p>
+      <div class="footer-meta-links">
+        <a href="./index.html#trust">Security</a>
+        <a href="./index.html#oss">Open Source</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
     <script src="./assets/app.js"></script>
+
   </body>
 </html>
-
-
-
-
