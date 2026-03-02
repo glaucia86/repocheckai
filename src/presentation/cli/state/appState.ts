@@ -54,6 +54,7 @@ export const AVAILABLE_MODELS: ModelInfo[] = [
   // Premium models
   { id: "claude-sonnet-4", name: "Claude Sonnet 4", premium: true },
   { id: "claude-sonnet-4.5", name: "Claude Sonnet 4.5", premium: true },
+  { id: "claude-sonnet-4.6", name: "Claude Sonnet 4.6", premium: true },
   { id: "claude-haiku-4.5", name: "Claude Haiku 4.5", premium: true },
   { id: "claude-opus-4.5", name: "Claude Opus 4.5 (Rate Limit: 3x)", premium: true },
   { id: "gpt-5", name: "GPT-5 (Preview)", premium: true },
