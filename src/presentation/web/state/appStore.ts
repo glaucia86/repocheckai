@@ -36,6 +36,8 @@ export class AppStore {
     model?: string;
     maxFiles?: number;
     timeoutSeconds?: number;
+    skills?: "on" | "off";
+    skillsMax?: number;
   }): Promise<AppState> {
     try {
       this.state = { status: "running", timeline: [] };

@@ -27,6 +27,8 @@ const App = () => {
     model: "claude-sonnet-4",
     maxFiles: "800",
     timeoutSeconds: "120",
+    skills: "on",
+    skillsMax: "2",
     publishAsIssue: false,
     githubToken: "",
   });
@@ -96,6 +98,8 @@ const App = () => {
           model: parsed.model || current.model,
           maxFiles: parsed.maxFiles || current.maxFiles,
           timeoutSeconds: parsed.timeoutSeconds || current.timeoutSeconds,
+          skills: parsed.skills === "off" ? "off" : "on",
+          skillsMax: parsed.skillsMax || current.skillsMax,
           publishAsIssue:
             typeof parsed.publishAsIssue === "boolean"
               ? parsed.publishAsIssue
@@ -253,6 +257,8 @@ const App = () => {
           model: form.model || undefined,
           maxFiles: Number(form.maxFiles || 0) || undefined,
           timeoutSeconds: Number(form.timeoutSeconds || 0) || undefined,
+          skills: form.skills,
+          skillsMax: Number(form.skillsMax || 0) || undefined,
           publishAsIssue: form.publishAsIssue,
           githubToken: form.githubToken.trim() || undefined,
         }),
@@ -536,6 +542,39 @@ const App = () => {
                   min="1"
                   value={form.timeoutSeconds}
                   onChange={(e) => setForm((current: FormState) => ({ ...current, timeoutSeconds: e.target.value }))}
+                  className={`w-full rounded-2xl border border-slate-300 bg-white/90 px-3 py-2.5 text-sm outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 ${focusRingClass}`}
+                />
+              </label>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-1 block text-xs font-mono uppercase tracking-[0.16em] text-slate-500">Skills</span>
+                <div className={selectShellClass}>
+                  <select
+                    value={form.skills}
+                    onChange={(e) =>
+                      setForm((current: FormState) => ({
+                        ...current,
+                        skills: e.target.value === "off" ? "off" : "on",
+                      }))
+                    }
+                    className={`${selectClass} ${focusRingClass}`}
+                  >
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                  </select>
+                  <SelectChevron />
+                </div>
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-xs font-mono uppercase tracking-[0.16em] text-slate-500">Skills Max</span>
+                <input
+                  type="number"
+                  min="1"
+                  max="6"
+                  value={form.skillsMax}
+                  onChange={(e) => setForm((current: FormState) => ({ ...current, skillsMax: e.target.value }))}
                   className={`w-full rounded-2xl border border-slate-300 bg-white/90 px-3 py-2.5 text-sm outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20 ${focusRingClass}`}
                 />
               </label>

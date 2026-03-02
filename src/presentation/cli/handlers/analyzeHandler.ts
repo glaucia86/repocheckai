@@ -117,6 +117,8 @@ export async function handleAnalyze(
       verbosity: options.verbosity,
       format: options.format,
       deep,
+      skills: options.skills,
+      skillsMax: options.skillsMax,
     });
 
     // Update state

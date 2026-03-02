@@ -269,10 +269,14 @@ export function repoTools(options: ToolOptions) {
     getRepoMeta,
     listRepoFiles,
     readRepoFile,
+    listAnalysisSkills,
+    readAnalysisSkill,
     packRepository,  // Only in deep mode
   ];
 }
 ```
+
+Skills are bundled in `src/application/core/skills/bundled/*.SKILL.md` and loaded at runtime.
 
 ---
 

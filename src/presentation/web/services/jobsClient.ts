@@ -6,6 +6,8 @@ interface CreateJobPayload {
   model?: string;
   maxFiles?: number;
   timeoutSeconds?: number;
+  skills?: "on" | "off";
+  skillsMax?: number;
 }
 
 interface CreateJobResponse {

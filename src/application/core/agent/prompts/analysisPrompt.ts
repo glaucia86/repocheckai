@@ -10,6 +10,8 @@
 export interface AnalysisPromptOptions {
   repoUrl: string;
   deep?: boolean;
+  skillsEnabled?: boolean;
+  skillsMax?: number;
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -20,7 +22,7 @@ export interface AnalysisPromptOptions {
  * Build the analysis prompt for a repository
  */
 export function buildAnalysisPrompt(options: AnalysisPromptOptions): string {
-  const { repoUrl, deep = false } = options;
+  const { repoUrl, deep = false, skillsEnabled = true, skillsMax = 2 } = options;
 
   const deepInstructions = deep
     ? `
@@ -121,27 +123,38 @@ Output: "**PHASE 2 — STACK DETECTION**" then:
    - Primary technology stack (Node, Python, Go, Rust, Java, etc.)
    - Repository type (monorepo, single-package, library, application)
    - Complexity level (trivial <10 files, standard, large >500 files)
+4. ${skillsEnabled
+    ? `Call \`list_analysis_skills\` with:
+   - \`mode\`: "${deep ? "deep" : "quick"}"
+   - \`detectedStacks\`: normalized stack names you identified
+   Select up to ${skillsMax} relevant skills for this repository.`
+    : "Skills mode is disabled for this run. Skip skill-related tools."}
 
 **PHASE 3 — STRATEGIC FILE READING**
 Output: "**PHASE 3 — STRATEGIC FILE READING**" then:
-4. Read files in priority order (max 20 reads):
+5. ${skillsEnabled
+    ? "For each selected skill, call `read_analysis_skill` and extract:\n   - stack-specific checks\n   - evidence expectations\n   - scoring hints"
+    : "Continue directly with file reading priorities."}
+
+6. Read files in priority order (max 20 reads):
    - Priority 1: README.md, LICENSE, CONTRIBUTING.md, SECURITY.md
    - Priority 2: .github/workflows/*.yml (up to 3), dependabot.yml
    - Priority 3: Stack manifest (package.json, pyproject.toml, go.mod, Cargo.toml, etc.)
    - Priority 4: Quality configs (linter, formatter, test config) — only if detected
    
-5. For each 404 response, record as evidence of missing file
+7. For each 404 response, record as evidence of missing file
 
 **PHASE 4 — ANALYSIS**
 Output: "**PHASE 4 — ANALYSIS**" then:
-6. Apply P0/P1/P2 criteria strictly based on:
+8. Apply P0/P1/P2 criteria strictly based on:
    - Repository type and complexity
    - Detected stack requirements
    - Evidence collected
+   - Applicable loaded skills (if any)
 
 **PHASE 5 — REPORT**
 Output: "**PHASE 5 — REPORT**" then:
-7. Generate the structured health report with:
+9. Generate the structured health report with:
    - Overall score and category breakdown
    - Findings grouped by priority with evidence
    - Actionable next steps${deepInstructions}

@@ -106,6 +106,48 @@ defineTool("pack_repository", {
 
 ---
 
+## Tool: list_analysis_skills
+
+Lists analysis skills available in runtime for the detected stack and mode.
+
+```typescript
+defineTool("list_analysis_skills", {
+  description: "Lists skills for stack-specific analysis guidance.",
+  parameters: {
+    type: "object",
+    properties: {
+      mode: { type: "string", enum: ["quick", "deep"] },
+      detectedStacks: { type: "array", items: { type: "string" } }
+    }
+  }
+});
+```
+
+**Returns**: ranked list with `name`, `description`, `category`, `matchReason`, `priority`.
+
+---
+
+## Tool: read_analysis_skill
+
+Reads a specific analysis skill document selected by the agent.
+
+```typescript
+defineTool("read_analysis_skill", {
+  description: "Reads a skill by name",
+  parameters: {
+    type: "object",
+    properties: {
+      name: { type: "string" }
+    },
+    required: ["name"]
+  }
+});
+```
+
+**Returns**: `skill` metadata + body (`checks`, `evidence rules`, `scoring hints`).
+
+---
+
 ## Include Patterns
 
 ### Governance Mode (default)

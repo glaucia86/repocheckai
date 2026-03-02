@@ -117,6 +117,8 @@ If no repository is provided, RepoCheckAI starts in interactive mode.
 | `--max-files` | — | number | `800` | Maximum files to analyze |
 | `--max-bytes` | — | number | `204800` | Maximum bytes per file (200KB) |
 | `--timeout` | — | number | `120000` | Analysis timeout in ms |
+| `--skills` | — | string | `on` | Skills runtime mode (`on` or `off`) |
+| `--skills-max` | — | number | `2` | Max number of skills the agent should apply |
 | `--help` | `-h` | — | — | Show help information |
 | `--version` | `-v` | — | — | Show version number |
 

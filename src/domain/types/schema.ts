@@ -259,6 +259,8 @@ export interface AnalyzeOptions {
   verbosity?: "silent" | "normal" | "verbose";
   format?: "pretty" | "json" | "minimal";
   categories?: Category[];
+  skills?: "on" | "off";
+  skillsMax?: number;
 }
 
 export const AnalyzeOptionsSchema = z.object({
@@ -270,6 +272,8 @@ export const AnalyzeOptionsSchema = z.object({
   verbosity: z.enum(["silent", "normal", "verbose"]).default("normal"),
   format: z.enum(["pretty", "json", "minimal"]).default("pretty"),
   categories: z.array(CategorySchema).optional(),
+  skills: z.enum(["on", "off"]).default("on"),
+  skillsMax: z.number().int().min(1).max(6).default(2),
 });
 
 // ════════════════════════════════════════════════════════════════════════════
