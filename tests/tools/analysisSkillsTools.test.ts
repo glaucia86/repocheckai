@@ -71,5 +71,25 @@ describe("analysis skills tools", () => {
     expect(result.success).toBe(false);
     expect(result.reason).toBe("SKILL_NOT_FOUND");
   });
+
+  it("returns structured error for invalid skill name format", async () => {
+    const tool = createReadAnalysisSkill({ skills }) as unknown as {
+      handler: (args: unknown) => Promise<{ success: boolean; reason?: string }>;
+    };
+
+    const result = await tool.handler({ name: "x" });
+    expect(result.success).toBe(false);
+    expect(result.reason).toBe("INVALID_SKILL_NAME");
+  });
+
+  it("returns structured error for malformed tool arguments", async () => {
+    const tool = createReadAnalysisSkill({ skills }) as unknown as {
+      handler: (args: unknown) => Promise<{ success: boolean; reason?: string }>;
+    };
+
+    const result = await tool.handler({});
+    expect(result.success).toBe(false);
+    expect(result.reason).toBe("INVALID_SKILL_NAME");
+  });
 });
 

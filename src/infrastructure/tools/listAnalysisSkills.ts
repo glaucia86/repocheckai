@@ -48,7 +48,7 @@ Use this after stack detection and before deep evidence analysis.`,
         },
       },
     },
-    handler: async (args: z.infer<typeof ListInput>) => {
+    handler: (args: z.infer<typeof ListInput>) => {
       const parsed = ListInput.parse(args);
       const matched = matchAnalysisSkills(
         skills,

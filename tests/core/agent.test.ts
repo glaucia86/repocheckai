@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { analyzeRepositoryWithCopilot } from "../../src/application/core/agent.js";
+import {
+  composeSystemPrompt,
+  createEventHandler,
+  getSystemPrompt,
+} from "../../src/application/core/agent/index.js";
 import { createOctokit } from "../../src/infrastructure/providers/github.js";
 
 // Mock CopilotClient
@@ -173,6 +178,17 @@ describe("analyzeRepositoryWithCopilot", () => {
     expect(result.content).toContain("ci-quality");
   });
 
+  it("should use prebuilt system prompt when skills are enabled", async () => {
+    await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(vi.mocked(getSystemPrompt)).toHaveBeenCalledWith("quick");
+    expect(vi.mocked(composeSystemPrompt)).not.toHaveBeenCalled();
+  });
+
   it("should include polyglot-governance when stack is unknown", async () => {
     vi.mocked(createOctokit).mockReturnValue({
       repos: {
@@ -203,5 +219,108 @@ describe("analyzeRepositoryWithCopilot", () => {
     expect(result.content).toContain("node-governance");
     expect(result.content).toContain("insecure-defaults");
     expect(result.content).toContain("security-supply-chain");
+  });
+
+  it("should prefer actually applied skills over preselected skills in report", async () => {
+    vi.mocked(createEventHandler).mockReturnValueOnce({
+      handler: vi.fn(),
+      state: {
+        outputBuffer: "Mocked analysis content",
+        toolCallCount: 5,
+        currentPhaseIndex: 0,
+        phases: [],
+        aborted: false,
+        abortReason: "",
+        currentToolName: null,
+        receivedDeltaSinceLastMessage: false,
+        appliedSkillNames: ["docs-audit"],
+        evidence: {
+          repoFullName: "owner/repo",
+          listedPaths: ["README.md"],
+          readPaths: ["README.md"],
+        },
+      },
+    });
+
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(result.content).toContain("## Skills Used");
+    expect(result.content).toContain("- docs-audit");
+    expect(result.content).not.toContain("- security-baseline");
+  });
+
+  it("should not flag context leakage for references excluded by list_repo_files filters", async () => {
+    vi.mocked(createEventHandler).mockReturnValueOnce({
+      handler: vi.fn(),
+      state: {
+        outputBuffer: [
+          "## Findings",
+          "- Build output: `dist/main.bundle.js`",
+          "- Dependency file: `node_modules/lodash/index.js`",
+          "- Coverage artifact: `coverage/lcov.info`",
+        ].join("\n"),
+        toolCallCount: 5,
+        currentPhaseIndex: 0,
+        phases: [],
+        aborted: false,
+        abortReason: "",
+        currentToolName: null,
+        receivedDeltaSinceLastMessage: false,
+        appliedSkillNames: [],
+        evidence: {
+          repoFullName: "owner/repo",
+          listedPaths: ["README.md"],
+          readPaths: ["README.md"],
+        },
+      },
+    });
+
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(result.content).not.toContain("## Evidence Integrity Warnings");
+  });
+
+  it("should still flag context leakage for unknown non-filtered paths", async () => {
+    vi.mocked(createEventHandler).mockReturnValueOnce({
+      handler: vi.fn(),
+      state: {
+        outputBuffer: [
+          "## Findings",
+          "- Secret env file: `src/secrets/prod.env`",
+          "- Internal keys: `configs/internal/keys.txt`",
+          "- Private deploy script: `scripts/private/deploy.sh`",
+        ].join("\n"),
+        toolCallCount: 5,
+        currentPhaseIndex: 0,
+        phases: [],
+        aborted: false,
+        abortReason: "",
+        currentToolName: null,
+        receivedDeltaSinceLastMessage: false,
+        appliedSkillNames: [],
+        evidence: {
+          repoFullName: "owner/repo",
+          listedPaths: ["README.md"],
+          readPaths: ["README.md"],
+        },
+      },
+    });
+
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(result.content).toContain("## Evidence Integrity Warnings");
+    expect(result.content).toContain("Possible context leakage.");
   });
 });

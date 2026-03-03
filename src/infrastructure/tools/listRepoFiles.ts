@@ -6,6 +6,7 @@
 import { defineTool } from "@github/copilot-sdk";
 import { z } from "zod";
 import { createOctokit, parseRepoUrl } from "../providers/github.js";
+import { isExcludedFromRepoFileListing } from "../../domain/config/repoPathFilters.js";
 
 // ════════════════════════════════════════════════════════════════════════════
 // SCHEMAS
@@ -25,31 +26,6 @@ export interface ListRepoFilesOptions {
   token?: string;
   maxFiles?: number;
 }
-
-// ════════════════════════════════════════════════════════════════════════════
-// NOISE FILTER PATTERNS
-// ════════════════════════════════════════════════════════════════════════════
-
-const NOISE_PATTERNS = [
-  "node_modules/",
-  "dist/",
-  ".git/",
-  "vendor/",
-  "__pycache__/",
-  ".next/",
-  "coverage/",
-];
-
-const NOISE_FILE_PATTERNS = [
-  /\.(min|bundle)\.(js|css)$/,
-  /\.lock$/,
-];
-
-const LOCK_FILES = [
-  "package-lock.json",
-  "yarn.lock",
-  "package-lock.json",
-];
 
 const isBlobWithPath = (node: {
   type?: string;
@@ -124,22 +100,7 @@ Automatically filters out common noise (node_modules, dist, .git, etc).`,
         // Filter and process files
         const allFiles = (tree.data.tree || [])
           .filter(isBlobWithPath)
-          .filter((n) => {
-            const path = n.path;
-            // Filter out noise directories
-            if (NOISE_PATTERNS.some((pattern) => path.includes(pattern))) {
-              return false;
-            }
-            // Filter out noise file patterns
-            if (NOISE_FILE_PATTERNS.some((pattern) => pattern.test(path))) {
-              return false;
-            }
-            // Filter out lock files
-            if (LOCK_FILES.some((lockFile) => path.endsWith(lockFile))) {
-              return false;
-            }
-            return true;
-          });
+          .filter((n) => !isExcludedFromRepoFileListing(n.path));
 
         const files = allFiles
           .slice(0, maxFilesLimit)

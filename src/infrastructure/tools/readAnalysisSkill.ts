@@ -33,8 +33,18 @@ Use after list_analysis_skills to get detailed checks and evidence rules.`,
       },
       required: ["name"],
     },
-    handler: async (args: z.infer<typeof ReadInput>) => {
-      const parsed = ReadInput.parse(args);
+    handler: (args: z.infer<typeof ReadInput>) => {
+      const parsedResult = ReadInput.safeParse(args);
+      if (!parsedResult.success) {
+        return {
+          success: false,
+          reason: "INVALID_SKILL_NAME",
+          error: "Skill name format is invalid.",
+          suggestion: "Use the exact name returned by list_analysis_skills.",
+        };
+      }
+
+      const parsed = parsedResult.data;
       const normalized = parsed.name.trim().toLowerCase();
 
       if (!NAME_PATTERN.test(normalized)) {

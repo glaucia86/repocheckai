@@ -7,6 +7,7 @@ import {
   matchAnalysisSkills,
 } from "./skills/index.js";
 import { createOctokit, parseRepoUrl } from "../../infrastructure/providers/github.js";
+import { isExcludedFromRepoFileListing } from "../../domain/config/repoPathFilters.js";
 import type { AnalysisSkillDocument } from "../../domain/types/analysisSkill.js";
 import {
   startSpinner,
@@ -24,7 +25,6 @@ import {
   SYSTEM_PROMPT,
   QUICK_SYSTEM_PROMPT,
   DEEP_SYSTEM_PROMPT,
-  composeSystemPrompt,
   getSystemPrompt,
   buildAnalysisPrompt,
   createGuardrails,
@@ -133,12 +133,10 @@ async function initializeCopilotSession(options: {
   const mergedSkillRules = [skillsCatalog, selectedSkillsDirective]
     .filter(Boolean)
     .join("\n\n");
-  const systemPrompt = skillsCatalog
-    ? composeSystemPrompt({
-      mode,
-      additionalRules: mergedSkillRules,
-    })
-    : getSystemPrompt(mode);
+  const baseSystemPrompt = getSystemPrompt(mode);
+  const systemPrompt = mergedSkillRules
+    ? `${baseSystemPrompt}\n\n# ADDITIONAL RULES\n\n${mergedSkillRules}`
+    : baseSystemPrompt;
 
   const session = await client.createSession({
     model: model,
@@ -382,10 +380,10 @@ function appendAppliedSkillsSection(
   const bulletLines =
     skillsMode === "off"
       ? ["- disabled"]
-      : preselectedSkills.length > 0
-        ? preselectedSkills.map((skill) => `- ${skill}`)
-        : appliedSkills.length > 0
-          ? appliedSkills.map((skill) => `- ${skill}`)
+      : appliedSkills.length > 0
+        ? appliedSkills.map((skill) => `- ${skill}`)
+        : preselectedSkills.length > 0
+          ? preselectedSkills.map((skill) => `- ${skill}`)
         : ["- none selected"];
 
   const lines = [
@@ -436,7 +434,7 @@ function appendEvidenceIntegritySection(
   if (listedSet.size > 0) {
     const referencedPaths = extractReferencedPaths(content);
     const unknown = referencedPaths.filter(
-      (path) => !listedSet.has(path) && !readSet.has(path)
+      (path) => !listedSet.has(path) && !readSet.has(path) && !isExcludedFromRepoFileListing(path)
     );
     if (unknown.length >= 3) {
       const sample = unknown.slice(0, 5).map((path) => `\`${path}\``).join(", ");
