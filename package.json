@@ -80,7 +80,7 @@
     "commander": "~14.0.3",
     "cross-spawn": "~7.0.6",
     "ora": "~9.3.0",
-    "react": "^18.3.1",
+    "react": "^19.2.4",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.6.0",
     "zod": "~3.22.0"
@@ -89,7 +89,7 @@
     "@types/commander": "^2.12.0",
     "@types/cross-spawn": "^6.0.6",
     "@types/node": "^25.2.3",
-    "@types/react": "^18.3.12",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.55.0",
     "@typescript-eslint/parser": "^8.55.0",
