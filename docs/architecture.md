@@ -265,18 +265,49 @@ Custom tools that the AI agent can invoke:
 import { defineTool } from "@github/copilot-sdk";
 
 export function repoTools(options: ToolOptions) {
-  return [
-    getRepoMeta,
-    listRepoFiles,
-    readRepoFile,
-    listAnalysisSkills,
-    readAnalysisSkill,
-    packRepository,  // Only in deep mode
-  ];
+  const tools = [getRepoMeta, listRepoFiles, readRepoFile];
+
+  if (options.skillsEnabled !== false) {
+    tools.push(listAnalysisSkills, readAnalysisSkill);
+  }
+
+  return tools;
+}
+
+export function deepAnalysisTools() {
+  return [packRepository];
 }
 ```
 
 Skills are bundled in `src/application/core/skills/bundled/*.SKILL.md` and loaded at runtime.
+
+### Analysis Skills Runtime
+
+Runtime skill guidance is loaded from bundled `*.SKILL.md` files and selected by mode + detected stack.
+
+**Skill frontmatter contract:**
+
+```yaml
+name: security-baseline
+title: Security Baseline
+description: Baseline checks for repository-level security posture.
+category: security
+applies_to: any
+modes: quick,deep
+priority: 10
+```
+
+**Selection pipeline:**
+- Detect stack from repository language signals and manifest files.
+- Rank candidate skills by mode compatibility, priority, and `applies_to` stack match.
+- Preselect a bounded set (`skillsMax`, clamped to `1..6`) and inject into system prompt.
+- Keep `list_analysis_skills` and `read_analysis_skill` available for on-demand expansion.
+
+**Bundled skill coverage (examples):**
+- CI: `ci-quality`
+- Governance: `github-expert`, `node-governance`, `polyglot-governance`
+- Stack-specific: `python-quality`, `rust-safety`, `go-reliability`
+- Security: `security-baseline`, `security-supply-chain`, `insecure-defaults`, `variant-analysis`
 
 ---
 
@@ -508,6 +539,50 @@ const readRepoFile = defineTool("read_repo_file", {
       content: sanitized.content,
       securityFlags: sanitized.suspicious ? { ... } : undefined,
     };
+  },
+});
+```
+
+### list_analysis_skills
+
+Lists skills ranked for the current analysis context.
+
+```typescript
+const listAnalysisSkills = defineTool("list_analysis_skills", {
+  description: "Lists stack-aware analysis skills for current mode",
+  parameters: {
+    type: "object",
+    properties: {
+      mode: { type: "string", enum: ["quick", "deep"] },
+      detectedStacks: { type: "array", items: { type: "string" } },
+      repoType: { type: "string" },
+      complexity: { type: "string" },
+      maxResults: { type: "number" },
+    },
+  },
+  handler: async ({ mode, detectedStacks, maxResults }) => {
+    // Returns ranked skills + matchReason + score
+  },
+});
+```
+
+### read_analysis_skill
+
+Reads one selected skill by slug name.
+
+```typescript
+const readAnalysisSkill = defineTool("read_analysis_skill", {
+  description: "Reads a specific analysis skill by name",
+  parameters: {
+    type: "object",
+    properties: {
+      name: { type: "string" },
+    },
+    required: ["name"],
+  },
+  handler: async ({ name }) => {
+    // Returns skill metadata + markdown body
+    // Validation errors return INVALID_SKILL_NAME or SKILL_NOT_FOUND
   },
 });
 ```

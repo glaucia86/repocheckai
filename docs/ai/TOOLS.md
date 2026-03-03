@@ -41,7 +41,8 @@ defineTool("list_repo_files", {
     required: ["repoUrl"]
   },
   handler: async (args) => {
-    // Filters: node_modules, dist, .git, vendor, __pycache__, etc.
+    // Filters: node_modules, dist, .git, vendor, __pycache__, coverage,
+    // lock files and minified/bundle assets.
   }
 });
 ```
@@ -109,6 +110,7 @@ defineTool("pack_repository", {
 ## Tool: list_analysis_skills
 
 Lists analysis skills available in runtime for the detected stack and mode.
+Use after stack detection and before focused evidence extraction.
 
 ```typescript
 defineTool("list_analysis_skills", {
@@ -117,13 +119,23 @@ defineTool("list_analysis_skills", {
     type: "object",
     properties: {
       mode: { type: "string", enum: ["quick", "deep"] },
-      detectedStacks: { type: "array", items: { type: "string" } }
+      detectedStacks: { type: "array", items: { type: "string" } },
+      repoType: { type: "string" },
+      complexity: { type: "string" },
+      maxResults: { type: "number", minimum: 1, maximum: 12 }
     }
   }
 });
 ```
 
-**Returns**: ranked list with `name`, `description`, `category`, `matchReason`, `priority`.
+**Returns**: `{ success, returned, skills[] }`, where each item includes
+`name`, `title`, `description`, `category`, `appliesTo`, `modes`, `priority`, `matchReason`, and `score`.
+
+**Ranking behavior**:
+- Mode compatibility is required (`quick` or `deep`).
+- Stack match boosts score (e.g., `python` repo prefers `python-quality`).
+- Generic skills (`applies_to: any`) are used as fallback.
+- Maximum result window is bounded (`1-12`, default runtime cap `8`).
 
 ---
 
@@ -137,14 +149,23 @@ defineTool("read_analysis_skill", {
   parameters: {
     type: "object",
     properties: {
-      name: { type: "string" }
+      name: { type: "string", description: "Skill slug, e.g. security-baseline" }
     },
     required: ["name"]
   }
 });
 ```
 
-**Returns**: `skill` metadata + body (`checks`, `evidence rules`, `scoring hints`).
+**Returns on success**: `{ success: true, skill }` where `skill` contains
+`name`, `title`, `description`, `category`, `appliesTo`, `modes`, `priority`, and `body`.
+
+**Returns on validation failure**:
+- `{ success: false, reason: "INVALID_SKILL_NAME", suggestion }`
+- `{ success: false, reason: "SKILL_NOT_FOUND", suggestion }`
+
+**Name rules**:
+- Lowercase slug format (example: `security-baseline`)
+- Recommended flow: call `list_analysis_skills` first, then pass an exact `name`
 
 ---
 

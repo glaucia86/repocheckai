@@ -8,6 +8,7 @@ Repo Check AI evaluates repositories across six critical categories. This docume
 
 - [Overview](#overview)
 - [Category Weights](#category-weights)
+- [Analysis Skills Overlay](#analysis-skills-overlay)
 - [📚 Docs & Onboarding](#-docs--onboarding)
 - [⚡ Developer Experience](#-developer-experience)
 - [🔄 CI/CD](#-cicd)
@@ -47,6 +48,26 @@ Each category starts at 100% and deductions are made for missing elements:
 - **P0 finding:** −30 points
 - **P1 finding:** −15 points
 - **P2 finding:** −5 points
+
+---
+
+## Analysis Skills Overlay
+
+Beyond static checks, Repo Check AI uses bundled runtime skills (`*.SKILL.md`) to adapt analysis depth by stack and mode.
+
+| Runtime Skill Group | Typical Skills | Category Impact |
+|---------------------|----------------|-----------------|
+| Security baseline | `security-baseline`, `security-supply-chain`, `insecure-defaults` | 🔐 Security, 📋 Governance |
+| CI reliability | `ci-quality` | 🔄 CI/CD, 🧪 Quality & Tests |
+| Governance controls | `github-expert`, `node-governance`, `polyglot-governance` | 📋 Governance, 📚 Docs & Onboarding |
+| Stack-specific quality | `python-quality`, `rust-safety`, `go-reliability` | 🧪 Quality & Tests, ⚡ Developer Experience |
+| Security expansion (deep mode) | `variant-analysis`, `sharp-edges`, `semgrep-guidance` | 🔐 Security |
+
+How runtime skills are applied:
+- Quick mode prioritizes baseline coverage and high-signal checks.
+- Deep mode can add code-path-oriented security and variant analysis skills.
+- Stack matching (`node`, `python`, `go`, `rust`, etc.) boosts skill relevance.
+- `--skills-max` limits how many skills are preselected before main evidence extraction.
 
 ---
 

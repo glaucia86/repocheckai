@@ -9,6 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.7.0] - 2026-03-02
+
+### Added
+
+- **Analysis Skills Runtime**: Added bundled analysis skills in `src/application/core/skills/bundled/*.SKILL.md` for CI quality, governance baselines, Python/Rust/Go stack checks, and security-focused assessments.
+- **New Agent Tools**: Added `list_analysis_skills` and `read_analysis_skill` tools to expose stack-aware analysis guidance at runtime.
+- **Skills Engine Modules**: Added skill frontmatter parsing, loader, matcher, and typed contracts in `src/application/core/skills/*` and `src/domain/types/analysisSkill.ts`.
+- **Path Filtering Rules**: Added shared repository path filtering in `src/domain/config/repoPathFilters.ts` to reduce analysis noise from generated/artifact files.
+- **Test Coverage for Skills**: Added unit and tool tests for skill parsing, matching, and tool behavior (`tests/core/skills/*`, `tests/tools/analysisSkillsTools.test.ts`).
+
+### Changed
+
+- **Prompt Enrichment**: Agent now injects skills catalog and preselected skill guidance into system prompts based on detected stacks and analysis mode.
+- **Stack-Aware Selection**: Skill preselection now prioritizes security baseline + CI + stack-specific skills with bounded `skillsMax` selection.
+- **CLI/API/Web Integration**: Expanded skills-runtime support across CLI and Web UI flows, including `--skills` and `--skills-max` controls.
+- **Documentation**: Updated architecture, command, and tooling docs to reflect runtime skill orchestration and new analysis tools.
+- **Web Experience**: Refined public site pages and styling with improved responsiveness and animation assets.
+
+### Fixed
+
+- **Skill Tool Error Handling**: `read_analysis_skill` now returns structured validation responses for invalid names and unknown skill slugs.
+- **Evidence Quality**: Improved repository file listing relevance by excluding lock/noise paths, reducing false-positive path references in analysis outputs.
+
+---
+
 ## [2.6.0] - 2026-02-17
 
 ### Added
@@ -312,6 +337,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.0]: https://github.com/glaucia86/repocheckai/releases/tag/v1.0.0
 [2.5.0]: https://github.com/glaucia86/repocheckai/compare/v2.4.0...v2.5.0
 [2.6.0]: https://github.com/glaucia86/repocheckai/compare/v2.5.0...v2.6.0
-[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.6.0...HEAD
+[2.7.0]: https://github.com/glaucia86/repocheckai/compare/v2.6.0...v2.7.0
+[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.7.0...HEAD
 
 

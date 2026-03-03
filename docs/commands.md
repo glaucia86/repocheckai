@@ -118,9 +118,28 @@ If no repository is provided, RepoCheckAI starts in interactive mode.
 | `--max-bytes` | — | number | `204800` | Maximum bytes per file (200KB) |
 | `--timeout` | — | number | `120000` | Analysis timeout in ms |
 | `--skills` | — | string | `on` | Skills runtime mode (`on` or `off`) |
-| `--skills-max` | — | number | `2` | Max number of skills the agent should apply |
+| `--skills-max` | — | number | `2` | Max number of preselected skills (effective range `1..6`) |
 | `--help` | `-h` | — | — | Show help information |
 | `--version` | `-v` | — | — | Show version number |
+
+### Skills Runtime Controls
+
+Use skills flags to tune stack-aware analysis guidance:
+
+```bash
+# Default behavior (skills on)
+repocheck owner/repo --skills on
+
+# Disable runtime skills guidance
+repocheck owner/repo --skills off
+
+# Increase number of preselected skills
+repocheck owner/repo --skills-max 4
+```
+
+Notes:
+- `--skills-max` is bounded internally to `1..6`.
+- In deep mode, skills can include security variant-expansion guidance.
 
 > **Tip:** If you plan to use `--issue`, the best model for report quality is **Claude Sonnet 4.5**.
 >
@@ -358,6 +377,7 @@ Displays or switches the current AI model.
 | `gpt-5-mini` | Free | Lightweight |
 | `claude-sonnet-4` | Premium | Recommended default |
 | `claude-sonnet-4.5` | Premium | Enhanced reasoning |
+| `claude-sonnet-4.6` | Premium | Updated Sonnet generation |
 | `claude-opus-4.5` | Premium | Most capable |
 | `o3` | Premium | Deep reasoning |
 
