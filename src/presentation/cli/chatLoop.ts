@@ -107,6 +107,8 @@ async function runInitialAnalysis(
       timeout: options.timeout,
       verbosity: options.verbosity,
       format: options.format,
+      skills: options.skills,
+      skillsMax: options.skillsMax,
     });
 
     appState.setLastAnalysis(result, repoSlug);

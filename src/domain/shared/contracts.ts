@@ -29,6 +29,8 @@ export interface RunConfiguration {
   maxFiles?: number;
   timeoutSeconds?: number;
   preferredOutputFormat?: PreferredOutputFormat;
+  skills?: "on" | "off";
+  skillsMax?: number;
 }
 
 export interface AnalysisReport {

@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { analyzeRepositoryWithCopilot } from "../../src/application/core/agent.js";
+import {
+  composeSystemPrompt,
+  createEventHandler,
+  getSystemPrompt,
+} from "../../src/application/core/agent/index.js";
+import { createOctokit } from "../../src/infrastructure/providers/github.js";
 
 // Mock CopilotClient
 vi.mock("@github/copilot-sdk", async (importOriginal) => {
@@ -54,6 +60,7 @@ vi.mock("../../src/application/core/agent/index.js", () => ({
   SYSTEM_PROMPT: "Mock system prompt",
   QUICK_SYSTEM_PROMPT: "Mock quick prompt",
   DEEP_SYSTEM_PROMPT: "Mock deep prompt",
+  composeSystemPrompt: vi.fn().mockReturnValue("Mock composed system prompt"),
   getSystemPrompt: vi.fn().mockReturnValue("Mock system prompt"),
   buildAnalysisPrompt: vi.fn().mockReturnValue("Mock analysis prompt"),
   createGuardrails: vi.fn().mockReturnValue({
@@ -66,6 +73,25 @@ vi.mock("../../src/application/core/agent/index.js", () => ({
       toolCallCount: 5,
       aborted: false,
       abortReason: null,
+      appliedSkillNames: [],
+      evidence: {
+        repoFullName: "owner/repo",
+        listedPaths: ["README.md", "package.json", ".github/workflows/ci.yml"],
+        readPaths: ["README.md", "package.json"],
+      },
+    },
+  }),
+}));
+
+vi.mock("../../src/infrastructure/providers/github.js", () => ({
+  parseRepoUrl: vi.fn().mockReturnValue({ owner: "owner", repo: "repo" }),
+  createOctokit: vi.fn().mockReturnValue({
+    repos: {
+      get: vi.fn().mockResolvedValue({ data: { language: "TypeScript" } }),
+      listLanguages: vi.fn().mockResolvedValue({ data: { TypeScript: 1000 } }),
+      getContent: vi.fn().mockResolvedValue({
+        data: [{ name: "package.json" }],
+      }),
     },
   }),
 }));
@@ -73,6 +99,13 @@ vi.mock("../../src/application/core/agent/index.js", () => ({
 describe("analyzeRepositoryWithCopilot", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(createOctokit).mockReturnValue({
+      repos: {
+        get: vi.fn().mockResolvedValue({ data: { language: "TypeScript" } }),
+        listLanguages: vi.fn().mockResolvedValue({ data: { TypeScript: 1000 } }),
+        getContent: vi.fn().mockResolvedValue({ data: [{ name: "package.json" }] }),
+      },
+    } as any);
   });
 
   it("should analyze a repository successfully", async () => {
@@ -87,10 +120,10 @@ describe("analyzeRepositoryWithCopilot", () => {
 
     const result = await analyzeRepositoryWithCopilot(options);
 
-    expect(result).toEqual({
-      content: "Mocked analysis content",
+    expect(result.content).toContain("Mocked analysis content");
+    expect(result.content).toContain("## Skills Used");
+    expect(result).toMatchObject({
       toolCallCount: 5,
-      durationMs: expect.any(Number),
       repoUrl: "https://github.com/owner/repo",
       model: "claude-sonnet-4",
     });
@@ -129,5 +162,165 @@ describe("analyzeRepositoryWithCopilot", () => {
     const result = await analyzeRepositoryWithCopilot(options);
 
     expect(result).toBeDefined();
+  });
+
+  it("should deterministically include ci-quality for node stacks", async () => {
+    const options = {
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on" as const,
+      skillsMax: 2,
+    };
+
+    const result = await analyzeRepositoryWithCopilot(options);
+
+    expect(result.content).toContain("## Skills Used");
+    expect(result.content).toContain("security-baseline");
+    expect(result.content).toContain("ci-quality");
+  });
+
+  it("should use prebuilt system prompt when skills are enabled", async () => {
+    await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(vi.mocked(getSystemPrompt)).toHaveBeenCalledWith("quick");
+    expect(vi.mocked(composeSystemPrompt)).not.toHaveBeenCalled();
+  });
+
+  it("should include polyglot-governance when stack is unknown", async () => {
+    vi.mocked(createOctokit).mockReturnValue({
+      repos: {
+        get: vi.fn().mockResolvedValue({ data: { language: null } }),
+        listLanguages: vi.fn().mockResolvedValue({ data: {} }),
+        getContent: vi.fn().mockResolvedValue({ data: [{ name: "README.md" }] }),
+      },
+    } as any);
+
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 3,
+    });
+
+    expect(result.content).toContain("polyglot-governance");
+  });
+
+  it("should include expanded security skills when skillsMax is higher", async () => {
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 5,
+    });
+
+    expect(result.content).toContain("security-baseline");
+    expect(result.content).toContain("ci-quality");
+    expect(result.content).toContain("node-governance");
+    expect(result.content).toContain("insecure-defaults");
+    expect(result.content).toContain("security-supply-chain");
+  });
+
+  it("should prefer actually applied skills over preselected skills in report", async () => {
+    vi.mocked(createEventHandler).mockReturnValueOnce({
+      handler: vi.fn(),
+      state: {
+        outputBuffer: "Mocked analysis content",
+        toolCallCount: 5,
+        currentPhaseIndex: 0,
+        phases: [],
+        aborted: false,
+        abortReason: "",
+        currentToolName: null,
+        receivedDeltaSinceLastMessage: false,
+        appliedSkillNames: ["docs-audit"],
+        evidence: {
+          repoFullName: "owner/repo",
+          listedPaths: ["README.md"],
+          readPaths: ["README.md"],
+        },
+      },
+    });
+
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(result.content).toContain("## Skills Used");
+    expect(result.content).toContain("- docs-audit");
+    expect(result.content).not.toContain("- security-baseline");
+  });
+
+  it("should not flag context leakage for references excluded by list_repo_files filters", async () => {
+    vi.mocked(createEventHandler).mockReturnValueOnce({
+      handler: vi.fn(),
+      state: {
+        outputBuffer: [
+          "## Findings",
+          "- Build output: `dist/main.bundle.js`",
+          "- Dependency file: `node_modules/lodash/index.js`",
+          "- Coverage artifact: `coverage/lcov.info`",
+        ].join("\n"),
+        toolCallCount: 5,
+        currentPhaseIndex: 0,
+        phases: [],
+        aborted: false,
+        abortReason: "",
+        currentToolName: null,
+        receivedDeltaSinceLastMessage: false,
+        appliedSkillNames: [],
+        evidence: {
+          repoFullName: "owner/repo",
+          listedPaths: ["README.md"],
+          readPaths: ["README.md"],
+        },
+      },
+    });
+
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(result.content).not.toContain("## Evidence Integrity Warnings");
+  });
+
+  it("should still flag context leakage for unknown non-filtered paths", async () => {
+    vi.mocked(createEventHandler).mockReturnValueOnce({
+      handler: vi.fn(),
+      state: {
+        outputBuffer: [
+          "## Findings",
+          "- Secret env file: `src/secrets/prod.env`",
+          "- Internal keys: `configs/internal/keys.txt`",
+          "- Private deploy script: `scripts/private/deploy.sh`",
+        ].join("\n"),
+        toolCallCount: 5,
+        currentPhaseIndex: 0,
+        phases: [],
+        aborted: false,
+        abortReason: "",
+        currentToolName: null,
+        receivedDeltaSinceLastMessage: false,
+        appliedSkillNames: [],
+        evidence: {
+          repoFullName: "owner/repo",
+          listedPaths: ["README.md"],
+          readPaths: ["README.md"],
+        },
+      },
+    });
+
+    const result = await analyzeRepositoryWithCopilot({
+      repoUrl: "https://github.com/owner/repo",
+      skills: "on",
+      skillsMax: 2,
+    });
+
+    expect(result.content).toContain("## Evidence Integrity Warnings");
+    expect(result.content).toContain("Possible context leakage.");
   });
 });

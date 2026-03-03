@@ -219,6 +219,95 @@ describe("createEventHandler", () => {
       expect(state.phases[3].status).toBe("running");
       expect(state.currentPhaseIndex).toBe(3);
     });
+
+    it("should not advance phase for read_analysis_skill", () => {
+      const { handler, state } = createEventHandler({
+        ...defaultOptions,
+        silent: true,
+      });
+
+      state.currentPhaseIndex = 1;
+
+      handler({
+        type: "tool.execution_start",
+        data: { toolName: "read_analysis_skill" },
+      } as any);
+
+      expect(state.currentPhaseIndex).toBe(1);
+      expect(state.phases[1].status).toBe("pending");
+    });
+  });
+
+  describe("tool.execution_complete event", () => {
+    it("should capture applied skill names from read_analysis_skill", () => {
+      const { handler, state } = createEventHandler({
+        ...defaultOptions,
+        silent: true,
+      });
+
+      handler({
+        type: "tool.execution_start",
+        data: { toolName: "read_analysis_skill" },
+      } as any);
+
+      handler({
+        type: "tool.execution_complete",
+        data: {
+          result: {
+            content: JSON.stringify({
+              success: true,
+              skill: { name: "security-baseline" },
+            }),
+          },
+        },
+      } as any);
+
+      expect(state.appliedSkillNames).toContain("security-baseline");
+    });
+
+    it("should capture repository evidence paths from tool outputs", () => {
+      const { handler, state } = createEventHandler({
+        ...defaultOptions,
+        silent: true,
+      });
+
+      handler({
+        type: "tool.execution_start",
+        data: { toolName: "list_repo_files" },
+      } as any);
+
+      handler({
+        type: "tool.execution_complete",
+        data: {
+          result: {
+            content: JSON.stringify({
+              files: [{ path: "README.md" }, { path: "src/index.ts" }],
+            }),
+          },
+        },
+      } as any);
+
+      handler({
+        type: "tool.execution_start",
+        data: { toolName: "read_repo_file" },
+      } as any);
+
+      handler({
+        type: "tool.execution_complete",
+        data: {
+          result: {
+            content: JSON.stringify({
+              path: "README.md",
+              found: true,
+            }),
+          },
+        },
+      } as any);
+
+      expect(state.evidence.listedPaths).toContain("README.md");
+      expect(state.evidence.listedPaths).toContain("src/index.ts");
+      expect(state.evidence.readPaths).toContain("README.md");
+    });
   });
 
   describe("session.idle event", () => {

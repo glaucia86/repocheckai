@@ -8,8 +8,15 @@ import { AppStore } from "../../src/presentation/web/state/appStore.js";
 describe("Web run/report integration flow", () => {
   it("creates a job and loads the completed report", async () => {
     const registry = new InMemoryJobRegistry();
+    let capturedOptions: Parameters<typeof createCreateJobRouteWithRunner>[1] extends (
+      registry: InMemoryJobRegistry,
+      options: infer T
+    ) => Promise<unknown>
+      ? T | null
+      : null = null;
 
     const runJob: Parameters<typeof createCreateJobRouteWithRunner>[1] = (jobRegistry, options) => {
+      capturedOptions = options;
       jobRegistry.startJob(options.jobId);
       jobRegistry.completeJob(options.jobId, {
         jobId: options.jobId,
@@ -60,6 +67,8 @@ describe("Web run/report integration flow", () => {
     const running = await store.startAnalysis({
       repositoryInput: "owner/repo",
       analysisMode: "quick",
+      skills: "on",
+      skillsMax: 10,
     });
 
     expect(running.status).toBe("running");
@@ -69,5 +78,7 @@ describe("Web run/report integration flow", () => {
     expect(completed.status).toBe("completed");
     expect(completed.markdownReport).toContain("Analysis");
     expect(completed.jsonReport).toMatchObject({ score: 95 });
+    expect(capturedOptions?.skills).toBe("on");
+    expect(capturedOptions?.skillsMax).toBe(6);
   });
 });

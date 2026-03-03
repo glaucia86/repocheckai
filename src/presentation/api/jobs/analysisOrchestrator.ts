@@ -12,6 +12,8 @@ interface RunOptions {
   model?: string;
   timeoutSeconds?: number;
   maxFiles?: number;
+  skills?: "on" | "off";
+  skillsMax?: number;
   publishAsIssue?: boolean;
   githubToken?: string;
 }
@@ -43,6 +45,8 @@ export async function runAnalysisJob(
       maxFiles: options.maxFiles,
       timeout: options.timeoutSeconds ? options.timeoutSeconds * 1000 : undefined,
       verbosity: "silent",
+      skills: options.skills,
+      skillsMax: options.skillsMax,
     });
 
     const cleanedReport = enforceRepositoryIdentity(

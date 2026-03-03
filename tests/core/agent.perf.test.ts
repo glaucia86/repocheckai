@@ -60,6 +60,7 @@ vi.mock("../../src/application/core/agent/index.js", () => ({
   SYSTEM_PROMPT: "Mock system prompt",
   QUICK_SYSTEM_PROMPT: "Mock quick prompt",
   DEEP_SYSTEM_PROMPT: "Mock deep prompt",
+  composeSystemPrompt: vi.fn().mockReturnValue("Mock composed system prompt"),
   getSystemPrompt: vi.fn().mockReturnValue("Mock system prompt"),
   buildAnalysisPrompt: vi.fn().mockReturnValue("Mock analysis prompt"),
   createGuardrails: vi.fn().mockReturnValue({
@@ -72,6 +73,25 @@ vi.mock("../../src/application/core/agent/index.js", () => ({
       toolCallCount: 5,
       aborted: false,
       abortReason: null,
+      appliedSkillNames: [],
+      evidence: {
+        repoFullName: "owner/repo",
+        listedPaths: ["README.md", "package.json"],
+        readPaths: ["README.md"],
+      },
+    },
+  }),
+}));
+
+vi.mock("../../src/infrastructure/providers/github.js", () => ({
+  parseRepoUrl: vi.fn().mockReturnValue({ owner: "owner", repo: "repo" }),
+  createOctokit: vi.fn().mockReturnValue({
+    repos: {
+      get: vi.fn().mockResolvedValue({ data: { language: "TypeScript" } }),
+      listLanguages: vi.fn().mockResolvedValue({ data: { TypeScript: 1000 } }),
+      getContent: vi.fn().mockResolvedValue({
+        data: [{ name: "package.json" }],
+      }),
     },
   }),
 }));

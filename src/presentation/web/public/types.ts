@@ -27,6 +27,8 @@ export interface FormState {
   model: string;
   maxFiles: string;
   timeoutSeconds: string;
+  skills: "on" | "off";
+  skillsMax: string;
   publishAsIssue: boolean;
   githubToken: string;
 }

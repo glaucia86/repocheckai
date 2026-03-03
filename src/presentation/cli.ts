@@ -45,6 +45,8 @@ const defaultOptions: Partial<CLIAnalyzeOptions> = {
   verbosity: "normal",
   format: "pretty",
   issue: false,
+  skills: "on",
+  skillsMax: 2,
 };
 
 const getStringOption = (opts: OptionValues, key: string): string | undefined => {
@@ -122,6 +124,8 @@ async function runDirectAnalyze(repoRef: string, options: CLIAnalyzeOptions): Pr
       verbosity: options.verbosity,
       format: options.format,
       deep: options.deep,
+      skills: options.skills,
+      skillsMax: options.skillsMax,
     });
 
     const target = options.issue ? "issue" : undefined;
@@ -220,6 +224,8 @@ program
   .option("--format <type>", "Output format (pretty|json|minimal)", "pretty")
   .option("--model <name>", "AI model to use", "claude-sonnet-4")
   .option("--deep", "Enable deep analysis with full source code review", false)
+  .option("--skills <mode>", "Enable or disable analysis skills (on|off)", "on")
+  .option("--skills-max <N>", "Maximum number of skills to apply", "2")
   .option("--export", "Export report to markdown after analysis", false)
   .action(async (repoRef: string, opts: OptionValues) => {
     const modelOption = getStringOption(opts, "model");
@@ -248,6 +254,8 @@ program
         ),
         deep: getBooleanOption(opts, "deep") ?? false,
         issue: getBooleanOption(opts, "issue") ?? false,
+        skills: getEnumOption(opts, "skills", ["on", "off"] as const, defaultOptions.skills!),
+        skillsMax: getNumberOption(opts, "skillsMax") ?? defaultOptions.skillsMax,
       },
       defaultOptions
     );

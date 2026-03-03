@@ -10,6 +10,8 @@ interface CreateJobRequestBody {
   model?: string;
   maxFiles?: number;
   timeoutSeconds?: number;
+  skills?: "on" | "off";
+  skillsMax?: number;
   preferredOutputFormat?: "markdown" | "json";
   publishAsIssue?: boolean;
   githubToken?: string;
@@ -38,6 +40,8 @@ export function createCreateJobRouteWithRunner(
   return function handleCreateJob(request: RequestLike): ResponseLike {
     const repositoryInput = request.body?.repositoryInput;
     const analysisMode = request.body?.analysisMode;
+    const skills = request.body?.skills;
+    const skillsMax = request.body?.skillsMax;
 
     if (!repositoryInput || !isAnalysisMode(analysisMode)) {
       const error = toHttpError({
@@ -59,6 +63,11 @@ export function createCreateJobRouteWithRunner(
       model: request.body?.model,
       maxFiles: request.body?.maxFiles,
       timeoutSeconds: request.body?.timeoutSeconds,
+      skills: skills === "off" ? "off" : "on",
+      skillsMax:
+        typeof skillsMax === "number" && Number.isFinite(skillsMax)
+          ? Math.max(1, Math.min(Math.trunc(skillsMax), 6))
+          : undefined,
       preferredOutputFormat: request.body?.preferredOutputFormat,
     });
 
@@ -70,6 +79,11 @@ export function createCreateJobRouteWithRunner(
       model: request.body?.model,
       timeoutSeconds: request.body?.timeoutSeconds,
       maxFiles: request.body?.maxFiles,
+      skills: skills === "off" ? "off" : "on",
+      skillsMax:
+        typeof skillsMax === "number" && Number.isFinite(skillsMax)
+          ? Math.max(1, Math.min(Math.trunc(skillsMax), 6))
+          : undefined,
       publishAsIssue: request.body?.publishAsIssue === true,
       githubToken: request.body?.githubToken?.trim() || undefined,
     });

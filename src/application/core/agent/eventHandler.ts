@@ -50,6 +50,14 @@ export interface EventHandlerState {
   currentToolName: string | null;
   /** Tracks whether streamed deltas were received before a full message event */
   receivedDeltaSinceLastMessage: boolean;
+  /** Skills loaded by the agent during this analysis */
+  appliedSkillNames: string[];
+  /** Evidence snapshot captured from tool outputs */
+  evidence: {
+    repoFullName: string | null;
+    listedPaths: string[];
+    readPaths: string[];
+  };
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -73,6 +81,8 @@ const TOOLS_WITH_STRUCTURED_RESULTS = new Set([
   "get_repo_meta",
   "read_repo_file",
   "list_repo_files",
+  "list_analysis_skills",
+  "read_analysis_skill",
 ]);
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -119,6 +129,12 @@ export function createEventHandler(options: EventHandlerOptions): {
     abortReason: "",
     currentToolName: null,
     receivedDeltaSinceLastMessage: false,
+    appliedSkillNames: [],
+    evidence: {
+      repoFullName: null,
+      listedPaths: [],
+      readPaths: [],
+    },
   };
 
   const handler = (event: SessionEvent): void => {
@@ -203,12 +219,43 @@ export function createEventHandler(options: EventHandlerOptions): {
           const resultData = event.data?.result;
           
           // Try to parse result content if it's a JSON string
-          let parsedResult: Record<string, unknown> | null = null;
-          if (isStructuredTool && resultData && typeof resultData.content === "string") {
-            try {
-              parsedResult = JSON.parse(resultData.content) as Record<string, unknown>;
-            } catch {
-              // Not JSON, that's fine
+          const parsedResult = isStructuredTool ? parseToolResultObject(resultData) : null;
+
+          if (completedToolName === "read_analysis_skill" && parsedResult) {
+            const skill = parsedResult.skill;
+            if (parsedResult.success === true && skill && typeof skill === "object") {
+              const skillName = (skill as { name?: unknown }).name;
+              if (typeof skillName === "string" && !state.appliedSkillNames.includes(skillName)) {
+                state.appliedSkillNames.push(skillName);
+              }
+            }
+          }
+
+          if (completedToolName === "get_repo_meta" && parsedResult) {
+            const fullName = parsedResult.fullName;
+            if (typeof fullName === "string" && fullName.trim()) {
+              state.evidence.repoFullName = fullName.trim();
+            }
+          }
+
+          if (completedToolName === "list_repo_files" && parsedResult) {
+            const files = parsedResult.files;
+            if (Array.isArray(files)) {
+              for (const entry of files) {
+                if (entry && typeof entry === "object") {
+                  const pathValue = (entry as { path?: unknown }).path;
+                  if (typeof pathValue === "string" && pathValue.trim()) {
+                    addUnique(state.evidence.listedPaths, pathValue.trim());
+                  }
+                }
+              }
+            }
+          }
+
+          if (completedToolName === "read_repo_file" && parsedResult) {
+            const readPath = parsedResult.path;
+            if (typeof readPath === "string" && readPath.trim()) {
+              addUnique(state.evidence.readPaths, readPath.trim());
             }
           }
 
@@ -283,6 +330,31 @@ export function createEventHandler(options: EventHandlerOptions): {
   return { handler, state };
 }
 
+function parseToolResultObject(resultData: unknown): Record<string, unknown> | null {
+  if (!resultData || typeof resultData !== "object") {
+    return null;
+  }
+
+  const asRecord = resultData as Record<string, unknown>;
+  const content = asRecord.content;
+
+  if (typeof content === "string") {
+    try {
+      return JSON.parse(content) as Record<string, unknown>;
+    } catch {
+      return null;
+    }
+  }
+
+  return asRecord;
+}
+
+function addUnique(items: string[], value: string): void {
+  if (!items.includes(value)) {
+    items.push(value);
+  }
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // HELPERS
 // ════════════════════════════════════════════════════════════════════════════
@@ -333,18 +405,18 @@ function handleGuardrailAction(
 function updatePhaseFromTool(toolName: string, state: EventHandlerState): void {
   const { phases } = state;
 
-  if (toolName.includes("meta") && state.currentPhaseIndex === 0) {
+  if (toolName === "get_repo_meta" && state.currentPhaseIndex === 0) {
     if (phases[0]) phases[0].status = "running";
-  } else if (toolName.includes("list") && state.currentPhaseIndex <= 1) {
+  } else if ((toolName === "list_repo_files" || toolName === "list_analysis_skills") && state.currentPhaseIndex <= 1) {
     if (phases[0]) phases[0].status = "done";
     if (phases[1]) phases[1].status = "running";
     state.currentPhaseIndex = 1;
-  } else if (toolName.includes("read") && state.currentPhaseIndex <= 3) {
+  } else if (toolName === "read_repo_file" && state.currentPhaseIndex <= 3) {
     if (phases[1]) phases[1].status = "done";
     if (phases[2]) phases[2].status = "done";
     if (phases[3]) phases[3].status = "running";
     state.currentPhaseIndex = 3;
-  } else if (toolName.includes("pack") && state.currentPhaseIndex <= 4) {
+  } else if (toolName === "pack_repository" && state.currentPhaseIndex <= 4) {
     // Deep analysis mode
     if (phases[3]) phases[3].status = "done";
     if (phases[4]) phases[4].status = "running";

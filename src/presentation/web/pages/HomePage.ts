@@ -6,6 +6,8 @@ export interface HomeFormValues {
   model?: string;
   maxFiles?: number;
   timeoutSeconds?: number;
+  skills?: "on" | "off";
+  skillsMax?: number;
 }
 
 export function renderHomePage(): string {
@@ -44,6 +46,8 @@ export function parseHomeFormSubmission(formData: Record<string, string>): HomeF
     model: formData.model?.trim() || undefined,
     maxFiles: formData.maxFiles ? Number(formData.maxFiles) : undefined,
     timeoutSeconds: formData.timeoutSeconds ? Number(formData.timeoutSeconds) : undefined,
+    skills: formData.skills === "off" ? "off" : "on",
+    skillsMax: formData.skillsMax ? Number(formData.skillsMax) : undefined,
   };
 }
 
