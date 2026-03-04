@@ -1,4 +1,4 @@
-import { CopilotClient, type CopilotSession } from "@github/copilot-sdk";
+import { CopilotClient, approveAll, type CopilotSession } from "@github/copilot-sdk";
 import { repoTools, deepAnalysisTools } from "../../infrastructure/tools/repoTools.js";
 import {
   loadBundledAnalysisSkills,
@@ -153,6 +153,7 @@ async function initializeCopilotSession(options: {
       backgroundCompactionThreshold: 0.80,  // Start compaction at 80% buffer
       bufferExhaustionThreshold: 0.95,      // Block at 95% until compaction completes
     },
+    onPermissionRequest: approveAll,
   });
 
   return { client, session, selectedSkills };

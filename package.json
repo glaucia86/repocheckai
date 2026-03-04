@@ -86,6 +86,7 @@
     "zod": "~3.22.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.3",
     "@types/commander": "^2.12.5",
     "@types/cross-spawn": "^6.0.6",
     "@types/node": "^25.3.3",
