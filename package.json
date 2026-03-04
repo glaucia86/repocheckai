@@ -71,7 +71,7 @@
   },
   "homepage": "https://github.com/glaucia86/repocheckai#readme",
   "dependencies": {
-    "@github/copilot-sdk": "~0.1.26",
+    "@github/copilot-sdk": "~0.1.30",
     "@inquirer/prompts": "~8.3.0",
     "@octokit/rest": "~22.0.1",
     "chalk": "~5.3.0",
