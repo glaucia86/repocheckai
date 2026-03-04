@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.7.1] - 2026-03-04
+
+### Changed
+
+- **Copilot Session Permissions**: Updated session initialization in `src/application/core/agent.ts` to include `onPermissionRequest` using the SDK typed permission handler.
+- **Lint Tooling Dependency**: Added `@eslint/js` as a development dependency with ESLint 9-compatible versioning.
+
+### Fixed
+
+- **TypeScript Build Error (TS2345)**: Resolved missing `onPermissionRequest` in `client.createSession(...)` options.
+- **CI Lint Failure**: Fixed `ERR_MODULE_NOT_FOUND` for `@eslint/js` in `eslint.config.js`.
+
+---
+
 ## [2.7.0] - 2026-03-02
 
 ### Added
@@ -338,6 +352,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [2.5.0]: https://github.com/glaucia86/repocheckai/compare/v2.4.0...v2.5.0
 [2.6.0]: https://github.com/glaucia86/repocheckai/compare/v2.5.0...v2.6.0
 [2.7.0]: https://github.com/glaucia86/repocheckai/compare/v2.6.0...v2.7.0
-[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.7.0...HEAD
+[2.7.1]: https://github.com/glaucia86/repocheckai/compare/v2.7.0...v2.7.1
+[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.7.1...HEAD
 
 

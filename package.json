@@ -1,6 +1,6 @@
 {
   "name": "repocheckai",
-  "version": "2.6.0",
+  "version": "2.7.1",
   "description": "AI-powered GitHub repository health analyzer using GitHub Copilot SDK",
   "main": "dist/index.js",
   "type": "module",
