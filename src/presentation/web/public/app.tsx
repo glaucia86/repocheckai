@@ -19,6 +19,10 @@ const SAMPLE_REPO = "octocat/Hello-World";
 const FORM_STORAGE_KEY = "repocheckai_last_form";
 const RECENT_REPOS_KEY = "repocheckai_recent_repos";
 const RECENT_REPOS_LIMIT = 5;
+const DEFAULT_TIMEOUT_SECONDS_BY_MODE: Record<FormState["analysisMode"], string> = {
+  quick: "300",
+  deep: "600",
+};
 
 const App = () => {
   const [form, setForm] = useState<FormState>({
@@ -26,7 +30,7 @@ const App = () => {
     analysisMode: "quick",
     model: "claude-sonnet-4",
     maxFiles: "800",
-    timeoutSeconds: "120",
+    timeoutSeconds: "300",
     skills: "on",
     skillsMax: "2",
     publishAsIssue: false,
@@ -91,13 +95,20 @@ const App = () => {
       const rawForm = localStorage.getItem(FORM_STORAGE_KEY);
       if (rawForm) {
         const parsed = JSON.parse(rawForm) as Partial<FormState>;
+        const savedTimeoutSeconds =
+          typeof parsed.timeoutSeconds === "string"
+            ? parsed.timeoutSeconds.trim()
+            : "";
+        // Migrate legacy default timeout (120s) to the new 300s baseline.
+        const migratedTimeoutSeconds =
+          savedTimeoutSeconds === "120" ? "300" : parsed.timeoutSeconds;
         setForm((current: FormState) => ({
           ...current,
           repositoryInput: parsed.repositoryInput || current.repositoryInput,
           analysisMode: parsed.analysisMode || current.analysisMode,
           model: parsed.model || current.model,
           maxFiles: parsed.maxFiles || current.maxFiles,
-          timeoutSeconds: parsed.timeoutSeconds || current.timeoutSeconds,
+          timeoutSeconds: migratedTimeoutSeconds || current.timeoutSeconds,
           skills: parsed.skills === "off" ? "off" : "on",
           skillsMax: parsed.skillsMax || current.skillsMax,
           publishAsIssue:
@@ -498,7 +509,21 @@ const App = () => {
                 <div className={selectShellClass}>
                   <select
                     value={form.analysisMode}
-                    onChange={(e) => setForm((current: FormState) => ({ ...current, analysisMode: e.target.value as FormState["analysisMode"] }))}
+                    onChange={(e) =>
+                      setForm((current: FormState) => {
+                        const nextMode = e.target.value as FormState["analysisMode"];
+                        const currentDefault = DEFAULT_TIMEOUT_SECONDS_BY_MODE[current.analysisMode];
+                        const nextDefault = DEFAULT_TIMEOUT_SECONDS_BY_MODE[nextMode];
+                        return {
+                          ...current,
+                          analysisMode: nextMode,
+                          timeoutSeconds:
+                            current.timeoutSeconds === currentDefault
+                              ? nextDefault
+                              : current.timeoutSeconds,
+                        };
+                      })
+                    }
                     className={`${selectClass} ${focusRingClass}`}
                   >
                     <option value="quick">Quick</option>

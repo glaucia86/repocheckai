@@ -265,7 +265,7 @@ The analysis took longer than the timeout limit.
 **Solutions:**
 
 ```bash
-# Increase timeout (default: 120000ms = 2 minutes)
+# Increase timeout (default: 300000ms = 5 minutes)
 repocheck owner/repo --timeout 300000  # 5 minutes
 
 # Use quick analysis for large repos

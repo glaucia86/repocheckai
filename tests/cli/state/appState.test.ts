@@ -122,6 +122,12 @@ describe("findModel", () => {
     expect(model?.id).toBe("gpt-4o");
   });
 
+  it("should include gpt-5.4 as a premium model", () => {
+    const model = findModel("gpt-5.4");
+    expect(model?.id).toBe("gpt-5.4");
+    expect(model?.premium).toBe(true);
+  });
+
   it("should find model by partial name", () => {
     const model = findModel("sonnet");
     expect(model?.id).toBe("claude-sonnet-4");
@@ -158,6 +164,7 @@ describe("getAvailableModels memoization", () => {
     expect(models).toBeDefined();
     expect(Array.isArray(models)).toBe(true);
     expect(models.length).toBeGreaterThan(0);
+    expect(models.some((model) => model.id === "gpt-5.4")).toBe(true);
   });
 
   it("should return the same cached result on subsequent calls", () => {

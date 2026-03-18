@@ -35,6 +35,8 @@ export default [
       ...tseslint.configs.recommended.rules,
       ...tseslint.configs["recommended-requiring-type-checking"].rules,
       ...prettierConfig.rules,
+      "no-useless-assignment": "off",
+      "preserve-caught-error": "off",
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
       "no-console": "off"

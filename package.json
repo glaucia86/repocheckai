@@ -86,7 +86,7 @@
     "zod": "~4.3.6"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "10.0.1",
     "@types/commander": "^2.12.5",
     "@types/cross-spawn": "^6.0.6",
     "@types/node": "^25.5.0",
@@ -98,8 +98,9 @@
     "@vitest/coverage-v8": "^4.0.18",
     "autoprefixer": "^10.4.27",
     "axe-core": "^4.11.1",
-    "eslint": "^9.0.0",
+    "eslint": "^10.0.1",
     "eslint-config-prettier": "^9.1.0",
+    "globals": "^16.5.0",
     "husky": "^9.1.6",
     "jsdom": "^28.1.0",
     "png-to-ico": "^3.0.1",

@@ -15,6 +15,7 @@ RepoCheckAI supports multiple AI models through the GitHub Copilot SDK. Choose t
 | `claude-sonnet-4.5` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Enhanced reasoning |
 | `claude-opus-4.5` | ⚡ Premium | ⚡ | ⭐⭐⭐⭐⭐ | Deep analysis, complex repos |
 | `gpt-5` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Advanced tasks |
+| `gpt-5.4` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐⭐ | Latest GPT capabilities |
 | `gpt-5.1-codex` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Code-focused analysis |
 | `gpt-5.2-codex` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Latest code optimization |
 | `gpt-5.3-codex` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐⭐ | Advanced coding tasks |
@@ -87,6 +88,14 @@ repocheck vercel/next.js --model gpt-5
 - **Best for:** Advanced analysis
 - **Speed:** Moderate
 - **Quality:** Preview of latest capabilities
+
+### GPT-5.4
+```bash
+repocheck vercel/next.js --model gpt-5.4
+```
+- **Best for:** Latest GPT capabilities and high-quality reasoning
+- **Speed:** Moderate
+- **Quality:** Premium model for deeper analysis
 
 ### GPT-5.1 Codex
 ```bash

@@ -116,7 +116,7 @@ If no repository is provided, RepoCheckAI starts in interactive mode.
 | `--export` | `-e` | boolean | `false` | Auto-export report after analysis |
 | `--max-files` | — | number | `800` | Maximum files to analyze |
 | `--max-bytes` | — | number | `204800` | Maximum bytes per file (200KB) |
-| `--timeout` | — | number | `120000` | Analysis timeout in ms |
+| `--timeout` | — | number | `300000` | Analysis timeout in ms |
 | `--skills` | — | string | `on` | Skills runtime mode (`on` or `off`) |
 | `--skills-max` | — | number | `2` | Max number of preselected skills (effective range `1..6`) |
 | `--help` | `-h` | — | — | Show help information |
@@ -426,7 +426,7 @@ Configure RepoCheckAI behavior using environment variables:
 | `GITHUB_TOKEN` | GitHub personal access token | `ghp_xxxx` |
 | `GH_TOKEN` | GitHub CLI OAuth token for Copilot SDK | `gho_xxxx` |
 | `REPOCHECKAI_MODEL` | Default AI model | `gpt-4o` |
-| `REPOCHECKAI_TIMEOUT` | Analysis timeout (ms) | `180000` |
+| `REPOCHECKAI_TIMEOUT` | Analysis timeout (ms) | `300000` |
 | `REPOCHECKAI_EXPORT_PATH` | Default export path | `~/reports` |
 
 **Example usage:**

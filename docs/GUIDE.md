@@ -163,7 +163,7 @@ Options:
   --issue             Publish analysis as GitHub issue(s)
   --max-files <N>     Maximum files to analyze (default: 800)
   --max-bytes <N>     Maximum bytes per file (default: 200KB)
-  --timeout <ms>      Analysis timeout (default: 120000)
+  --timeout <ms>      Analysis timeout (default: 300000)
   --export            Export report after analysis
   --help              Show help
 ```

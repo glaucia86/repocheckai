@@ -41,7 +41,7 @@ import { type CLIAnalyzeOptions } from "./cli/types.js";
 const defaultOptions: Partial<CLIAnalyzeOptions> = {
   maxFiles: 800,
   maxBytes: 204800,
-  timeout: 120000,
+  timeout: 300000,
   verbosity: "normal",
   format: "pretty",
   issue: false,
@@ -120,7 +120,7 @@ async function runDirectAnalyze(repoRef: string, options: CLIAnalyzeOptions): Pr
       model: appState.currentModel,
       maxFiles: options.maxFiles,
       maxBytes: options.maxBytes,
-      timeout: options.deep ? 300000 : options.timeout,
+      timeout: options.deep ? 600000 : options.timeout,
       verbosity: options.verbosity,
       format: options.format,
       deep: options.deep,
@@ -219,7 +219,7 @@ program
   .option("--issue", "Publish report as a GitHub issue", false)
   .option("--max-files <N>", "Maximum files to list", "800")
   .option("--max-bytes <N>", "Maximum bytes per file", "204800")
-  .option("--timeout <ms>", "Analysis timeout in milliseconds", "120000")
+  .option("--timeout <ms>", "Analysis timeout in milliseconds", "300000")
   .option("--verbosity <level>", "Output verbosity (silent|normal|verbose)", "normal")
   .option("--format <type>", "Output format (pretty|json|minimal)", "pretty")
   .option("--model <name>", "AI model to use", "claude-sonnet-4")

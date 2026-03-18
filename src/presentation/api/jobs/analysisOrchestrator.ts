@@ -26,6 +26,13 @@ export async function runAnalysisJob(
   registry: InMemoryJobRegistry,
   options: RunOptions
 ): Promise<RunResult> {
+  const resolvedTimeoutMs =
+    typeof options.timeoutSeconds === "number" && options.timeoutSeconds > 0
+      ? options.timeoutSeconds * 1000
+      : options.analysisMode === "deep"
+        ? 600000
+        : 300000;
+
   const start = registry.startJob(options.jobId);
   if (!start.ok) {
     return start;
@@ -43,7 +50,7 @@ export async function runAnalysisJob(
       model: options.model,
       deep: options.analysisMode === "deep",
       maxFiles: options.maxFiles,
-      timeout: options.timeoutSeconds ? options.timeoutSeconds * 1000 : undefined,
+      timeout: resolvedTimeoutMs,
       verbosity: "silent",
       skills: options.skills,
       skillsMax: options.skillsMax,
