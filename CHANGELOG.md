@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.8.1] - 2026-03-18
+
+### Changed
+
+- **Release Metadata Alignment**: Updated project package metadata version to `2.8.1` in `package.json` and `package-lock.json` to keep npm metadata aligned with SemVer release tags.
+- **Release Notes References**: Updated changelog comparison links and set `[Unreleased]` baseline to `v2.8.1`.
+
+---
+
 ## [2.8.0] - 2026-03-18
 
 ### Added
@@ -377,7 +386,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [2.6.0]: https://github.com/glaucia86/repocheckai/compare/v2.5.0...v2.6.0
 [2.7.0]: https://github.com/glaucia86/repocheckai/compare/v2.6.0...v2.7.0
 [2.7.1]: https://github.com/glaucia86/repocheckai/compare/v2.7.0...v2.7.1
-[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.7.1...HEAD
+[2.8.0]: https://github.com/glaucia86/repocheckai/compare/v2.7.1...v2.8.0
+[2.8.1]: https://github.com/glaucia86/repocheckai/compare/v2.8.0...v2.8.1
+[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.8.1...HEAD
 
 
 
