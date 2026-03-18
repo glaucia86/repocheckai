@@ -120,7 +120,7 @@ async function runDirectAnalyze(repoRef: string, options: CLIAnalyzeOptions): Pr
       model: appState.currentModel,
       maxFiles: options.maxFiles,
       maxBytes: options.maxBytes,
-      timeout: options.deep ? 600000 : options.timeout,
+      timeout: options.timeout,
       verbosity: options.verbosity,
       format: options.format,
       deep: options.deep,
