@@ -97,6 +97,7 @@ describe("handleAnalyze (Integration)", () => {
   it("should handle deep analysis mode", async () => {
     const { parseRepoRef, buildRepoUrl, buildRepoSlug } = await import("../../../src/presentation/cli/parsers/repoParser.js");
     const { isRepomixAvailable } = await import("../../../src/application/core/repoPacker.js");
+    const { analyzeRepositoryWithCopilot } = await import("../../../src/application/core/agent.js");
 
     vi.mocked(parseRepoRef).mockReturnValue({ owner: "owner", repo: "repo" });
     vi.mocked(buildRepoUrl).mockReturnValue("https://github.com/owner/repo");
@@ -116,6 +117,9 @@ describe("handleAnalyze (Integration)", () => {
     await handleAnalyze("owner/repo", options, true);
 
     expect(isRepomixAvailable).toHaveBeenCalled();
+    expect(analyzeRepositoryWithCopilot).toHaveBeenCalledWith(
+      expect.objectContaining({ timeout: 600000, deep: true })
+    );
   });
 
   it("should handle issue publishing", async () => {

@@ -1,5 +1,4 @@
 import type { AnalysisMode } from "../../../domain/shared/contracts.js";
-import { runAnalysisJob } from "../jobs/analysisOrchestrator.js";
 import { InMemoryJobRegistry } from "../jobs/jobRegistry.js";
 import { toHttpError } from "../errors/httpErrors.js";
 import { normalizeRepositoryInput } from "../validation/repositoryInput.js";
@@ -26,16 +25,40 @@ interface ResponseLike {
   body: unknown;
 }
 
+interface RunJobOptions {
+  jobId: string;
+  repositoryUrl: string;
+  repositorySlug: string;
+  analysisMode: AnalysisMode;
+  model?: string;
+  timeoutSeconds?: number;
+  maxFiles?: number;
+  skills?: "on" | "off";
+  skillsMax?: number;
+  publishAsIssue?: boolean;
+  githubToken?: string;
+}
+
+type RunJobFn = (
+  registry: InMemoryJobRegistry,
+  options: RunJobOptions
+) => Promise<unknown>;
+
 const isAnalysisMode = (value: unknown): value is AnalysisMode =>
   value === "quick" || value === "deep";
 
 export function createCreateJobRoute(registry: InMemoryJobRegistry) {
-  return createCreateJobRouteWithRunner(registry, runAnalysisJob);
+  return createCreateJobRouteWithRunner(registry, async (jobRegistry, options) => {
+    const orchestrator = (await import("../jobs/analysisOrchestrator.js")) as {
+      runAnalysisJob: RunJobFn;
+    };
+    return orchestrator.runAnalysisJob(jobRegistry, options);
+  });
 }
 
 export function createCreateJobRouteWithRunner(
   registry: InMemoryJobRegistry,
-  runJob: typeof runAnalysisJob
+  runJob: RunJobFn
 ) {
   return function handleCreateJob(request: RequestLike): ResponseLike {
     const repositoryInput = request.body?.repositoryInput;

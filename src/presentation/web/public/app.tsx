@@ -99,24 +99,31 @@ const App = () => {
           typeof parsed.timeoutSeconds === "string"
             ? parsed.timeoutSeconds.trim()
             : "";
-        // Migrate legacy default timeout (120s) to the new 300s baseline.
-        const migratedTimeoutSeconds =
-          savedTimeoutSeconds === "120" ? "300" : parsed.timeoutSeconds;
-        setForm((current: FormState) => ({
-          ...current,
-          repositoryInput: parsed.repositoryInput || current.repositoryInput,
-          analysisMode: parsed.analysisMode || current.analysisMode,
-          model: parsed.model || current.model,
-          maxFiles: parsed.maxFiles || current.maxFiles,
-          timeoutSeconds: migratedTimeoutSeconds || current.timeoutSeconds,
-          skills: parsed.skills === "off" ? "off" : "on",
-          skillsMax: parsed.skillsMax || current.skillsMax,
-          publishAsIssue:
-            typeof parsed.publishAsIssue === "boolean"
-              ? parsed.publishAsIssue
-              : current.publishAsIssue,
-          githubToken: current.githubToken,
-        }));
+        // Migrate legacy default timeout (120s) to the per-mode baseline.
+        setForm((current: FormState) => {
+          const targetAnalysisMode = parsed.analysisMode ?? current.analysisMode;
+          const defaultTimeoutSeconds = DEFAULT_TIMEOUT_SECONDS_BY_MODE[targetAnalysisMode];
+          const migratedTimeoutSeconds =
+            savedTimeoutSeconds && savedTimeoutSeconds !== "120"
+              ? savedTimeoutSeconds
+              : defaultTimeoutSeconds || current.timeoutSeconds;
+
+          return {
+            ...current,
+            repositoryInput: parsed.repositoryInput || current.repositoryInput,
+            analysisMode: parsed.analysisMode || current.analysisMode,
+            model: parsed.model || current.model,
+            maxFiles: parsed.maxFiles || current.maxFiles,
+            timeoutSeconds: migratedTimeoutSeconds,
+            skills: parsed.skills === "off" ? "off" : "on",
+            skillsMax: parsed.skillsMax || current.skillsMax,
+            publishAsIssue:
+              typeof parsed.publishAsIssue === "boolean"
+                ? parsed.publishAsIssue
+                : current.publishAsIssue,
+            githubToken: current.githubToken,
+          };
+        });
       }
 
       const rawRecent = localStorage.getItem(RECENT_REPOS_KEY);

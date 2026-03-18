@@ -128,7 +128,7 @@ Returns consolidated content with file markers and structure.`,
           include,
           compress,
           maxBytes,
-          timeout: 180000, // 3 minutes for deep analysis
+          timeout: mode === "deep" ? 600000 : 300000, // Align with analysis defaults
         });
 
         if (!result.success) {
