@@ -113,7 +113,7 @@ export async function handleAnalyze(
       model: appState.currentModel,
       maxFiles: options.maxFiles,
       maxBytes: options.maxBytes,
-      timeout: deep ? 300000 : options.timeout, // 5 min for deep analysis
+      timeout: deep ? 600000 : options.timeout, // 10 min for deep analysis
       verbosity: options.verbosity,
       format: options.format,
       deep,

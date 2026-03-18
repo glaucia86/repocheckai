@@ -2,11 +2,10 @@ import { describe, it, expect, vi } from "vitest";
 import { analyzeRepositoryWithCopilot } from "../../src/application/core/agent.js";
 
 // Mock CopilotClient
-vi.mock("@github/copilot-sdk", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  const actual = await importOriginal() as Record<string, any>;
+vi.mock("@github/copilot-sdk", () => {
   return {
-    ...actual,
+    approveAll: vi.fn(),
+    defineTool: vi.fn((name: string, spec: Record<string, unknown>) => ({ name, ...spec })),
     CopilotClient: function() {
       return {
         start: vi.fn().mockResolvedValue(undefined),

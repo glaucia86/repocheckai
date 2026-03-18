@@ -246,7 +246,7 @@ export async function analyzeRepositoryWithCopilot(options: AnalyzeOptions): Pro
     model = "claude-sonnet-4",
     maxFiles = 800,
     maxBytes = 204800,
-    timeout = 120000,
+    timeout = 300000,
     verbosity = "normal",
     format = "pretty",
     deep = false,

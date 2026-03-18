@@ -21,7 +21,7 @@ import { categorizeError, sanitizeError } from "./errors.js";
 // ─────────────────────────────────────────────────────────────
 
 const DEFAULT_MAX_BYTES = 500 * 1024; // 500KB
-const DEFAULT_TIMEOUT = 120000; // 2 minutes
+const DEFAULT_TIMEOUT = 300000; // 5 minutes
 
 // ─────────────────────────────────────────────────────────────
 // Main Function

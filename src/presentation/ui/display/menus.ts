@@ -49,7 +49,7 @@ export function printHelp(): void {
       `  ${c.key("--deep")}               ${c.text("Deep analysis with full source code (Repomix)")}`,
       `  ${c.key("--max-files")} ${c.dim("<N>")}   ${c.text("Max files to list (default: 800)")}`,
       `  ${c.key("--max-bytes")} ${c.dim("<N>")}   ${c.text("Max bytes per file (default: 200KB)")}`,
-      `  ${c.key("--timeout")} ${c.dim("<ms>")}     ${c.text("Analysis timeout (default: 120000)")}`,
+      `  ${c.key("--timeout")} ${c.dim("<ms>")}     ${c.text("Analysis timeout (default: 300000)")}`,
       `  ${c.key("--verbose")}            ${c.text("Show detailed output")}`,
       "",
       c.whiteBold("Examples:"),

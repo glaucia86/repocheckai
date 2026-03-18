@@ -63,6 +63,7 @@ export const AVAILABLE_MODELS: ModelInfo[] = [
   { id: "gpt-5.1-codex", name: "GPT-5.1-Codex", premium: true },
   { id: "gpt-5.2-codex", name: "GPT-5.2-Codex", premium: true },
   { id: "gpt-5.3-codex", name: "GPT-5.3-Codex", premium: true },
+  { id: "gpt-5.4", name: "GPT-5.4", premium: true },
   { id: "gpt-5.1-codex-max", name: "GPT-5.1-Codex-Max", premium: true },
   { id: "gpt-5.1-codex-mini", name: "GPT-5.1-Codex-Mini", premium: true },
   { id: "o3", name: "o3 (Reasoning)", premium: true },

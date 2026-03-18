@@ -9,6 +9,11 @@ import { defineConfig } from "vitest/config";
  * Run with: npm run test:integration
  */
 export default defineConfig({
+  resolve: {
+    alias: {
+      "vscode-jsonrpc/node": "vscode-jsonrpc/node.js",
+    },
+  },
   test: {
     globals: true,
     environment: "node",

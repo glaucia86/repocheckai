@@ -366,6 +366,7 @@ repocheck
 |-------|------|----------|
 | `gpt-4o` | Free | Balanced performance (default) |
 | `gpt-4.1` | Free | Fast analysis |
+| `gpt-5.4` | Premium ⚡ | Latest GPT capabilities |
 | `gpt-5.3-codex` | Premium ⚡ | Advanced coding tasks |
 | `claude-sonnet-4` | Premium ⚡ | Detailed analysis |
 | `claude-opus-4.5` | Premium ⚡ | Most capable (3x rate limit) |

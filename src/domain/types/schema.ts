@@ -268,7 +268,7 @@ export const AnalyzeOptionsSchema = z.object({
   token: z.string().optional(),
   maxFiles: z.number().min(10).max(10000).default(800),
   maxBytes: z.number().min(1024).max(1048576).default(204800),
-  timeout: z.number().min(5000).max(600000).default(120000),
+  timeout: z.number().min(5000).max(600000).default(300000),
   verbosity: z.enum(["silent", "normal", "verbose"]).default("normal"),
   format: z.enum(["pretty", "json", "minimal"]).default("pretty"),
   categories: z.array(CategorySchema).optional(),

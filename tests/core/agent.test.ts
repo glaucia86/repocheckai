@@ -8,11 +8,10 @@ import {
 import { createOctokit } from "../../src/infrastructure/providers/github.js";
 
 // Mock CopilotClient
-vi.mock("@github/copilot-sdk", async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  const actual = await importOriginal() as Record<string, any>;
+vi.mock("@github/copilot-sdk", () => {
   return {
-    ...actual,
+    approveAll: vi.fn(),
+    defineTool: vi.fn((name: string, spec: Record<string, unknown>) => ({ name, ...spec })),
     CopilotClient: class {
       start = vi.fn().mockResolvedValue(undefined);
       createSession = vi.fn().mockResolvedValue({
