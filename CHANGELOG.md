@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.8.0] - 2026-03-18
+
+### Added
+
+- **GPT-5.4 Model Availability**: Added `gpt-5.4` to model catalogs for CLI and Web UI.
+- **Direct JSON-RPC Dependency**: Added `vscode-jsonrpc` as direct dependency to stabilize module resolution in CI/tests.
+
+### Changed
+
+- **Timeout Standardization**:
+  - Quick analysis default: `300000ms` (5 minutes).
+  - Deep analysis default: `600000ms` (10 minutes) across direct CLI, interactive `/deep`, API orchestrator, and Web defaults.
+- **Repomix Alignment**: Updated deep `pack_repository` timeout to `600000ms` (governance mode `300000ms`) and raised repo packer fallback timeout to 5 minutes.
+- **Documentation Refresh**: Updated model/timeout references across command and troubleshooting docs.
+
+### Fixed
+
+- **Copilot SDK Module Resolution**: Mitigated `vscode-jsonrpc/node` resolution issues in test paths and integration loading.
+- **Test Reliability**: Fixed `vi.mock` setup for `@github/copilot-sdk` and prevented unnecessary eager imports in API route tests.
+- **Interactive Deep Timeout Drift**: Aligned interactive `/deep` handler timeout with 10-minute default.
+- **Web Timeout Migration**: Fixed persisted timeout migration to use trimmed values and per-mode defaults.
+
+---
+
 ## [2.7.1] - 2026-03-04
 
 ### Changed
@@ -354,5 +378,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [2.7.0]: https://github.com/glaucia86/repocheckai/compare/v2.6.0...v2.7.0
 [2.7.1]: https://github.com/glaucia86/repocheckai/compare/v2.7.0...v2.7.1
 [Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.7.1...HEAD
+
 
 
