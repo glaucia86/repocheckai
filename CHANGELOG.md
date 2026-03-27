@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.8.2] - 2026-03-27
+
+### Changed
+
+- **Dependency Updates (Production)**:
+  - Bumped `@github/copilot-sdk` in the GitHub dependencies group.
+- **Dependency Updates (Development)**:
+  - Bumped `@typescript-eslint/eslint-plugin` to `8.57.2`.
+  - Bumped `@vitest/coverage-v8` to `4.1.1`.
+  - Bumped `eslint` to `10.1.0`.
+  - Bumped `globals` to `17.4.0`.
+  - Bumped `tailwindcss` to `4.2.2`.
+  - Bumped `typescript` from `5.9.3` to `6.0.2`.
+
+---
+
 ## [2.8.1] - 2026-03-18
 
 ### Changed
@@ -388,7 +404,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [2.7.1]: https://github.com/glaucia86/repocheckai/compare/v2.7.0...v2.7.1
 [2.8.0]: https://github.com/glaucia86/repocheckai/compare/v2.7.1...v2.8.0
 [2.8.1]: https://github.com/glaucia86/repocheckai/compare/v2.8.0...v2.8.1
-[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.8.1...HEAD
+[2.8.2]: https://github.com/glaucia86/repocheckai/compare/v2.8.1...v2.8.2
+[Unreleased]: https://github.com/glaucia86/repocheckai/compare/v2.8.2...HEAD
 
 
 
