@@ -58,7 +58,7 @@ npm run build
 
 ### "Node.js version too old"
 
-RepoCheckAI requires Node.js 18+.
+RepoCheckAI requires Node.js 24+.
 
 **Solutions:**
 
@@ -67,8 +67,8 @@ RepoCheckAI requires Node.js 18+.
 node --version
 
 # Using nvm to upgrade
-nvm install 18
-nvm use 18
+nvm install 24
+nvm use 24
 
 # Or download from nodejs.org
 ```
@@ -146,13 +146,19 @@ export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
 
 ### "Failed to list models: 401"
 
-This error comes from Copilot SDK authentication (model listing), not the GitHub API.
+This error comes from Copilot SDK authentication during `listModels()`, not from the GitHub REST API.
 
 **Solutions:**
 
 ```bash
 # Re-authenticate via GitHub CLI (OAuth)
-# 4. Use /analyze instead of /deep (fewer requests)
+gh auth login
+
+# Export the OAuth token so the Copilot SDK can reuse it
+export GH_TOKEN="$(gh auth token)"
+
+# Retry RepoCheckAI
+repocheck owner/repo --model auto
 ```
 
 ### "403 Resource not accessible"
@@ -287,8 +293,9 @@ The selected model isn't available for your subscription.
 
 | Model Type | Required Subscription |
 |------------|----------------------|
-| Free (gpt-4o, gpt-4.1) | Any Copilot plan |
-| Premium (claude-*, o3) | Copilot Pro/Business/Enterprise |
+| Included (`auto`, `gpt-4o`, `gpt-4.1`, `gpt-5-mini`) | Any Copilot plan |
+| Premium Sonnet/Codex tiers | Student and paid Copilot plans, subject to client availability |
+| Top-tier (`claude-opus-4.7`, `gpt-5.5`) | Pro+, Business, Enterprise |
 
 ```bash
 # Switch to a free model
@@ -329,13 +336,13 @@ Different runs may produce slightly different results.
 
 ### "Rate limit exceeded" for premium models
 
-Premium models like Opus consume rate limits faster.
+Premium models consume premium requests according to their multiplier.
 
 **Solutions:**
 
 ```bash
 # 1. Switch to a lower-cost model
-/model claude-sonnet-4  # Instead of opus
+/model claude-sonnet-4  # Instead of Opus 4.7 or GPT-5.5
 
 # 2. Wait for rate limit to reset
 

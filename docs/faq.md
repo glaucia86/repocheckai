@@ -62,7 +62,7 @@ Your code is processed through the GitHub Copilot API, which has enterprise-grad
 
 | Requirement | Minimum |
 |-------------|---------|
-| Node.js | v18.0.0 |
+| Node.js | v24.0.0 |
 | Operating System | Windows, macOS, Linux |
 | GitHub Copilot | Active subscription |
 | Internet | Required (API calls) |
@@ -71,10 +71,15 @@ Your code is processed through the GitHub Copilot API, which has enterprise-grad
 
 RepoCheckAI uses the [GitHub Copilot SDK](https://github.com/github/copilot-sdk) for AI capabilities. This SDK requires an active GitHub Copilot subscription.
 
-**Subscription options:**
-- GitHub Copilot Individual ($10/month)
-- GitHub Copilot Business ($19/user/month)
-- GitHub Copilot Enterprise ($39/user/month)
+**Current plan options:**
+- GitHub Copilot Free
+- GitHub Copilot Student
+- GitHub Copilot Pro
+- GitHub Copilot Pro+
+- GitHub Copilot Business
+- GitHub Copilot Enterprise
+
+As of **April 24, 2026**, new signups for `Student`, `Pro`, and `Pro+` are paused, and new self-serve signups for `Business` are paused. Existing customers and organizational plans continue to work.
 
 ### Can I use it without GitHub Copilot?
 
@@ -177,20 +182,21 @@ Always review findings with your project's specific context in mind.
 
 | Situation | Recommended Model |
 |-----------|-------------------|
-| Quick daily checks | `gpt-4o` (Free) |
-| Detailed audits | `claude-sonnet-4` (Premium) |
-| Complex monorepos | `claude-opus-4.5` (Premium) |
-| Code-focused analysis | `gpt-5.1-codex` (Premium) |
-| Budget-conscious | `gpt-4o` or `gpt-4.1` (Free) |
+| Quick daily checks | `gpt-4o` |
+| Balanced default | `claude-sonnet-4` |
+| Complex monorepos on Pro+ or org plans | `claude-opus-4.7` |
+| Code-focused analysis | `gpt-5.3-codex` |
+| Budget-conscious | `gpt-4o`, `gpt-4.1`, or `gpt-5-mini` |
+| Unsure what to pick | `auto` |
 
 ### What's the difference between free and premium models?
 
-| Aspect | Free Models | Premium Models |
-|--------|-------------|----------------|
-| Access | All Copilot subscribers | Pro/Business/Enterprise only |
-| Speed | Fast | Varies |
-| Quality | Good | Excellent |
-| Rate limits | Standard | Standard (Opus 3x cost) |
+| Aspect | Included Models | Premium Models |
+|--------|-----------------|----------------|
+| Access | Available across Copilot plans | Depends on plan and rollout |
+| Speed | Usually faster | Varies by model |
+| Quality | Good for most repositories | Best for deeper audits and agentic work |
+| Premium usage | `0x` paid / `1x` free for included models | Multiplier varies by model |
 
 ### Can I use different models for different analyses?
 
@@ -210,7 +216,8 @@ Different models have different strengths:
 
 - **GPT models:** Good at structured output, faster
 - **Claude models:** Better reasoning, more detailed explanations
-- **Opus/O3:** Deeper analysis, may catch subtle issues
+- **Opus:** Deeper analysis, highest-cost premium tier
+- **Auto:** Lets Copilot optimize model choice dynamically
 
 The same repository may receive slightly different scores due to model interpretation.
 
@@ -314,7 +321,7 @@ You'll see an error like "Rate limit exceeded". Solutions:
 
 AI usage is included in your GitHub Copilot subscription. There are no additional charges from RepoCheckAI.
 
-**Note:** Premium models like `claude-opus-4.5` consume rate limits faster (3x cost), which may affect your Copilot usage for other tools.
+**Note:** Premium models consume premium requests according to each model's multiplier. For example, `claude-opus-4.7` and `gpt-5.5` are currently published with a promotional `7.5x` multiplier.
 
 ---
 

@@ -121,7 +121,7 @@ See the [Getting Started Guide](getting-started.md) for detailed instructions.
 
 | Requirement | Version |
 |-------------|---------|
-| Node.js | 18.0.0 or higher |
+| Node.js | 24.0.0 or higher |
 | GitHub Copilot | Active subscription |
 | Git | Any recent version |
 

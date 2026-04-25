@@ -1,29 +1,23 @@
-import type { ModelOption } from "./types.ts";
-import { colorTokens } from "./design/tokens.ts";
+export interface CopilotModelDefinition {
+  id: string;
+  name: string;
+  premium: boolean;
+  planSummary: string;
+  note?: string;
+  requestMultiplier?: number;
+  isAuto?: boolean;
+  aliases?: string[];
+}
 
-const getApiBase = (): string => {
-  const maybeWindow = globalThis as typeof globalThis & {
-    __REPO_CHECK_AI_API_BASE__?: string;
-    __REPO_DOCTOR_API_BASE__?: string;
-  };
-  return (
-    maybeWindow.__REPO_CHECK_AI_API_BASE__ ??
-    maybeWindow.__REPO_DOCTOR_API_BASE__ ??
-    "http://localhost:3001"
-  );
-};
+export const DEFAULT_COPILOT_MODEL_ID = "claude-sonnet-4";
 
-export const apiBase = getApiBase();
-
-// Browser-side fallback list used when /models is unavailable.
-// Keep this aligned with the server-side curated catalog.
-export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
+export const CURATED_COPILOT_MODELS: CopilotModelDefinition[] = [
   {
     id: "auto",
-    name: "Copilot Auto",
+    name: "Auto",
     premium: false,
     planSummary: "All Copilot plans",
-    note: "Lets Copilot choose the best model automatically.",
+    note: "Recommended. Copilot CLI auto model selection is GA and chooses the best currently available model.",
     isAuto: true,
   },
   {
@@ -31,25 +25,28 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     name: "GPT-4o",
     premium: false,
     planSummary: "All Copilot plans",
+    requestMultiplier: 0,
   },
   {
     id: "gpt-4.1",
     name: "GPT-4.1",
     premium: false,
     planSummary: "All Copilot plans",
+    requestMultiplier: 0,
   },
   {
     id: "gpt-5-mini",
-    name: "GPT-5 Mini",
+    name: "GPT-5 mini",
     premium: false,
     planSummary: "All Copilot plans",
+    requestMultiplier: 0,
+    aliases: ["gpt-5 mini"],
   },
   {
     id: "claude-sonnet-4",
     name: "Claude Sonnet 4",
     premium: true,
     planSummary: "Student, Pro, Pro+, Business, Enterprise",
-    note: "Default model in RepoCheckAI.",
     requestMultiplier: 1,
   },
   {
@@ -64,6 +61,7 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     name: "Claude Sonnet 4.6",
     premium: true,
     planSummary: "Student, Pro, Pro+, Business, Enterprise",
+    note: "Multiplier may change over time.",
     requestMultiplier: 1,
   },
   {
@@ -78,7 +76,7 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     name: "Claude Opus 4.5",
     premium: true,
     planSummary: "Legacy premium model; do not expect access on Pro",
-    note: "Kept only as a conservative fallback if your runtime still reports it.",
+    note: "GitHub announced Opus removal from Pro on April 20, 2026, and retirement from Pro+ is in progress.",
     requestMultiplier: 3,
   },
   {
@@ -86,6 +84,7 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     name: "Claude Opus 4.6",
     premium: true,
     planSummary: "Legacy premium model; do not expect access on Pro",
+    note: "GitHub announced Opus removal from Pro on April 20, 2026, and retirement from Pro+ is in progress.",
     requestMultiplier: 3,
   },
   {
@@ -93,7 +92,7 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     name: "Claude Opus 4.7",
     premium: true,
     planSummary: "Pro+, Business, Enterprise",
-    note: "Rolling out gradually in GitHub Copilot clients.",
+    note: "Rolling out gradually. Promotional 7.5x multiplier until April 30, 2026.",
     requestMultiplier: 7.5,
   },
   {
@@ -105,17 +104,17 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
   },
   {
     id: "gpt-5.2-codex",
-    name: "GPT-5.2 Codex",
+    name: "GPT-5.2-Codex",
     premium: true,
     planSummary: "Student and paid Copilot plans; availability can depend on client and policy",
     requestMultiplier: 1,
   },
   {
     id: "gpt-5.3-codex",
-    name: "GPT-5.3 Codex",
+    name: "GPT-5.3-Codex",
     premium: true,
     planSummary: "Student and paid Copilot plans; availability can depend on client and policy",
-    note: "Strong code-focused analysis.",
+    note: "Base model for Business and Enterprise since March 18, 2026.",
     requestMultiplier: 1,
   },
   {
@@ -127,24 +126,27 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
   },
   {
     id: "gpt-5.4-mini",
-    name: "GPT-5.4 Mini",
+    name: "GPT-5.4 mini",
     premium: true,
     planSummary: "Student and paid Copilot plans; availability can depend on client and policy",
+    note: "GPT-5.4 mini uses a 0.33x multiplier. Student auto model selection support was announced on April 1, 2026.",
     requestMultiplier: 0.33,
+    aliases: ["gpt-5.4 mini"],
   },
   {
     id: "gpt-5.4-nano",
-    name: "GPT-5.4 Nano",
+    name: "GPT-5.4 nano",
     premium: true,
     planSummary: "Student and paid Copilot plans; availability can depend on client and policy",
     requestMultiplier: 0.25,
+    aliases: ["gpt-5.4 nano"],
   },
   {
     id: "gpt-5.5",
     name: "GPT-5.5",
     premium: true,
     planSummary: "Pro+, Business, Enterprise",
-    note: "Latest GPT rollout for complex agentic work.",
+    note: "New on April 24, 2026. Rolling out gradually with a promotional 7.5x multiplier.",
     requestMultiplier: 7.5,
   },
   {
@@ -153,6 +155,7 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     premium: true,
     planSummary: "Student and paid Copilot plans; availability can depend on client and policy",
     requestMultiplier: 1,
+    aliases: ["gemini 2.5 pro"],
   },
   {
     id: "gemini-3-flash",
@@ -160,6 +163,7 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     premium: true,
     planSummary: "Student and paid Copilot plans; availability can depend on client and policy",
     requestMultiplier: 0.33,
+    aliases: ["gemini 3 flash"],
   },
   {
     id: "gemini-3.1-pro",
@@ -167,6 +171,7 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     premium: true,
     planSummary: "Student and paid Copilot plans; availability can depend on client and policy",
     requestMultiplier: 1,
+    aliases: ["gemini 3.1 pro"],
   },
   {
     id: "grok-code-fast-1",
@@ -174,34 +179,41 @@ export const DEFAULT_MODEL_OPTIONS: ModelOption[] = [
     premium: true,
     planSummary: "Availability varies by plan, client, and rollout",
     requestMultiplier: 0.25,
+    aliases: ["grok code fast 1"],
   },
   {
     id: "raptor-mini",
-    name: "Raptor Mini",
+    name: "Raptor mini",
     premium: true,
     planSummary: "Availability varies by plan, client, and rollout",
+    note: "Public preview model with client-specific rollout.",
     requestMultiplier: 0,
+    aliases: ["raptor mini"],
   },
   {
     id: "goldeneye",
     name: "Goldeneye",
     premium: true,
     planSummary: "Availability varies by plan, client, and rollout",
+    note: "Experimental rollout model.",
   },
 ];
 
-export const toneByState: Record<string, string> = {
-  idle: "text-slate-700 bg-slate-100 border border-slate-200",
-  running: "text-amber-900 bg-amber-100 border border-amber-200",
-  completed: "text-emerald-900 bg-emerald-100 border border-emerald-200",
-  cancelled: "text-slate-800 bg-slate-200 border border-slate-300",
-  error: "text-rose-900 bg-rose-100 border border-rose-200",
-};
+export const CORE_FREE_MODEL_IDS = new Set(["auto", "gpt-4o", "gpt-4.1", "gpt-5-mini"]);
 
-export const cardClass = "glass spotlight-card rounded-3xl p-5 shadow-panel";
-export const selectShellClass =
-  "group relative overflow-hidden rounded-2xl border border-slate-300 bg-white/90 transition focus-within:border-cobalt focus-within:ring-2 focus-within:ring-cobalt/20";
-export const selectClass =
-  "w-full appearance-none bg-transparent px-3 py-2.5 pr-10 text-sm font-medium text-slate-800 outline-none";
+export function normalizeCopilotModelId(value: string): string {
+  return value.trim().toLowerCase();
+}
 
-export const semanticColors = colorTokens;
+export function getCuratedCopilotModels(): CopilotModelDefinition[] {
+  return CURATED_COPILOT_MODELS.map((model) => ({ ...model }));
+}
+
+export function findCuratedCopilotModel(idOrName: string): CopilotModelDefinition | undefined {
+  const normalized = normalizeCopilotModelId(idOrName);
+  return CURATED_COPILOT_MODELS.find((model) => {
+    if (normalizeCopilotModelId(model.id) === normalized) return true;
+    if (normalizeCopilotModelId(model.name) === normalized) return true;
+    return model.aliases?.some((alias) => normalizeCopilotModelId(alias) === normalized) ?? false;
+  });
+}

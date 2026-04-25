@@ -141,7 +141,7 @@ Notes:
 - `--skills-max` is bounded internally to `1..6`.
 - In deep mode, skills can include security variant-expansion guidance.
 
-> **Tip:** If you plan to use `--issue`, the best model for report quality is **Claude Sonnet 4.5**.
+> **Tip:** If you plan to use `--issue`, start with **Claude Sonnet 4** for the best balance. If your plan includes newer premium models, `Claude Sonnet 4.6`, `GPT-5.3-Codex`, `Claude Opus 4.7`, and `GPT-5.5` are also strong options.
 >
 > **Web UI equivalent:** enable `Publish to GitHub Issues` in the local Web UI form.
 > For token/auth setup and `401/403` troubleshooting, see [issue-publishing.md](issue-publishing.md).
@@ -375,11 +375,13 @@ Displays or switches the current AI model.
 | `gpt-4o` | Free | Fast, balanced |
 | `gpt-4.1` | Free | Latest GPT-4 |
 | `gpt-5-mini` | Free | Lightweight |
+| `auto` | Included | Automatic model selection |
 | `claude-sonnet-4` | Premium | Recommended default |
 | `claude-sonnet-4.5` | Premium | Enhanced reasoning |
 | `claude-sonnet-4.6` | Premium | Updated Sonnet generation |
-| `claude-opus-4.5` | Premium | Most capable |
-| `o3` | Premium | Deep reasoning |
+| `gpt-5.3-codex` | Premium | Code-focused analysis |
+| `claude-opus-4.7` | Premium | Top-tier Pro+, Business, Enterprise model |
+| `gpt-5.5` | Premium | Latest GPT rollout for compatible plans |
 
 See [AI Models](AI-MODELS.md) for complete list.
 
@@ -452,7 +454,7 @@ GITHUB_TOKEN=ghp_xxxx repocheck owner/repo
 repocheck vercel/next.js
 
 # Deep audit with premium model
-repocheck facebook/react --model claude-opus-4.5 --deep
+repocheck facebook/react --model claude-opus-4.7 --deep
 
 # Analyze and auto-export
 repocheck microsoft/typescript --export

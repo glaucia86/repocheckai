@@ -294,7 +294,7 @@ export function createEventHandler(options: EventHandlerOptions): {
         }
         break;
 
-      // Infinite Sessions compaction events (v0.1.18+)
+      // Infinite Sessions compaction events
       case "session.compaction_start":
         if (verbose && !json) {
           console.log(`\n  ${c.dim(`${ICON.refresh} Context compaction started...`)}`);

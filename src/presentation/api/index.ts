@@ -9,7 +9,7 @@ import { createGetReportRoute } from "./routes/getReportRoute.js";
 import { createStreamEventsRoute } from "./routes/streamEventsRoute.js";
 import { EventStreamHub } from "./jobs/eventStreamHub.js";
 import { InMemoryJobRegistry } from "./jobs/jobRegistry.js";
-import { getAvailableModels } from "../cli/state/appState.js";
+import { getAvailableModels, refreshAvailableModels } from "../cli/state/appState.js";
 
 interface JsonBody {
   [key: string]: unknown;
@@ -88,7 +88,8 @@ export function startLocalApiServer(port: number = 3001): void {
     }
 
     if (method === "GET" && pathname === "/models") {
-      sendJson(res, 200, { models: getAvailableModels() });
+      const models = await refreshAvailableModels().catch(() => getAvailableModels());
+      sendJson(res, 200, { models });
       return;
     }
 

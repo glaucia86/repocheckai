@@ -145,8 +145,20 @@ export const ModelPicker = ({
                           : "bg-white/80 hover:bg-slate-100"
                     } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
                   >
-                    <span>{model.name}</span>
-                    <span className="font-mono text-[11px] text-slate-500">{model.id}</span>
+                    <span className="pr-3">
+                      <span className="block font-semibold text-slate-800">
+                        {model.name}
+                        {model.isAuto ? <span className="ml-2 text-[11px] uppercase tracking-[0.16em] text-cyan-700">Auto</span> : null}
+                      </span>
+                      <span className="block text-xs text-slate-500">{model.planSummary}</span>
+                      {model.note ? <span className="block text-[11px] text-slate-400">{model.note}</span> : null}
+                    </span>
+                    <span className="text-right">
+                      <span className="block font-mono text-[11px] text-slate-500">{model.id}</span>
+                      {typeof model.requestMultiplier === "number" ? (
+                        <span className="block text-[11px] text-slate-400">{`${model.requestMultiplier}x`}</span>
+                      ) : null}
+                    </span>
                   </button>
                 ))
               )}
@@ -171,8 +183,20 @@ export const ModelPicker = ({
                           : "bg-white/80 hover:bg-slate-100"
                     } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
                   >
-                    <span>{model.name}</span>
-                    <span className="font-mono text-[11px] text-slate-500">{model.id}</span>
+                    <span className="pr-3">
+                      <span className="block font-semibold text-slate-800">
+                        {model.name}
+                        {model.isAuto ? <span className="ml-2 text-[11px] uppercase tracking-[0.16em] text-cyan-700">Auto</span> : null}
+                      </span>
+                      <span className="block text-xs text-slate-500">{model.planSummary}</span>
+                      {model.note ? <span className="block text-[11px] text-slate-400">{model.note}</span> : null}
+                    </span>
+                    <span className="text-right">
+                      <span className="block font-mono text-[11px] text-slate-500">{model.id}</span>
+                      {typeof model.requestMultiplier === "number" ? (
+                        <span className="block text-[11px] text-slate-400">{`${model.requestMultiplier}x`}</span>
+                      ) : null}
+                    </span>
                   </button>
                 ))
               )}

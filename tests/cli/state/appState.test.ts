@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { getCopilotCliModels } from "../../../src/infrastructure/providers/copilotModels.js";
+import { listCopilotSdkModels } from "../../../src/infrastructure/providers/copilotModels.js";
 import {
   AppState,
   AVAILABLE_MODELS,
@@ -12,15 +12,17 @@ import {
   findModel,
   findModelByIndex,
   getAvailableModels,
+  refreshAvailableModels,
   clearModelCache,
 } from "../../../src/presentation/cli/state/appState.js";
 
 vi.mock("../../../src/infrastructure/providers/copilotModels.js", () => ({
-  getCopilotCliModels: vi.fn(),
+  listCopilotSdkModels: vi.fn(),
 }));
 
 beforeEach(() => {
-  vi.mocked(getCopilotCliModels).mockReturnValue(null);
+  clearModelCache();
+  vi.mocked(listCopilotSdkModels).mockResolvedValue(null);
 });
 
 describe("AppState", () => {
@@ -61,7 +63,7 @@ describe("AppState", () => {
     });
 
     it("should track premium status", () => {
-      state.setModel("claude-opus-4.5", true);
+      state.setModel("claude-opus-4.7", true);
       expect(state.isPremium).toBe(true);
     });
   });
@@ -80,7 +82,6 @@ describe("AppState", () => {
     });
 
     it("should limit history to MAX_HISTORY_SIZE entries", () => {
-      // Add more than max entries
       for (let i = 0; i < MAX_HISTORY_SIZE + 5; i++) {
         state.addToHistory({
           repo: `owner/repo-${i}`,
@@ -122,10 +123,28 @@ describe("findModel", () => {
     expect(model?.id).toBe("gpt-4o");
   });
 
-  it("should include gpt-5.4 as a premium model", () => {
-    const model = findModel("gpt-5.4");
-    expect(model?.id).toBe("gpt-5.4");
+  it("should include auto as a non-premium option", () => {
+    const model = findModel("auto");
+    expect(model?.id).toBe("auto");
+    expect(model?.premium).toBe(false);
+    expect(model?.isAuto).toBe(true);
+  });
+
+  it("should include gpt-5.5 as a premium model", () => {
+    const model = findModel("gpt-5.5");
+    expect(model?.id).toBe("gpt-5.5");
     expect(model?.premium).toBe(true);
+  });
+
+  it("should include claude-opus-4.7 as a premium model", () => {
+    const model = findModel("claude-opus-4.7");
+    expect(model?.id).toBe("claude-opus-4.7");
+    expect(model?.premium).toBe(true);
+  });
+
+  it("should not include retired gpt-5.1 codex max", () => {
+    const model = findModel("gpt-5.1-codex-max");
+    expect(model).toBeUndefined();
   });
 
   it("should find model by partial name", () => {
@@ -151,40 +170,51 @@ describe("findModelByIndex", () => {
   });
 });
 
-describe("getAvailableModels memoization", () => {
-  beforeEach(() => {
-    // Clear cache before each test to ensure isolation
-    clearModelCache();
-    vi.restoreAllMocks();
-    vi.mocked(getCopilotCliModels).mockReturnValue(null);
-  });
-
-  it("should return models on first call", () => {
+describe("available models caching", () => {
+  it("should return curated models immediately before refresh", () => {
     const models = getAvailableModels();
     expect(models).toBeDefined();
     expect(Array.isArray(models)).toBe(true);
-    expect(models.length).toBeGreaterThan(0);
-    expect(models.some((model) => model.id === "gpt-5.4")).toBe(true);
+    expect(models.some((model) => model.id === "auto")).toBe(true);
+    expect(models.some((model) => model.id === "gpt-5.5")).toBe(true);
+    expect(models.some((model) => model.id === "claude-opus-4.7")).toBe(true);
+    expect(models.some((model) => model.id === "gpt-5.1")).toBe(false);
   });
 
-  it("should return the same cached result on subsequent calls", () => {
-    const firstCall = getAvailableModels();
-    const secondCall = getAvailableModels();
-    const thirdCall = getAvailableModels();
-    
-    // Should return the exact same array reference (memoized)
+  it("should cache the fallback result when runtime discovery fails", async () => {
+    const firstCall = await refreshAvailableModels();
+    const secondCall = await refreshAvailableModels();
+
     expect(secondCall).toBe(firstCall);
-    expect(thirdCall).toBe(firstCall);
+    expect(secondCall).toEqual(AVAILABLE_MODELS);
   });
 
-  it("should refresh cache after clearModelCache is called", () => {
-    const firstCall = getAvailableModels();
+  it("should merge runtime models with curated metadata", async () => {
+    vi.mocked(listCopilotSdkModels).mockResolvedValue([
+      { id: "auto", name: "Auto" },
+      { id: "gpt-5.5", name: "GPT-5.5", billingMultiplier: 7.5 },
+      { id: "claude-opus-4.7", name: "Claude Opus 4.7", billingMultiplier: 7.5 },
+      { id: "custom-preview-model", name: "Custom Preview Model", billingMultiplier: 1 },
+    ]);
+
+    const models = await refreshAvailableModels();
+
+    expect(models.map((model) => model.id)).toEqual([
+      "auto",
+      "claude-opus-4.7",
+      "gpt-5.5",
+      "custom-preview-model",
+    ]);
+    expect(models.find((model) => model.id === "gpt-5.5")?.planSummary).toBe("Pro+, Business, Enterprise");
+    expect(models.find((model) => model.id === "claude-opus-4.7")?.note).toContain("Rolling out gradually");
+    expect(models.find((model) => model.id === "custom-preview-model")?.planSummary).toContain("Availability depends");
+  });
+
+  it("should clear cache after clearModelCache is called", async () => {
+    const firstCall = await refreshAvailableModels();
     clearModelCache();
-    const secondCall = getAvailableModels();
-    
-    // After clearing cache, should get models again (could be same reference if fallback)
-    expect(secondCall).toBeDefined();
-    // Should have the same content
+    const secondCall = await refreshAvailableModels();
+
     expect(secondCall).toEqual(firstCall);
   });
 });

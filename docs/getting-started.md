@@ -45,13 +45,13 @@ Visit your repository's **Issues** tab - you should see new issues like:
 
 Before installing RepoCheckAI, ensure you have:
 
-### 1. Node.js (v18+)
+### 1. Node.js (v24+)
 
 Check your Node.js version:
 
 ```bash
 node --version
-# Should be v18.0.0 or higher
+# Should be v24.0.0 or higher
 ```
 
 If you need to install or update Node.js:
@@ -62,10 +62,12 @@ If you need to install or update Node.js:
 
 RepoCheckAI uses the GitHub Copilot SDK, which requires an active subscription:
 
-- **GitHub Copilot Individual** - Works with free models (GPT-4o, GPT-4.1)
-- **GitHub Copilot Pro/Business/Enterprise** - Full access to premium models
+- **GitHub Copilot Free** - Included models such as `gpt-4o`, `gpt-4.1`, and `gpt-5-mini`
+- **GitHub Copilot Student / Pro** - Access to additional premium models with `300` premium requests per month
+- **GitHub Copilot Pro+** - Higher-end premium model access with `1,500` premium requests per month
+- **GitHub Copilot Business / Enterprise** - Organizational plans with premium model access and policy controls
 
-> **Note:** If you don't have GitHub Copilot, you can [sign up here](https://github.com/features/copilot).
+> **Note:** As of April 24, 2026, new signups for `Student`, `Pro`, and `Pro+` are paused, and new self-serve signups for `Business` are paused. Existing subscriptions and organizational access continue to work.
 
 ### 3. GitHub Copilot CLI (Required)
 

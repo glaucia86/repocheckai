@@ -1,197 +1,132 @@
 # 🤖 Available AI Models
 
-RepoCheckAI supports multiple AI models through the GitHub Copilot SDK. Choose the model that best fits your needs and subscription level.
+RepoCheckAI now uses a single shared model catalog across the CLI, API, and Web UI, and enriches it with live `client.listModels()` data from the GitHub Copilot SDK when available.
+
+This page reflects the official GitHub Copilot model and plan state published through **April 24, 2026**.
 
 ---
 
-## Model Comparison
+## Highlights
 
-| Model | Type | Speed | Quality | Best For |
-|-------|------|-------|---------|----------|
-| `gpt-4o` | ✅ Free | ⚡⚡⚡ | ⭐⭐⭐ | Quick analyses, daily use |
-| `gpt-4.1` | ✅ Free | ⚡⚡⚡ | ⭐⭐⭐ | General purpose |
-| `gpt-5-mini` | ✅ Free | ⚡⚡⚡ | ⭐⭐⭐ | Lightweight tasks |
-| `claude-sonnet-4` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Default, balanced |
-| `claude-sonnet-4.5` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Enhanced reasoning |
-| `claude-opus-4.5` | ⚡ Premium | ⚡ | ⭐⭐⭐⭐⭐ | Deep analysis, complex repos |
-| `gpt-5` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Advanced tasks |
-| `gpt-5.4` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐⭐ | Latest GPT capabilities |
-| `gpt-5.1-codex` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Code-focused analysis |
-| `gpt-5.2-codex` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐ | Latest code optimization |
-| `gpt-5.3-codex` | ⚡ Premium | ⚡⚡ | ⭐⭐⭐⭐⭐ | Advanced coding tasks |
-| `o3` | ⚡ Premium | ⚡ | ⭐⭐⭐⭐⭐ | Complex reasoning |
+- `claude-sonnet-4` remains RepoCheckAI's default model.
+- `auto` is now exposed as a first-class option across the product.
+- `GPT-5.5` is the newest GPT rollout and is currently available to `Pro+`, `Business`, and `Enterprise`.
+- `Claude Opus 4.7` is now the top-tier Opus recommendation for compatible plans.
+- Retired models such as `gpt-5`, `gpt-5.1`, `gpt-5.1-codex*`, `gemini-3-pro-preview`, and `o3` are no longer advertised by default.
 
 ---
 
-## Free Models
+## Plan Snapshot
 
-Available to all GitHub Copilot users (Individual, Business, Enterprise):
-
-### GPT-4o
-```bash
-repocheck vercel/next.js --model gpt-4o
-```
-- **Best for:** Quick health checks, daily use
-- **Speed:** Fast
-- **Quality:** Good for most repositories
-
-### GPT-4.1
-```bash
-repocheck vercel/next.js --model gpt-4.1
-```
-- **Best for:** General purpose analysis
-- **Speed:** Fast
-- **Quality:** Latest GPT-4 improvements
-
-### GPT-5 Mini
-```bash
-repocheck vercel/next.js --model gpt-5-mini
-```
-- **Best for:** Lightweight tasks, simple repositories
-- **Speed:** Very fast
-- **Quality:** Good for quick scans
+| Copilot plan | Included monthly premium requests | Notes |
+|--------------|-----------------------------------|-------|
+| `Free` | `50` | Includes up to `2,000` inline suggestions per month |
+| `Student` | `300` | New signups paused since April 20, 2026 |
+| `Pro` | `300` | New signups paused since April 20, 2026 |
+| `Pro+` | `1,500` | New signups paused since April 20, 2026 |
+| `Business` | `300` per user | New self-serve signups paused since April 22, 2026 |
+| `Enterprise` | `1,000` per user | Highest bundled organizational allowance |
 
 ---
 
-## Premium Models
+## Recommended Models
 
-Require GitHub Copilot Pro, Business, or Enterprise subscription:
+| Model | Access | Multiplier | Best for |
+|-------|--------|------------|----------|
+| `auto` | All Copilot plans | Dynamic | Let Copilot choose the best model automatically |
+| `gpt-4o` | All Copilot plans | `0x` paid / `1x` free | Fast daily checks |
+| `gpt-4.1` | All Copilot plans | `0x` paid / `1x` free | Balanced general-purpose analysis |
+| `gpt-5-mini` | All Copilot plans | `0x` paid / `1x` free | Lightweight scans |
+| `claude-sonnet-4` | Student and paid plans | `1x` | RepoCheckAI default |
+| `claude-sonnet-4.6` | Student and paid plans | `1x` | Strong premium generalist |
+| `gpt-5.3-codex` | Student and paid plans | `1x` | Code-heavy repositories |
+| `gpt-5.5` | Pro+, Business, Enterprise | `7.5x` promo | Newest GPT rollout for complex multi-step work |
+| `claude-opus-4.7` | Pro+, Business, Enterprise | `7.5x` promo | Current top-tier deep reasoning model |
 
-### Claude Sonnet 4 (Default)
+> `Claude Opus 4.7` and `GPT-5.5` are rolling out gradually. If you do not see them in your client yet, RepoCheckAI will fall back to the models your current Copilot environment reports.
+
+---
+
+## Current Curated Catalog
+
+RepoCheckAI currently curates these model IDs:
+
+- `auto`
+- `gpt-4o`
+- `gpt-4.1`
+- `gpt-5-mini`
+- `claude-sonnet-4`
+- `claude-sonnet-4.5`
+- `claude-sonnet-4.6`
+- `claude-haiku-4.5`
+- `claude-opus-4.5`
+- `claude-opus-4.6`
+- `claude-opus-4.7`
+- `gpt-5.2`
+- `gpt-5.2-codex`
+- `gpt-5.3-codex`
+- `gpt-5.4`
+- `gpt-5.4-mini`
+- `gpt-5.4-nano`
+- `gpt-5.5`
+- `gemini-2.5-pro`
+- `gemini-3-flash`
+- `gemini-3.1-pro`
+- `grok-code-fast-1`
+- `raptor-mini`
+- `goldeneye`
+
+Variants with ambiguous public IDs, such as `Claude Opus 4.6 (fast mode)`, are documented by GitHub but only appear in RepoCheckAI when the runtime reports them directly.
+
+---
+
+## Usage Examples
+
 ```bash
+# Default premium model
 repocheck vercel/next.js --model claude-sonnet-4
-```
-- **Best for:** Balanced analysis, recommended default
-- **Speed:** Moderate
-- **Quality:** Excellent reasoning and recommendations
 
-### Claude Sonnet 4.5
-```bash
-repocheck vercel/next.js --model claude-sonnet-4.5
-```
-- **Best for:** Enhanced reasoning tasks
-- **Speed:** Moderate
-- **Quality:** Improved over Sonnet 4
+# Let Copilot choose automatically
+repocheck vercel/next.js --model auto
 
-### Claude Opus 4.5
-```bash
-repocheck vercel/next.js --model claude-opus-4.5
-```
-- **Best for:** Complex repositories, deep analysis
-- **Speed:** Slower (3x rate limit cost)
-- **Quality:** Most capable, best recommendations
+# Code-focused premium analysis
+repocheck vercel/next.js --model gpt-5.3-codex --deep
 
-### GPT-5
-```bash
-repocheck vercel/next.js --model gpt-5
-```
-- **Best for:** Advanced analysis
-- **Speed:** Moderate
-- **Quality:** Preview of latest capabilities
+# Top-tier premium analysis for compatible plans
+repocheck vercel/next.js --model claude-opus-4.7 --deep
 
-### GPT-5.4
-```bash
-repocheck vercel/next.js --model gpt-5.4
-```
-- **Best for:** Latest GPT capabilities and high-quality reasoning
-- **Speed:** Moderate
-- **Quality:** Premium model for deeper analysis
-
-### GPT-5.1 Codex
-```bash
-repocheck vercel/next.js --model gpt-5.1-codex
-```
-- **Best for:** Code-heavy repositories
-- **Speed:** Moderate
-- **Quality:** Optimized for code analysis
-
-### GPT-5.2 Codex
-```bash
-repocheck vercel/next.js --model gpt-5.2-codex
-```
-- **Best for:** Latest code analysis capabilities
-- **Speed:** Moderate
-- **Quality:** Most recent Codex improvements
-
-### GPT-5.3 Codex
-```bash
-repocheck vercel/next.js --model gpt-5.3-codex
-```
-- **Best for:** Advanced coding tasks and complex codebases
-- **Speed:** Moderate
-- **Quality:** Cutting-edge code analysis and optimization
-
-### O3
-```bash
-repocheck vercel/next.js --model o3
-```
-- **Best for:** Complex reasoning, large repositories
-- **Speed:** Slower
-- **Quality:** Best for deep logical analysis
-
----
-
-## Switching Models
-
-### During Analysis
-
-Use the `/model` command to switch models interactively:
-
-```bash
-/model gpt-4o      # Switch to GPT-4o
-/model claude-sonnet-4  # Switch to Claude Sonnet
-```
-
-### Via Command Line
-
-Specify the model when starting:
-
-```bash
-repocheck owner/repo --model gpt-4o
-```
-
-### Interactive Selection
-
-When starting without arguments, you'll be prompted to select a model:
-
-```
-Select AI Model:
-❯ claude-sonnet-4 (Premium) - Default, balanced
-  gpt-4o (Free) - Fast, efficient
-  gpt-4.1 (Free) - Latest GPT-4
-  ...
+# Latest GPT rollout for compatible plans
+repocheck vercel/next.js --model gpt-5.5 --deep
 ```
 
 ---
 
-## Recommendations
+## Recommendations By Scenario
 
-| Use Case | Recommended Model |
+| Scenario | Recommended model |
 |----------|-------------------|
 | Quick daily checks | `gpt-4o` |
-| Free tier users | `gpt-4o` or `gpt-4.1` |
-| Detailed audits | `claude-sonnet-4` |
-| Publishing with `--issue` | `claude-sonnet-4.5` |
-| Complex monorepos | `claude-opus-4.5` |
-| Code-focused analysis | `gpt-5.1-codex` |
-| Advanced coding tasks | `gpt-5.3-codex` |
-| Deep reasoning needed | `o3` |
+| Lowest-cost included usage | `gpt-4.1` or `gpt-5-mini` |
+| Safe default for most repos | `claude-sonnet-4` |
+| Detailed premium audits | `claude-sonnet-4.6` |
+| Code-focused deep review | `gpt-5.3-codex` |
+| Complex monorepos on Pro+ or org plans | `claude-opus-4.7` |
+| Latest GPT capabilities on compatible plans | `gpt-5.5` |
+| Unsure what to pick | `auto` |
+
+> `Opus` models are no longer the default recommendation for `Pro`. GitHub removed Opus access from `Pro` on April 20, 2026.
 
 ---
 
-## Rate Limits
+## How Model Discovery Works
 
-Different models have different rate limit costs:
+RepoCheckAI does not scrape `copilot --help` anymore. It now:
 
-| Model | Rate Limit Cost |
-|-------|----------------|
-| Free models | 1x |
-| Sonnet models | 1x |
-| GPT-5 variants | 1x |
-| Opus models | 3x |
-| O3 | 2x |
+1. Uses the Copilot SDK's `client.listModels()` with a short timeout.
+2. Merges runtime-reported models with RepoCheckAI's curated metadata.
+3. Falls back to the curated catalog if runtime discovery is unavailable.
 
-> 💡 **Tip:** Use free models for frequent quick checks, and premium models for thorough audits.
+This keeps the `/model` command, the Web picker, and `GET /models` aligned with current Copilot behavior.
 
 ---
 
@@ -199,31 +134,21 @@ Different models have different rate limit costs:
 
 ### "Model not available"
 
-- Check your Copilot subscription level
-- Premium models require Copilot Pro/Business/Enterprise
-- Try a free model: `gpt-4o`
-
-### "Rate limit exceeded"
-
-- Wait a few minutes and retry
-- Switch to a lower-cost model
-- Use `gpt-4o` for bulk analyses
-
-### "Model timeout"
-
-- Some models are slower
-- Increase timeout: `--timeout 180000`
-- Try a faster model for large repos
+- Check whether your Copilot plan includes that model.
+- Remember that `GPT-5.5` and `Claude Opus 4.7` currently target `Pro+`, `Business`, and `Enterprise`.
+- Try `auto`, `gpt-4o`, or `gpt-4.1` if you need a broadly available fallback.
 
 ### "Failed to list models: 401"
 
-This is a Copilot SDK auth error. Re-authenticate with GitHub CLI and export the OAuth token:
+This comes from Copilot SDK authentication, not the GitHub REST API.
 
 ```bash
 gh auth login
 export GH_TOKEN="$(gh auth token)"
 ```
 
-See [issue-publishing.md](issue-publishing.md) for full steps.
+### "Why don't I see a model listed in GitHub docs?"
+
+GitHub publishes some model names without guaranteeing the exact runtime ID in every client. RepoCheckAI only hardcodes conservative IDs and lets runtime discovery expose anything more specific.
 
 

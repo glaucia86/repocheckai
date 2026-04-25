@@ -39,11 +39,20 @@ export async function runAnalysisJob(
   }
 
   registry.appendEvent(options.jobId, {
-    eventType: "job_started",
+    eventType: "progress",
     message: "Analysis started.",
+    step: "start",
+    percent: 5,
   });
 
   try {
+    registry.appendEvent(options.jobId, {
+      eventType: "progress",
+      message: "Preparing Copilot analysis session.",
+      step: "prepare",
+      percent: 15,
+    });
+
     const output = await analyzeRepositoryWithCopilot({
       repoUrl: options.repositoryUrl,
       token: options.githubToken,
@@ -56,10 +65,24 @@ export async function runAnalysisJob(
       skillsMax: options.skillsMax,
     });
 
+    registry.appendEvent(options.jobId, {
+      eventType: "progress",
+      message: "Analysis response received.",
+      step: "analyze",
+      percent: 75,
+    });
+
     const cleanedReport = enforceRepositoryIdentity(
       extractReportOnly(output.content),
       options.repositorySlug
     );
+
+    registry.appendEvent(options.jobId, {
+      eventType: "progress",
+      message: "Preparing report output.",
+      step: "report",
+      percent: 85,
+    });
 
     const report: AnalysisReport = {
       jobId: options.jobId,
@@ -90,6 +113,13 @@ export async function runAnalysisJob(
     }
 
     if (options.publishAsIssue) {
+      registry.appendEvent(options.jobId, {
+        eventType: "progress",
+        message: "Publishing report to GitHub Issues.",
+        step: "publish",
+        percent: 92,
+      });
+
       const [owner, name] = options.repositorySlug.split("/");
       if (!owner || !name) {
         registry.appendEvent(options.jobId, {
@@ -130,6 +160,7 @@ export async function runAnalysisJob(
     registry.appendEvent(options.jobId, {
       eventType: "completed",
       message: "Analysis completed.",
+      step: "complete",
       percent: 100,
     });
 
