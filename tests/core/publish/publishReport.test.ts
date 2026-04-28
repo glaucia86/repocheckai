@@ -4,7 +4,6 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { publishReport } from "../../../src/application/core/publish/publishReport.js";
-import type { PublishTarget } from "../../../src/domain/types/publish.js";
 
 // Mock dependencies
 vi.mock("../../../src/infrastructure/providers/githubPublish.js", () => ({
@@ -52,7 +51,7 @@ describe("publishReport", () => {
       vi.mocked(isAuthenticated).mockReturnValue(false);
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -88,7 +87,7 @@ describe("publishReport", () => {
       vi.mocked(createIssue).mockResolvedValue("https://github.com/test/repo/issues/1");
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -124,7 +123,7 @@ describe("publishReport", () => {
       vi.mocked(createIssue).mockResolvedValue("https://github.com/test/repo/issues/1");
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -169,7 +168,7 @@ Test coverage is low
 `;
 
       await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -195,7 +194,7 @@ Test coverage is low
       vi.mocked(createIssue).mockResolvedValue("https://github.com/test/repo/issues/1");
 
       await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -254,7 +253,7 @@ Test coverage is low
         .mockResolvedValueOnce("https://github.com/test/repo/issues/3");
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -332,7 +331,7 @@ Test coverage is low
         .mockResolvedValueOnce("https://github.com/test/repo/issues/3");
 
       await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -398,7 +397,7 @@ Test coverage is low
         .mockResolvedValueOnce("https://github.com/test/repo/issues/3");
 
       await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -449,7 +448,7 @@ Test coverage is low
       vi.mocked(createIssue).mockResolvedValue("https://github.com/test/repo/issues/1");
 
       await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -495,7 +494,7 @@ Test coverage is low
       vi.mocked(createIssue).mockRejectedValue(error);
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -522,7 +521,7 @@ Test coverage is low
       vi.mocked(createIssue).mockRejectedValue(error);
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -549,7 +548,7 @@ Test coverage is low
       vi.mocked(createIssue).mockRejectedValue(error);
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -576,7 +575,7 @@ Test coverage is low
       vi.mocked(createIssue).mockRejectedValue(error);
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "nonexistent",
@@ -602,7 +601,7 @@ Test coverage is low
       vi.mocked(createIssue).mockRejectedValue(error);
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",
@@ -627,7 +626,7 @@ Test coverage is low
       vi.mocked(createIssue).mockRejectedValue("string error");
 
       const result = await publishReport({
-        target: "issue" as PublishTarget,
+        target: "issue",
         repo: {
           owner: "test",
           name: "repo",

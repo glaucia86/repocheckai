@@ -11,6 +11,7 @@ export {
   findModel,
   findModelByIndex,
   getAvailableModels,
+  refreshAvailableModels,
   clearModelCache,
   type IAppState,
   type HistoryEntry,

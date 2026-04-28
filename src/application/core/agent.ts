@@ -146,7 +146,7 @@ async function initializeCopilotSession(options: {
       mode: "append",
       content: systemPrompt,
     },
-    // Enable infinite sessions for long-running analyses (v0.1.18+)
+    // Enable infinite sessions for long-running analyses
     // Automatically compacts context when buffer approaches limits
     infiniteSessions: {
       enabled: true,

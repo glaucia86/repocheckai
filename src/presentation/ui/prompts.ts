@@ -113,15 +113,15 @@ export async function promptSelectRepo(
 
   const { select } = await loadInquirer();
 
-  const choices = [
+  const choices: Array<{ name: string; value: RepoSelection | null; description: string }> = [
     ...recentRepos.map((repo) => ({
       name: `${c.brand(repo.owner)}/${c.infoBold(repo.repo)}`,
-      value: repo as RepoSelection | null,
+      value: repo,
       description: c.dim(repo.url),
     })),
     {
       name: c.muted("Enter a new repository"),
-      value: null as RepoSelection | null,
+      value: null,
       description: c.dim("Type a new URL or slug"),
     },
   ];
@@ -248,6 +248,10 @@ export interface ModelChoice {
   id: string;
   name: string;
   premium: boolean;
+  planSummary: string;
+  note?: string;
+  requestMultiplier?: number;
+  isAuto?: boolean;
 }
 
 /**
@@ -260,16 +264,18 @@ export async function promptModelSelect(
   const { select } = await loadInquirer();
 
   const choices = models.map((model) => {
-    const premiumIcon = model.premium ? c.premium(" ⚡") : c.healthy(" ✓ FREE");
+    const premiumIcon = model.isAuto
+      ? c.brand(" ☆ AUTO")
+      : model.premium
+        ? c.premium(" ⚡")
+        : c.healthy(" ✓ INCLUDED");
     const isCurrent = model.id === currentModel;
     const currentIndicator = isCurrent ? c.dim(" (current)") : "";
     
     return {
       name: `${c.infoBold(model.name)}${premiumIcon}${currentIndicator}`,
       value: model,
-      description: model.premium 
-        ? c.dim("Requires Copilot Pro/Business subscription")
-        : c.healthy("Available to all Copilot users"),
+      description: [model.planSummary, model.note].filter(Boolean).join(" — "),
     };
   });
 

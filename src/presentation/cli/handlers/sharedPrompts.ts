@@ -4,7 +4,7 @@
  */
 
 import * as readline from "readline";
-import { getAvailableModels, type ModelInfo } from "../state/appState.js";
+import { getAvailableModels, refreshAvailableModels, type ModelInfo } from "../state/appState.js";
 import {
   c,
   ICON,
@@ -14,6 +14,8 @@ import {
  * Generic model selection prompt used across CLI handlers
  */
 export async function promptModelSelection(): Promise<ModelInfo> {
+  await refreshAvailableModels().catch(() => undefined);
+
   return new Promise((resolve) => {
     const models = getAvailableModels();
 
@@ -24,10 +26,18 @@ export async function promptModelSelection(): Promise<ModelInfo> {
 
     models.forEach((model, index) => {
       const num = c.info(`[${index + 1}]`);
-      const premiumIcon = model.premium ? c.premium(" ⚡") : c.healthy(" ✓ FREE");
+      const premiumIcon = model.isAuto
+        ? c.brand(" ☆ AUTO")
+        : model.premium
+          ? c.premium(" ⚡")
+          : c.healthy(" ✓ INCLUDED");
       const isDefault = model.id === "claude-sonnet-4";
       const defaultIndicator = isDefault ? c.dim(" (default)") : "";
       console.log(`    ${num} ${c.text(model.name)}${premiumIcon}${defaultIndicator}`);
+      console.log(`        ${c.dim(model.planSummary)}`);
+      if (model.note) {
+        console.log(`        ${c.dim(model.note)}`);
+      }
     });
 
     console.log();
@@ -68,6 +78,8 @@ export async function promptModelSelection(): Promise<ModelInfo> {
  * Interactive model selection with current model indication
  */
 export async function promptModelSelectionWithCurrent(): Promise<ModelInfo | null> {
+  await refreshAvailableModels().catch(() => undefined);
+
   return new Promise((resolve) => {
     const models = getAvailableModels();
 
@@ -79,13 +91,21 @@ export async function promptModelSelectionWithCurrent(): Promise<ModelInfo | nul
     models.forEach((model, index) => {
       const isCurrent = model.id === appState.currentModel;
       const num = c.info(`[${index + 1}]`);
-      const premiumIcon = model.premium ? c.premium(" ⚡") : c.healthy(" ✓ FREE");
+      const premiumIcon = model.isAuto
+        ? c.brand(" ☆ AUTO")
+        : model.premium
+          ? c.premium(" ⚡")
+          : c.healthy(" ✓ INCLUDED");
       const currentIndicator = isCurrent ? c.dim(" (current)") : "";
       const prefix = isCurrent ? c.healthy("● ") : "  ";
 
       console.log(
         `  ${prefix}${num} ${c.text(model.name)}${premiumIcon}${currentIndicator}`
       );
+      console.log(`      ${c.dim(model.planSummary)}`);
+      if (model.note) {
+        console.log(`      ${c.dim(model.note)}`);
+      }
     });
 
     console.log();

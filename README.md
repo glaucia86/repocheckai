@@ -67,7 +67,7 @@
 <td width="50%">
 
 ### 🤖 AI-Powered Analysis
-- **11+ AI Models** — GPT-4o, Claude Sonnet 4, GPT-5.3-Codex, o3, and more
+- **20+ AI Models** — including `auto`, GPT-4o, Claude Sonnet 4, GPT-5.5, Claude Opus 4.7, and more
 - **Contextual Understanding** — Adapts to your stack
 - **Evidence-Based** — Every finding backed by file evidence
 
@@ -229,8 +229,8 @@ For full step-by-step setup and 401/403 troubleshooting, see [docs/issue-publish
 ### Prerequisites
 
 > [!IMPORTANT]
-> - **GitHub Copilot** — Active subscription required
-> - **Node.js** — Version 18.0.0 or higher
+> - **GitHub Copilot** — An active Copilot plan is required
+> - **Node.js** — Version 24.0.0 or higher
 
 ### Installation
 
@@ -364,16 +364,17 @@ repocheck
 
 | Model | Type | Best For |
 |-------|------|----------|
-| `gpt-4o` | Free | Balanced performance (default) |
-| `gpt-4.1` | Free | Fast analysis |
-| `gpt-5.4` | Premium ⚡ | Latest GPT capabilities |
-| `gpt-5.3-codex` | Premium ⚡ | Advanced coding tasks |
-| `claude-sonnet-4` | Premium ⚡ | Detailed analysis |
-| `claude-opus-4.5` | Premium ⚡ | Most capable (3x rate limit) |
-| `o3` | Premium ⚡ | Deep reasoning tasks |
+| `auto` | Included | Lets Copilot choose the best model for the task |
+| `gpt-4o` | Included | Fast, low-cost daily checks |
+| `gpt-4.1` | Included | Reliable general-purpose analysis |
+| `gpt-5-mini` | Included | Quick scans and lightweight repos |
+| `claude-sonnet-4` | Premium ⚡ | Default model in RepoCheckAI |
+| `gpt-5.3-codex` | Premium ⚡ | Strong code-focused analysis |
+| `claude-opus-4.7` | Premium ⚡ | Current top-tier model for Pro+, Business, Enterprise |
+| `gpt-5.5` | Premium ⚡ | Latest GPT rollout for complex agentic work |
 
 > [!NOTE]
-> Premium models require GitHub Copilot Pro/Enterprise. See [AI Models Guide](docs/AI-MODELS.md) for full list.
+> Included chat models are available across Copilot plans, while premium model access depends on your plan. As of April 24, 2026, `GPT-5.5` and `Claude Opus 4.7` are rolling out to `Pro+`, `Business`, and `Enterprise`, and new self-serve signups for `Student`, `Pro`, and `Pro+` are paused. See [AI Models Guide](docs/AI-MODELS.md) for the current matrix.
 
 ---
 

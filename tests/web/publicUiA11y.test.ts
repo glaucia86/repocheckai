@@ -16,6 +16,13 @@ const runAxe = async (html: string) => {
 };
 
 describe("public web ui accessibility", () => {
+  it("keeps an inline model select in the main form", () => {
+    const source = read("src/presentation/web/public/app.tsx");
+    expect(source).toContain('value={selectedModel?.id || form.model}');
+    expect(source).toContain("<optgroup label={t(\"freeModels\", locale)}>");
+    expect(source).toContain("<optgroup label={t(\"premiumModels\", locale)}>");
+  });
+
   it("keeps required modal accessibility attributes in ModelPicker", () => {
     const source = read("src/presentation/web/public/components/ModelPicker.tsx");
     expect(source).toContain('role="dialog"');
@@ -66,6 +73,35 @@ describe("public web ui accessibility", () => {
             <div aria-live="polite">Report is ready.</div>
             <div role="alert" aria-live="assertive">Request error.</div>
             <div aria-live="polite">32%</div>
+          </main>
+        </body>
+      </html>
+    `;
+    const results = await runAxe(html);
+    expect(results.violations).toHaveLength(0);
+  });
+
+  it("passes axe check for representative inline model selector markup", async () => {
+    const html = `
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <title>Inline model select test</title>
+        </head>
+        <body>
+          <main>
+            <label for="model-select">Model</label>
+            <select id="model-select">
+              <optgroup label="Free">
+                <option>Copilot Auto</option>
+                <option>GPT-4o</option>
+              </optgroup>
+              <optgroup label="Premium">
+                <option>Claude Sonnet 4</option>
+                <option>GPT-5.5</option>
+              </optgroup>
+            </select>
+            <p>Choose a model directly from the list.</p>
           </main>
         </body>
       </html>

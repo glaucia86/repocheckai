@@ -1,13 +1,12 @@
 /// <reference types="@types/react" />
 /// <reference types="@types/react-dom" />
-import React, { useEffect, useMemo, useRef, useState } from "https://esm.sh/react@18.3.1";
+import React, { useEffect, useMemo, useState } from "https://esm.sh/react@18.3.1";
 import { createRoot } from "https://esm.sh/react-dom@18.3.1/client";
 import { apiBase, cardClass, DEFAULT_MODEL_OPTIONS, selectClass, selectShellClass } from "./constants.ts";
 import { buttonClassByVariant, focusRingClass } from "./design/tokens.ts";
 import { createHeaders, requestJson } from "./lib/http.ts";
 import { trackUiEvent } from "./lib/analytics.ts";
 import { persistLocale, getInitialLocale, t } from "./i18n/index.ts";
-import { ModelPicker } from "./components/ModelPicker.tsx";
 import { EmptyState } from "./components/EmptyState.tsx";
 import { LoadingState } from "./components/LoadingState.tsx";
 import { Footer } from "./components/Footer.tsx";
@@ -38,6 +37,8 @@ const App = () => {
   });
   const [job, setJob] = useState<JobStateData>({ id: "", state: "idle" });
   const [modelOptions, setModelOptions] = useState<ModelOption[]>(DEFAULT_MODEL_OPTIONS);
+  const [modelsLoadState, setModelsLoadState] = useState<"loading" | "ready" | "error">("loading");
+  const [modelsLoadError, setModelsLoadError] = useState("");
   const [events, setEvents] = useState<ProgressEvent[]>([]);
   const [report, setReport] = useState<ReportState>({ markdown: "", json: null });
   const [activeTab, setActiveTab] = useState<ReportTab>("markdown");
@@ -45,14 +46,9 @@ const App = () => {
   const [reportLoading, setReportLoading] = useState(false);
   const [toast, setToast] = useState("");
   const [error, setError] = useState("");
-  const [modelPickerOpen, setModelPickerOpen] = useState(false);
-  const [modelQuery, setModelQuery] = useState("");
-  const [highlightedModelId, setHighlightedModelId] = useState<string | null>(null);
   const [effectsEnabled, setEffectsEnabled] = useState(true);
   const [locale, setLocale] = useState<Locale>(() => getInitialLocale());
   const [recentRepositories, setRecentRepositories] = useState<string[]>([]);
-  const modelSearchRef = useRef<HTMLInputElement | null>(null);
-  const modelTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const progress = useMemo(() => {
     const withPercent = [...events].reverse().find((event) => typeof event.percent === "number");
@@ -60,15 +56,8 @@ const App = () => {
     return Math.max(0, Math.min(100, Number(withPercent.percent)));
   }, [events]);
 
-  const filteredModels = useMemo(() => {
-    const query = modelQuery.trim().toLowerCase();
-    if (!query) return modelOptions;
-    return modelOptions.filter((model) => model.id.toLowerCase().includes(query) || model.name.toLowerCase().includes(query));
-  }, [modelOptions, modelQuery]);
-
-  const premiumModels = useMemo(() => filteredModels.filter((model) => model.premium), [filteredModels]);
-  const freeModels = useMemo(() => filteredModels.filter((model) => !model.premium), [filteredModels]);
-  const modelNavigationList = useMemo(() => [...freeModels, ...premiumModels], [freeModels, premiumModels]);
+  const premiumModels = useMemo(() => modelOptions.filter((model) => model.premium), [modelOptions]);
+  const freeModels = useMemo(() => modelOptions.filter((model) => !model.premium), [modelOptions]);
 
   useEffect(() => {
     if (!toast) return undefined;
@@ -80,15 +69,6 @@ const App = () => {
     if (!error) return;
     trackUiEvent("error_shown", { state: job.state });
   }, [error, job.state]);
-
-  useEffect(() => {
-    if (!modelPickerOpen) return;
-    const timer = setTimeout(() => modelSearchRef.current?.focus(), 0);
-    if (modelNavigationList.length > 0) {
-      setHighlightedModelId((current: string | null) => current || modelNavigationList[0].id);
-    }
-    return () => clearTimeout(timer);
-  }, [modelPickerOpen, modelNavigationList]);
 
   useEffect(() => {
     try {
@@ -162,20 +142,6 @@ const App = () => {
   }, [effectsEnabled]);
 
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        setModelPickerOpen(true);
-      }
-      if (event.key === "Escape") {
-        setModelPickerOpen(false);
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-
-  useEffect(() => {
     if (!effectsEnabled) {
       const root = document.documentElement;
       root.style.setProperty("--mx", "50%");
@@ -202,25 +168,37 @@ const App = () => {
     return () => window.removeEventListener("pointermove", onPointerMove);
   }, [effectsEnabled]);
 
-  useEffect(() => {
-    if (!modelPickerOpen) {
-      setModelQuery("");
-      setHighlightedModelId(null);
+  const loadModels = async () => {
+    setModelsLoadState("loading");
+    setModelsLoadError("");
+
+    try {
+      const payload = await requestJson(`${apiBase}/models`);
+      const models = Array.isArray(payload.models) ? (payload.models as ModelOption[]) : [];
+      if (models.length === 0) {
+        throw new Error("No models returned by the API.");
+      }
+
+      setModelOptions(models);
+      setModelsLoadState("ready");
+      setForm((current: FormState) => {
+        const exists = models.some((model: ModelOption) => model.id === current.model);
+        return exists ? current : { ...current, model: models[0].id };
+      });
+    } catch (err) {
+      setModelsLoadState("error");
+      setModelsLoadError((err as Error).message);
+      setModelOptions((current: ModelOption[]) => (current.length > 0 ? current : DEFAULT_MODEL_OPTIONS));
+      setForm((current: FormState) => {
+        const fallbackModels = DEFAULT_MODEL_OPTIONS;
+        const exists = fallbackModels.some((model: ModelOption) => model.id === current.model);
+        return exists ? current : { ...current, model: fallbackModels[0]?.id || current.model };
+      });
     }
-  }, [modelPickerOpen]);
+  };
 
   useEffect(() => {
-    requestJson(`${apiBase}/models`)
-      .then((payload) => {
-        const models = Array.isArray(payload.models) ? (payload.models as ModelOption[]) : [];
-        if (models.length === 0) return;
-        setModelOptions(models);
-        setForm((current: FormState) => {
-          const exists = models.some((model: ModelOption) => model.id === current.model);
-          return exists ? current : { ...current, model: models[0].id };
-        });
-      })
-      .catch(() => {});
+    void loadModels();
   }, []);
 
   useEffect(() => {
@@ -381,13 +359,14 @@ const App = () => {
     } catch {}
   };
 
-  const selectedModelName = modelOptions.find((item) => item.id === form.model)?.name || form.model;
-  const selectModel = (modelId: string) => {
-    setForm((current: FormState) => ({ ...current, model: modelId }));
-    setModelPickerOpen(false);
-    setModelQuery("");
-    setHighlightedModelId(modelId);
-  };
+  const selectedModel = modelOptions.find((item) => item.id === form.model) || modelOptions[0] || null;
+  const selectedModelName = selectedModel?.name || form.model;
+  const selectedModelSummary = selectedModel ? [selectedModel.planSummary, selectedModel.note].filter(Boolean).join(" - ") : "";
+  const selectedModelStatus = selectedModel?.isAuto
+    ? "Auto"
+    : selectedModel?.premium
+      ? t("premiumModels", locale)
+      : t("freeModels", locale);
 
   const canExport = Boolean(job.id) && job.state === "completed";
 
@@ -542,17 +521,58 @@ const App = () => {
               <label className="block">
                 <span className="mb-1 block text-xs font-mono uppercase tracking-[0.16em] text-slate-500">{t("model", locale)}</span>
                 <div className={selectShellClass}>
-                  <button
-                    ref={modelTriggerRef}
-                    type="button"
-                    onClick={() => setModelPickerOpen(true)}
-                    className={`flex w-full items-center justify-between px-3 py-2.5 text-left text-sm font-medium text-slate-800 ${focusRingClass}`}
+                  <select
+                    value={selectedModel?.id || form.model}
+                    onChange={(e) => setForm((current: FormState) => ({ ...current, model: e.target.value }))}
+                    className={`${selectClass} ${focusRingClass}`}
                   >
-                    <span className="truncate">{selectedModelName}</span>
-                    <span className="ml-2 rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] text-slate-500">Ctrl+K</span>
-                  </button>
+                    {freeModels.length > 0 ? (
+                      <optgroup label={t("freeModels", locale)}>
+                        {freeModels.map((model) => (
+                          <option key={model.id} value={model.id}>
+                            {model.isAuto ? `${model.name} (Auto)` : model.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null}
+                    {premiumModels.length > 0 ? (
+                      <optgroup label={t("premiumModels", locale)}>
+                        {premiumModels.map((model) => (
+                          <option key={model.id} value={model.id}>
+                            {model.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null}
+                  </select>
                   <SelectChevron />
                 </div>
+                <span className="mt-1 block text-xs text-slate-500">{t("modelHelp", locale)}</span>
+                {selectedModel ? (
+                  <span className="mt-1 block text-xs text-slate-600">
+                    <span className="font-semibold">{selectedModelStatus}</span>
+                    {selectedModelSummary ? ` - ${selectedModelSummary}` : ""}
+                    {typeof selectedModel.requestMultiplier === "number"
+                      ? ` - ${selectedModel.requestMultiplier}x`
+                      : ""}
+                  </span>
+                ) : null}
+                {modelsLoadState === "loading" ? (
+                  <span className="mt-1 block text-xs text-slate-500">{t("modelLoading", locale)}</span>
+                ) : null}
+                {modelsLoadState === "error" ? (
+                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-amber-700">
+                    <span>{`${t("modelLoadError", locale)} ${t("modelFallbackNotice", locale)}`}</span>
+                    {modelsLoadError ? <span className="text-slate-500">{modelsLoadError}</span> : null}
+                    <button
+                      type="button"
+                      onClick={() => void loadModels()}
+                      className={`rounded-full border border-amber-300 bg-amber-50 px-2 py-1 font-semibold text-amber-800 hover:bg-amber-100 ${focusRingClass}`}
+                    >
+                      {t("retryModels", locale)}
+                    </button>
+                  </div>
+                ) : null}
               </label>
             </div>
 
@@ -762,31 +782,6 @@ const App = () => {
         </div>
       ) : null}
       <div className="sr-only" aria-live="polite">{`${progress}%`}</div>
-
-      <ModelPicker
-        open={modelPickerOpen}
-        modelQuery={modelQuery}
-        highlightedModelId={highlightedModelId}
-        selectedModelId={form.model}
-        freeModels={freeModels}
-        premiumModels={premiumModels}
-        modelNavigationList={modelNavigationList}
-        modelSearchRef={modelSearchRef}
-        triggerRef={modelTriggerRef}
-        labels={{
-          title: t("selectModel", locale),
-          close: t("escToClose", locale),
-          searchPlaceholder: t("searchModelPlaceholder", locale),
-          free: t("freeModels", locale),
-          premium: t("premiumModels", locale),
-          noFree: t("noFreeModels", locale),
-          noPremium: t("noPremiumModels", locale),
-        }}
-        onClose={() => setModelPickerOpen(false)}
-        onQueryChange={setModelQuery}
-        onHighlightedModelChange={setHighlightedModelId}
-        onSelect={selectModel}
-      />
     </div>
   );
 };

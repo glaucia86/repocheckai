@@ -189,7 +189,7 @@ export async function createAgent(options: AgentOptions) {
       mode: "append",
       content: getSystemPrompt(options.isDeep ? "deep" : "quick"),
     },
-    // Infinite Sessions (v0.1.18+) - auto-compacts context for long analyses
+    // Infinite Sessions - auto-compacts context for long analyses
     infiniteSessions: {
       enabled: true,
       backgroundCompactionThreshold: 0.80,
@@ -424,13 +424,28 @@ const handler = createEventHandler({
   onToolStart: (tool) => updateSpinner(`Using ${tool}...`),
   onToolComplete: () => stopSpinner(),
   onIdle: () => console.log("Analysis complete"),
-  // Infinite Sessions compaction events (v0.1.18+)
+  // Infinite Sessions compaction events
   onCompactionStart: () => console.log("Compacting context..."),
   onCompactionComplete: (stats) => console.log(`Removed ${stats.tokensRemoved} tokens`),
 });
 
 session.on(handler);
 ```
+
+### Model Catalog and Discovery
+
+RepoCheckAI uses a shared curated model catalog in `src/domain/shared/copilotModels.ts` and augments it with live Copilot SDK discovery:
+
+```typescript
+import { CopilotClient } from "@github/copilot-sdk";
+
+const client = new CopilotClient();
+await client.start();
+
+const models = await client.listModels();
+```
+
+The CLI, API `GET /models`, and Web UI all consume the same metadata shape, including `planSummary`, `note`, `requestMultiplier`, and `isAuto`. If runtime discovery fails, RepoCheckAI falls back to the curated catalog so the product remains usable offline or in partially authenticated environments.
 
 ### Agent Guardrails (`guardrails.ts`)
 

@@ -13,6 +13,7 @@ export {
   DEFAULT_MODEL,
   findModel,
   findModelByIndex,
+  refreshAvailableModels,
   type IAppState,
   type HistoryEntry,
   type ModelInfo,

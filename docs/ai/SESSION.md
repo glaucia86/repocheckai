@@ -21,17 +21,15 @@ const session = await client.createSession({
 });
 ```
 
-## Infinite Sessions (v0.1.18+)
+## Infinite Sessions
 
-Automatic context compaction for long-running analyses.
+RepoCheckAI keeps Infinite Sessions enabled for long-running analyses. The project now targets the current Copilot SDK line (`v0.2.2` at the time of this update), but the runtime behavior remains the same: the SDK compacts context automatically before the buffer is exhausted.
 
 | Config | Default | Description |
 |--------|---------|-------------|
-| `enabled` | `true` | Enable auto-compaction |
-| `backgroundCompactionThreshold` | `0.80` | Start at 80% buffer |
-| `bufferExhaustionThreshold` | `0.95` | Block at 95% |
-
-**Benefits**: Long analyses without context limits. State persisted at `~/.copilot/session-state/{sessionId}/`.
+| `enabled` | `true` | Enable automatic compaction |
+| `backgroundCompactionThreshold` | `0.80` | Start compaction at 80% buffer usage |
+| `bufferExhaustionThreshold` | `0.95` | Block until compaction completes at 95% |
 
 ## Event Handling
 
@@ -45,41 +43,43 @@ session.on((event: SessionEvent) => {
       toolCallCount++;
       break;
     case "session.idle":
-      // Analysis complete
       break;
     case "session.compaction_start":
-      // Context compaction started
       break;
     case "session.compaction_complete":
-      // { tokensRemoved, success }
       break;
   }
 });
 ```
 
-## Available Models
+## Model Discovery
+
+RepoCheckAI no longer scrapes `copilot --help` for model IDs. Session-aware model discovery now relies on the Copilot SDK's `client.listModels()` and falls back to the curated catalog when runtime discovery is unavailable.
+
+## Current Recommended Models
 
 | Model | Type | Notes |
 |-------|------|-------|
-| `gpt-4o` | Free | Good default |
-| `gpt-4.1` | Free | Fast |
-| `gpt-5-mini` | Free | Quick scans |
-| `claude-sonnet-4` | Premium | **Default** — Excellent detail |
-| `claude-sonnet-4.5` | Premium | Enhanced reasoning |
-| `claude-opus-4.5` | Premium | Most capable (3x cost) |
-| `gpt-5` | Premium | Advanced reasoning |
-| `o3` | Premium | Deep reasoning |
+| `auto` | Included | Lets Copilot choose automatically |
+| `gpt-4o` | Included | Fast daily checks |
+| `gpt-4.1` | Included | Reliable general-purpose option |
+| `gpt-5-mini` | Included | Good for quick scans |
+| `claude-sonnet-4` | Premium | **Default** |
+| `claude-sonnet-4.6` | Premium | Strong premium generalist |
+| `gpt-5.3-codex` | Premium | Code-heavy repos |
+| `claude-opus-4.7` | Premium | Top-tier for Pro+, Business, Enterprise |
+| `gpt-5.5` | Premium | Latest GPT rollout for compatible plans |
 
 ## Guardrails (Loop Prevention)
 
-**ToolCallTracker**: Records calls, detects patterns.
-**AgentGuardrails**: Progressive response (warn → inject → abort).
+**ToolCallTracker** records repeated tool patterns.  
+**AgentGuardrails** applies progressive intervention: warn, inject a replan signal, then abort.
 
 | Guardrail | Trigger | Action |
 |-----------|---------|--------|
-| Step Limit | 50+ calls (standard) | Abort |
-| Exact Repeat | 5+ identical | Warn → Abort |
-| Sequence Loop | A→B→A→B | Warn → Abort |
+| Step Limit | Too many tool calls | Abort |
+| Exact Repeat | Repeated identical calls | Warn → Abort |
+| Sequence Loop | Repeating call pattern | Warn → Abort |
 
-Config in `src/application/core/agent/guardrails.ts`.
+Config lives in `src/application/core/agent/guardrails.ts`.
 

@@ -13,11 +13,10 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "types": ["node"],
-    "baseUrl": "./src",
     "paths": {
-      "@api/*": ["presentation/api/*"],
-      "@web/*": ["presentation/web/*"],
-      "@shared/*": ["domain/shared/*"]
+      "@api/*": ["./src/presentation/api/*"],
+      "@web/*": ["./src/presentation/web/*"],
+      "@shared/*": ["./src/domain/shared/*"]
     },
     "noUncheckedIndexedAccess": true,
     "isolatedModules": true

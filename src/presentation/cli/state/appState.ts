@@ -5,7 +5,15 @@
 
 import type { AnalysisResult } from "../../../domain/types/schema.js";
 import type { AnalysisOutput } from "../../../application/core/agent.js";
-import { getCopilotCliModels } from "../../../infrastructure/providers/copilotModels.js";
+import {
+  DEFAULT_COPILOT_MODEL_ID,
+  CORE_FREE_MODEL_IDS,
+  findCuratedCopilotModel,
+  getCuratedCopilotModels,
+  normalizeCopilotModelId,
+  type CopilotModelDefinition,
+} from "../../../domain/shared/copilotModels.js";
+import { listCopilotSdkModels } from "../../../infrastructure/providers/copilotModels.js";
 
 // ════════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -23,6 +31,10 @@ export interface ModelInfo {
   id: string;
   name: string;
   premium: boolean;
+  planSummary: string;
+  note?: string;
+  requestMultiplier?: number;
+  isAuto?: boolean;
 }
 
 export interface IAppState {
@@ -46,131 +58,154 @@ export interface IAppState {
 // AVAILABLE MODELS
 // ════════════════════════════════════════════════════════════════════════════
 
-export const AVAILABLE_MODELS: ModelInfo[] = [
-  // Free models
-  { id: "gpt-4o", name: "GPT-4o", premium: false },
-  { id: "gpt-4.1", name: "GPT-4.1", premium: false },
-  { id: "gpt-5-mini", name: "GPT-5 mini", premium: false },
-  // Premium models
-  { id: "claude-sonnet-4", name: "Claude Sonnet 4", premium: true },
-  { id: "claude-sonnet-4.5", name: "Claude Sonnet 4.5", premium: true },
-  { id: "claude-sonnet-4.6", name: "Claude Sonnet 4.6", premium: true },
-  { id: "claude-haiku-4.5", name: "Claude Haiku 4.5", premium: true },
-  { id: "claude-opus-4.5", name: "Claude Opus 4.5 (Rate Limit: 3x)", premium: true },
-  { id: "gpt-5", name: "GPT-5 (Preview)", premium: true },
-  { id: "gpt-5.1", name: "GPT-5.1 (Preview)", premium: true },
-  { id: "gpt-5.2", name: "GPT-5.2 (Preview)", premium: true },
-  { id: "gpt-5.1-codex", name: "GPT-5.1-Codex", premium: true },
-  { id: "gpt-5.2-codex", name: "GPT-5.2-Codex", premium: true },
-  { id: "gpt-5.3-codex", name: "GPT-5.3-Codex", premium: true },
-  { id: "gpt-5.4", name: "GPT-5.4", premium: true },
-  { id: "gpt-5.1-codex-max", name: "GPT-5.1-Codex-Max", premium: true },
-  { id: "gpt-5.1-codex-mini", name: "GPT-5.1-Codex-Mini", premium: true },
-  { id: "o3", name: "o3 (Reasoning)", premium: true },
-  { id: "gemini-3-pro-preview", name: "Gemini 3 Pro Preview", premium: true },
-];
+function curatedToModelInfo(model: CopilotModelDefinition): ModelInfo {
+  return {
+    id: model.id,
+    name: model.name,
+    premium: model.premium,
+    planSummary: model.planSummary,
+    note: model.note,
+    requestMultiplier: model.requestMultiplier,
+    isAuto: model.isAuto,
+  };
+}
 
-export const DEFAULT_MODEL = "claude-sonnet-4";
+export const AVAILABLE_MODELS: ModelInfo[] = getCuratedCopilotModels().map(curatedToModelInfo);
+
+export const DEFAULT_MODEL = DEFAULT_COPILOT_MODEL_ID;
 export const MAX_HISTORY_SIZE = 10;
 
 // ════════════════════════════════════════════════════════════════════════════
 // DYNAMIC MODEL LIST
 // ════════════════════════════════════════════════════════════════════════════
 
-// Cache for memoized model list (process lifetime)
 let cachedModels: ModelInfo[] | null = null;
+let modelsPromise: Promise<ModelInfo[]> | null = null;
+
+function titleCaseToken(token: string): string {
+  const lower = token.toLowerCase();
+  if (lower === "gpt") return "GPT";
+  if (lower === "claude") return "Claude";
+  if (lower === "gemini") return "Gemini";
+  if (lower === "grok") return "Grok";
+  if (lower === "code") return "Code";
+  if (lower === "fast") return "Fast";
+  if (lower === "mini") return "mini";
+  if (lower === "nano") return "nano";
+  if (lower === "codex") return "Codex";
+  if (/^\d/.test(token) || token.includes(".")) return token;
+  return token.charAt(0).toUpperCase() + token.slice(1);
+}
+
+function formatModelName(id: string): string {
+  return id
+    .split("-")
+    .map(titleCaseToken)
+    .join(" ");
+}
+
+function inferPremium(id: string, billingMultiplier?: number): boolean {
+  if (CORE_FREE_MODEL_IDS.has(normalizeCopilotModelId(id))) {
+    return false;
+  }
+  if (typeof billingMultiplier === "number") {
+    return billingMultiplier > 0;
+  }
+  return true;
+}
+
+function inferPlanSummary(id: string, premium: boolean): string {
+  const normalizedId = normalizeCopilotModelId(id);
+  if (normalizedId === "auto") return "All Copilot plans";
+  if (!premium) return "All Copilot plans";
+  if (normalizedId === "gpt-5.5") return "Pro+, Business, Enterprise";
+  if (normalizedId === "claude-opus-4.7") return "Pro+, Business, Enterprise";
+  return "Availability depends on your Copilot plan, client, and policies";
+}
+
+function sortModels(models: ModelInfo[]): ModelInfo[] {
+  const curatedOrder = new Map(
+    AVAILABLE_MODELS.map((model, index) => [normalizeCopilotModelId(model.id), index])
+  );
+
+  return [...models].sort((left, right) => {
+    const leftIndex = curatedOrder.get(normalizeCopilotModelId(left.id));
+    const rightIndex = curatedOrder.get(normalizeCopilotModelId(right.id));
+
+    if (typeof leftIndex === "number" && typeof rightIndex === "number") {
+      return leftIndex - rightIndex;
+    }
+    if (typeof leftIndex === "number") return -1;
+    if (typeof rightIndex === "number") return 1;
+    return left.name.localeCompare(right.name);
+  });
+}
+
+function mergeRuntimeModels(
+  runtimeModels: Array<{ id: string; name: string; billingMultiplier?: number }>
+): ModelInfo[] {
+  const merged = runtimeModels.map((runtimeModel) => {
+    const curated = findCuratedCopilotModel(runtimeModel.id) ?? findCuratedCopilotModel(runtimeModel.name);
+    const premium = curated?.premium ?? inferPremium(runtimeModel.id, runtimeModel.billingMultiplier);
+    const requestMultiplier = runtimeModel.billingMultiplier ?? curated?.requestMultiplier;
+
+    return {
+      id: runtimeModel.id,
+      name: curated?.name ?? runtimeModel.name ?? formatModelName(runtimeModel.id),
+      premium,
+      planSummary: curated?.planSummary ?? inferPlanSummary(runtimeModel.id, premium),
+      note: curated?.note,
+      requestMultiplier,
+      isAuto: curated?.isAuto ?? normalizeCopilotModelId(runtimeModel.id) === "auto",
+    };
+  });
+
+  const deduped: ModelInfo[] = [];
+  const seen = new Set<string>();
+  for (const model of sortModels(merged)) {
+    const normalizedId = normalizeCopilotModelId(model.id);
+    if (seen.has(normalizedId)) continue;
+    seen.add(normalizedId);
+    deduped.push(model);
+  }
+  return deduped;
+}
 
 /**
- * Try to read available models from GitHub Copilot CLI.
- * Falls back to the static list when unavailable.
- * 
- * Memoized for process lifetime to avoid repeated shell-outs.
+ * Return the best available model list without awaiting runtime discovery.
+ * Falls back to the curated catalog until refreshAvailableModels() succeeds.
  */
 export function getAvailableModels(): ModelInfo[] {
-  // Return cached result if available
+  return cachedModels ?? AVAILABLE_MODELS;
+}
+
+/**
+ * Refresh available models from the Copilot SDK runtime.
+ * Falls back silently to the curated catalog if runtime discovery fails.
+ */
+export async function refreshAvailableModels(): Promise<ModelInfo[]> {
   if (cachedModels !== null) {
     return cachedModels;
   }
 
-  try {
-    const models = getCopilotCliModels();
-    if (models && models.length > 0) {
-      const premiumMap = new Map(AVAILABLE_MODELS.map((model) => [model.id.toLowerCase(), model.premium]));
-        const mapped = models.map((model) => {
-          // Try exact id match first (case-insensitive)
-          const idKey = model.id.toLowerCase();
-          const mId = model.id.toLowerCase();
-          const mName = model.name.toLowerCase();
-
-          // Attempt tolerant matching against AVAILABLE_MODELS
-          let alt: ModelInfo | undefined;
-          const exactAlt = AVAILABLE_MODELS.find((a) => a.id.toLowerCase() === mId);
-          if (exactAlt) {
-            alt = exactAlt;
-          } else {
-            alt = AVAILABLE_MODELS.find((a) => {
-              const aId = a.id.toLowerCase();
-              const aName = a.name.toLowerCase();
-              return (
-                mId.startsWith(aId) ||
-                aId.startsWith(mId) ||
-                aName === mName ||
-                aName.includes(mName) ||
-                mName.includes(aName)
-              );
-            });
-          }
-
-          // Determine premium: prefer exact id match from the map, then alt, then default to premium
-          let premium = true;
-          if (exactAlt) {
-            premium = exactAlt.premium;
-          } else if (premiumMap.has(idKey)) {
-            premium = premiumMap.get(idKey)!;
-          }
-
-          return {
-            id: model.id,
-            // Use the static AVAILABLE_MODELS name when we have a mapping (preserves rate notes)
-            name: alt ? alt.name : model.name,
-            premium: Boolean(premium),
-          };
-        });
-
-        // Deduplicate by id (case-insensitive), preserving order and merging premium flags.
-        const result: ModelInfo[] = [];
-        const seenById = new Map<string, ModelInfo>();
-        for (const m of mapped) {
-          const idKey = m.id.toLowerCase();
-          if (!seenById.has(idKey)) {
-            const copy = { ...m };
-            seenById.set(idKey, copy);
-            result.push(copy);
-          } else {
-            const existing = seenById.get(idKey)!;
-            if (!existing.premium && m.premium) existing.premium = true;
-          }
-        }
-
-        // Add any models from AVAILABLE_MODELS that are not in the CLI list
-        for (const staticModel of AVAILABLE_MODELS) {
-          const idKey = staticModel.id.toLowerCase();
-          if (!seenById.has(idKey)) {
-            result.push(staticModel);
-          }
-        }
-
-        // Cache and return the result
-        cachedModels = result;
-        return result;
-    }
-  } catch {
-    // ignore and fall back
+  if (modelsPromise) {
+    return modelsPromise;
   }
 
-  // Cache and return the static list
-  cachedModels = AVAILABLE_MODELS;
-  return AVAILABLE_MODELS;
+  modelsPromise = (async () => {
+    const runtimeModels = await listCopilotSdkModels();
+    cachedModels =
+      runtimeModels && runtimeModels.length > 0
+        ? mergeRuntimeModels(runtimeModels)
+        : AVAILABLE_MODELS;
+    return cachedModels;
+  })();
+
+  try {
+    return await modelsPromise;
+  } finally {
+    modelsPromise = null;
+  }
 }
 
 /**
@@ -178,6 +213,7 @@ export function getAvailableModels(): ModelInfo[] {
  */
 export function clearModelCache(): void {
   cachedModels = null;
+  modelsPromise = null;
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -193,7 +229,6 @@ export class AppState implements IAppState {
   private _history: HistoryEntry[] = [];
   private _isRunning: boolean = true;
 
-  // Getters (readonly access)
   get currentModel(): string {
     return this._currentModel;
   }
@@ -215,14 +250,13 @@ export class AppState implements IAppState {
   }
 
   get history(): HistoryEntry[] {
-    return [...this._history]; // Return copy to prevent mutation
+    return [...this._history];
   }
 
   get isRunning(): boolean {
     return this._isRunning;
   }
 
-  // Mutations
   setModel(modelId: string, isPremium: boolean): void {
     this._currentModel = modelId;
     this._isPremium = isPremium;
@@ -239,7 +273,6 @@ export class AppState implements IAppState {
 
   addToHistory(entry: HistoryEntry): void {
     this._history.unshift(entry);
-    // Keep only last N entries
     if (this._history.length > MAX_HISTORY_SIZE) {
       this._history.pop();
     }
@@ -275,16 +308,14 @@ export const appState = new AppState();
  */
 export function findModel(query: string, models: ModelInfo[] = getAvailableModels()): ModelInfo | undefined {
   const normalizedQuery = query.toLowerCase();
-  
-  // Try exact ID match first
-  const exactMatch = models.find(
-    m => m.id.toLowerCase() === normalizedQuery
-  );
+
+  const exactMatch = models.find((model) => model.id.toLowerCase() === normalizedQuery);
   if (exactMatch) return exactMatch;
-  
-  // Try partial name match
+
   return models.find(
-    m => m.name.toLowerCase().includes(normalizedQuery)
+    (model) =>
+      model.name.toLowerCase().includes(normalizedQuery) ||
+      model.planSummary.toLowerCase().includes(normalizedQuery)
   );
 }
 
@@ -297,6 +328,3 @@ export function findModelByIndex(index: number, models: ModelInfo[] = getAvailab
   }
   return undefined;
 }
-
-
-

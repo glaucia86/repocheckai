@@ -39,9 +39,9 @@ function getErrorSuggestion(reason: PackErrorReason): string {
     CLONE_FAILED:
       "Failed to clone repository. Check network connection and repository accessibility.",
     NPX_NOT_FOUND:
-      "npx command not found. Ensure Node.js >= 18 is installed and in PATH.",
+      "npx command not found. Ensure Node.js >= 24 is installed and in PATH.",
     REPOMIX_NOT_AVAILABLE:
-      "Repomix is not available. Ensure Node.js >= 18 and npx are working correctly. Fall back to standard file-by-file analysis.",
+      "Repomix is not available. Ensure Node.js >= 24 and npx are working correctly. Fall back to standard file-by-file analysis.",
     EXECUTION_FAILED:
       "Repomix execution failed. Fall back to standard file-by-file analysis using read_repo_file.",
     EXCEPTION:

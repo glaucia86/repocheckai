@@ -6,6 +6,7 @@
 import {
   appState,
   getAvailableModels,
+  refreshAvailableModels,
   findModel,
   findModelByIndex,
 } from "../state/appState.js";
@@ -31,6 +32,7 @@ import { promptModelSelectionWithCurrent } from "./sharedPrompts.js";
  * Handle /model command - Model selection
  */
 export async function handleModel(modelName?: string): Promise<void> {
+  await refreshAvailableModels().catch(() => undefined);
   const models = getAvailableModels();
 
   if (!modelName) {

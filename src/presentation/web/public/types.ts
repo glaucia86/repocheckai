@@ -19,6 +19,10 @@ export interface ModelOption {
   id: string;
   name: string;
   premium: boolean;
+  planSummary: string;
+  note?: string;
+  requestMultiplier?: number;
+  isAuto?: boolean;
 }
 
 export interface FormState {

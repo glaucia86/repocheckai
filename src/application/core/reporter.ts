@@ -147,7 +147,7 @@ export class Reporter {
     const uiFindings = result.findings.map((f) => ({
       id: f.id,
       category: f.category,
-      priority: f.priority as "P0" | "P1" | "P2",
+      priority: f.priority,
       title: f.title,
       evidence: f.evidence,
       impact: f.impact,

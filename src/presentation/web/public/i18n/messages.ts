@@ -51,12 +51,13 @@ export type MessageKey =
   | "exportedMd"
   | "exportedJson"
   | "selectModel"
-  | "escToClose"
-  | "searchModelPlaceholder"
+  | "modelHelp"
+  | "modelLoading"
+  | "modelLoadError"
+  | "modelFallbackNotice"
+  | "retryModels"
   | "freeModels"
   | "premiumModels"
-  | "noFreeModels"
-  | "noPremiumModels"
   | "stepsSetup"
   | "stepsRunning"
   | "stepsReview"
@@ -132,12 +133,13 @@ export const messages: Record<Locale, MessageCatalog> = {
     exportedMd: ".md exportado.",
     exportedJson: ".json exportado.",
     selectModel: "Selecionar modelo",
-    escToClose: "ESC para fechar",
-    searchModelPlaceholder: "Buscar por nome ou ID do modelo...",
+    modelHelp: "Escolha um modelo diretamente na lista. Nao e necessario pesquisar para selecionar.",
+    modelLoading: "Carregando modelos disponiveis...",
+    modelLoadError: "Nao foi possivel atualizar a lista de modelos.",
+    modelFallbackNotice: "Usando a lista local de fallback para manter a selecao funcionando.",
+    retryModels: "Tentar novamente",
     freeModels: "Gratuitos",
     premiumModels: "Premium",
-    noFreeModels: "Nenhum modelo gratuito encontrado.",
-    noPremiumModels: "Nenhum modelo premium encontrado.",
     stepsSetup: "Configurar",
     stepsRunning: "Executar",
     stepsReview: "Revisar",
@@ -210,12 +212,13 @@ export const messages: Record<Locale, MessageCatalog> = {
     exportedMd: ".md exported.",
     exportedJson: ".json exported.",
     selectModel: "Select model",
-    escToClose: "ESC to close",
-    searchModelPlaceholder: "Search by model name or ID...",
+    modelHelp: "Choose a model directly from the list. No search is required to select one.",
+    modelLoading: "Loading available models...",
+    modelLoadError: "Unable to refresh the model list.",
+    modelFallbackNotice: "Using the local fallback list so model selection stays available.",
+    retryModels: "Try again",
     freeModels: "Free",
     premiumModels: "Premium",
-    noFreeModels: "No free models match.",
-    noPremiumModels: "No premium models match.",
     stepsSetup: "Setup",
     stepsRunning: "Running",
     stepsReview: "Review",
